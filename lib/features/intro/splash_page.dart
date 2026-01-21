@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/widgets/image/app_asets_image.dart';
 import 'package:chatbox/features/intro/splash_cubit.dart';
@@ -31,21 +33,22 @@ class _SplashPageChildState extends State<SplashPageChild> {
   void initState() {
     super.initState();
     _cubit = BlocProvider.of<SplashCubit>(context);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 3), () {
-        _cubit.checkOnboard();
-      });
+    Future.delayed(Duration(seconds: 3), () {
+      if (!mounted) return ;
+      _cubit.checkOnboard();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: AppAssetImage(
-          path: AssetConstants.logoApp,
-        ),
-      ),
+      body: Center(child: AppAssetImage(path: AssetConstants.logoApp)),
     );
   }
 }
