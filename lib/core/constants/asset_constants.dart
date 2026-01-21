@@ -1,0 +1,9 @@
+class AssetConstants {
+  AssetConstants._();
+  static const String _imagesBasePath = 'assets/images';
+  static const String _iconsBasePath = 'assets/icons';
+  static const String _fontsBasePath = 'assets/fonts';
+
+  static const String logoApp = '$_imagesBasePath/logo_app.png';
+
+}
