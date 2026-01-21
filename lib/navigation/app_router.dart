@@ -9,7 +9,7 @@ class AppRouter {
     initialLocation: _splashPath,
     routes: _routes,
     navigatorKey: navigationKey,
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: false,
   );
 
   // Route Paths
