@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/widgets/image/app_asets_image.dart';
 import 'package:chatbox/features/intro/splash_cubit.dart';
@@ -34,7 +33,7 @@ class _SplashPageChildState extends State<SplashPageChild> {
     super.initState();
     _cubit = BlocProvider.of<SplashCubit>(context);
     Future.delayed(Duration(seconds: 3), () {
-      if (!mounted) return ;
+      if (!mounted) return;
       _cubit.checkOnboard();
     });
   }
@@ -42,7 +41,6 @@ class _SplashPageChildState extends State<SplashPageChild> {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   @override

@@ -30,7 +30,8 @@ class _ChatBoxAppState extends State<ChatBoxApp> {
             child: MaterialApp.router(
               title: AppConfigs.appName,
               routerConfig: AppRouter.router,
-              theme: AppThemes().theme,
+              theme: AppThemes.lightTheme,
+              themeMode: ThemeMode.light,
               supportedLocales: S.delegate.supportedLocales,
               locale: state.currentLanguage.local,
               localizationsDelegates: [

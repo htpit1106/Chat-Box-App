@@ -38,4 +38,8 @@ class AppColors {
   static const Color textFieldCursor = Color(0xFF919191);
   static const Color textFieldErrorUnderline = backgroundRed;
 
+  /// button
+  static const Color buttonGreen = Color(0xFF20A090);
+  static const Color buttonGray = tertiary;
+
 }
