@@ -5,5 +5,6 @@ class AssetConstants {
   static const String _fontsBasePath = 'assets/fonts';
 
   static const String logoApp = '$_imagesBasePath/logo_app.png';
+  static const String logSmall = '$_imagesBasePath/logo_small.png';
 
 }

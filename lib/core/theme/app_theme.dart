@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppThemes {
-  static const _font = 'app.dart';
+  static const _font = 'Caros';
 
   ThemeData get theme {
     return ThemeData(

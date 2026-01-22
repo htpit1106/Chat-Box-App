@@ -124,12 +124,18 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-#  fonts:
-#    - family: Caros
-#      fonts:
-#        - asset: assets/fonts/Caros-Regular.otf
-#        - asset: assets/fonts/Caros-Bold.otf
-#          weight: 700
+
+  fonts:
+    - family: Caros
+      fonts:
+        - asset: assets/fonts/cretype-Caros-Light.otf
+          weight: 300
+        - asset: assets/fonts/cretype-Caros-Medium.otf
+          weight: 500
+        - asset: assets/fonts/cretype-Caros-Bold.otf
+          weight: 700
+        - asset: assets/fonts/cretype-Caros-Black.otf
+          weight: 900
 
   #
 
