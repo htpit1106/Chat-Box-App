@@ -23,6 +23,18 @@ class AppThemes {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primary, width: 1),
         ),
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.textRed, width: 1),
+        ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.primary, width: 1),
+        ),
+
+        errorStyle: const TextStyle(
+          height: 0,
+          fontSize: 0,
+        ),
+
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.backgroundLight,

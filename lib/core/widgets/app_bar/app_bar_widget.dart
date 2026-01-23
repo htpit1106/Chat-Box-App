@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppBarWidget extends StatelessWidget {
+class AppBarWidget extends StatelessWidget implements PreferredSizeWidget  {
   final VoidCallback? onBack;
   final List<Widget>? actions;
   final Color backgroundColor;
@@ -28,4 +28,8 @@ class AppBarWidget extends StatelessWidget {
       actions: actions,
     );
   }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

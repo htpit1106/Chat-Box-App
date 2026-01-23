@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:chatbox/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class AppLabelTextField extends StatelessWidget {
@@ -7,13 +6,11 @@ class AppLabelTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final bool obscureText;
-  // validator
   final String? Function(String?)? validator;
-
 
   const AppLabelTextField({
     super.key,
-    this.label = "",
+    required this.label,
     this.hintText = "",
     this.controller,
     this.obscureText = false,
@@ -22,17 +19,48 @@ class AppLabelTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.labelLarge,),
-        TextFormField(
-          controller: controller,
-          obscureText: obscureText,
-          decoration: InputDecoration(hintText: hintText),
-          validator: validator,
-        ),
-      ],
+    return FormField<String>(
+      validator: validator,
+      builder: (field) {
+        final hasError = field.hasError;
+        final errorText = field.errorText;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: hasError
+                  ? Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(color: Colors.red)
+                  : Theme.of(context).textTheme.labelLarge,
+            ),
+            TextFormField(
+              controller: controller,
+              obscureText: obscureText,
+              decoration: InputDecoration(
+                hintText: hintText,
+                errorText: field.hasError ? '' : null,
+              ),
+              onChanged: field.didChange,
+            ),
+            if (hasError)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    errorText!,
+                    style:AppTextStyle.red.s12.w500,
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }
+
