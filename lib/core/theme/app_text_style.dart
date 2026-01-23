@@ -19,6 +19,11 @@ class AppTextStyle {
     fontSize: 16,
     fontFamily: fontFamily,
   );
+  static const gray = TextStyle(
+    color: AppColors.textGrey,
+    fontSize: 16,
+    fontFamily: fontFamily,
+  );
   static const white = TextStyle(
     color: AppColors.textWhite,
     fontSize: 16,
@@ -52,6 +57,9 @@ extension AppTextStyleExt on TextStyle {
   TextStyle get s30 => copyWith(fontSize: 30);
 
   TextStyle get s32 => copyWith(fontSize: 32);
+  TextStyle get s68 => copyWith(fontSize: 68);
+
+
 
   // Material size
   TextStyle get bodyTiny => copyWith(fontSize: 10);
@@ -77,11 +85,11 @@ extension AppTextStyleExt on TextStyle {
   // Weight
   TextStyle get bold => copyWith(fontWeight: FontWeight.bold);
 
-  TextStyle get w400 => copyWith(fontWeight: FontWeight.w400);
+  TextStyle get w300 => copyWith(fontWeight: FontWeight.w300);
 
   TextStyle get w500 => copyWith(fontWeight: FontWeight.w500);
 
-  TextStyle get w600 => copyWith(fontWeight: FontWeight.w600);
+  TextStyle get w900 => copyWith(fontWeight: FontWeight.w900);
 
   TextStyle get w700 => copyWith(fontWeight: FontWeight.w700);
 }

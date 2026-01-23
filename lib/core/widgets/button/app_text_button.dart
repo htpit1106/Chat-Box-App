@@ -29,7 +29,7 @@ class AppTextButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
     ),
-      child: Text(text, style: textStyle ?? AppTextStyle.white.s16.w400)
+      child: Text(text, style: textStyle ?? AppTextStyle.white.s16.w500)
     );
   }
 }

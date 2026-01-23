@@ -58,7 +58,7 @@ class AppDialog {
                             child: Text(
                               message,
                               style: textMessageStyle ??
-                                  AppTextStyle.black.s14.w400,
+                                  AppTextStyle.black.s14.w300,
                               textAlign: TextAlign.center,
                             ),
                           ),
