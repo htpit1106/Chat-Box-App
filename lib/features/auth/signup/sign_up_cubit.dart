@@ -3,6 +3,7 @@ import 'package:chatbox/features/auth/signup/sign_up_navigator.dart';
 import 'package:chatbox/features/auth/signup/sign_up_state.dart';
 import 'package:chatbox/repository/auth_repository.dart';
 import 'package:chatbox/repository/user_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
@@ -18,20 +19,17 @@ class SignUpCubit extends Cubit<SignUpState> {
     required String password,
     required String name,
   }) async {
-    emit(state.copyWith(isLoading: true));
     try {
       final credential = await authRepositor.signUp(email: email, password: password);
       final uid = credential.user?.uid;
       if (uid == null) {
-        emit(state.copyWith(isLoading: false, error: "Something went wrong"));
         return;
       }
       final profile = ProfileEntity(uid: uid, email: email, name: name);
       await userRepository.createUserProfile(profile);
-      emit(state.copyWith(isLoading: false, isSuccess: true));
       navigator.openHome();
     } catch (e) {
-      emit(state.copyWith(isLoading: false, error: "Something went wrong"));
+      debugPrint(e.toString());
     }
   }
 }
