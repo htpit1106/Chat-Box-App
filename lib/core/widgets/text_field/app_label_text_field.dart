@@ -1,4 +1,5 @@
-import 'package:chatbox/core/theme/app_text_style.dart';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class AppLabelTextField extends StatelessWidget {
@@ -6,6 +7,9 @@ class AppLabelTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final bool obscureText;
+  // validator
+  final String? Function(String?)? validator;
+
 
   const AppLabelTextField({
     super.key,
@@ -13,6 +17,7 @@ class AppLabelTextField extends StatelessWidget {
     this.hintText = "",
     this.controller,
     this.obscureText = false,
+    this.validator,
   });
 
   @override
@@ -25,6 +30,7 @@ class AppLabelTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(hintText: hintText),
+          validator: validator,
         ),
       ],
     );

@@ -15,7 +15,8 @@ class UiConstants {
   EdgeInsets.symmetric(horizontal: paddingSmall);
   static const EdgeInsets horizontalPaddingMedium =
   EdgeInsets.symmetric(horizontal: paddingMedium);
-
+  static const EdgeInsets horizontalPaddingLarge =
+  EdgeInsets.symmetric(horizontal: paddingLarge);
   static const EdgeInsets allPaddingMedium = EdgeInsets.all(paddingMedium);
   static const EdgeInsets allPaddingSmall = EdgeInsets.all(paddingSmall);
 

@@ -133,7 +133,7 @@ flutter:
         - asset: assets/fonts/cretype-Caros-Medium.otf
           weight: 500
         - asset: assets/fonts/cretype-Caros-Bold.otf
-          weight: 700
+          weight: 600
         - asset: assets/fonts/cretype-Caros-Black.otf
           weight: 900
 

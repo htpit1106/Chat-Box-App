@@ -14,7 +14,7 @@ class AppThemes {
       fontFamily: _font,
       scaffoldBackgroundColor: AppColors.backgroundLight,
       textTheme: TextTheme(
-          labelLarge: AppTextStyle.primary.s16.bold
+          labelLarge: AppTextStyle.primary.s16.w500
       ),
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: UnderlineInputBorder(
@@ -24,6 +24,10 @@ class AppThemes {
           borderSide: BorderSide(color: AppColors.primary, width: 1),
         ),
       ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.backgroundLight,
+        elevation: 0,
+      )
     );
   }
 

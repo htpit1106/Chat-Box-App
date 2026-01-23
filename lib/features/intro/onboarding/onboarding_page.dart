@@ -1,14 +1,13 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/constants/ui_constants.dart';
-import 'package:chatbox/core/theme/app_colors.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
-import 'package:chatbox/core/widgets/button/app_social_button.dart';
 import 'package:chatbox/core/widgets/button/app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'onboarding_cubit.dart';
 import 'onboarding_navigator.dart';
+import 'widget/or_divider.dart';
+import 'widget/social_login_button.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -70,8 +69,11 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
                   "Our chat app is the perfect way to stay connected with friends and family.",
                   style: AppTextStyle.gray.s16,
                 ),
-                _socialLoginRow(),
-                _orDivider(),
+
+
+
+                SocialLoginButton(),
+                OrDivider(),
                 AppTextButton(
                   text: "Sign up with mail",
                   textStyle: AppTextStyle.black.s16.w500,
@@ -101,36 +103,5 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
     );
   }
 
-  Row _socialLoginRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AppSocialButton(
-          iconPath: AssetConstants.google,
-          onPressed: () {},
-          colorBorder: AppColors.borderSilverGray,
-        ),
-        AppSocialButton(
-          iconPath: AssetConstants.facebook,
-          onPressed: () {},
-          colorBorder: AppColors.borderSilverGray,
-        ),
-        AppSocialButton(
-          iconPath: AssetConstants.twitter,
-          onPressed: () {},
-          colorBorder: AppColors.borderSilverGray,
-        ),
-      ],
-    );
-  }
 
-  Row _orDivider() {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: AppColors.borderSilverGray)),
-        Text("   OR   ", style: AppTextStyle.gray.s16.w500),
-        Expanded(child: Divider(color: AppColors.borderSilverGray)),
-      ],
-    );
-  }
 }

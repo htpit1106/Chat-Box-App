@@ -5,6 +5,7 @@ class AppAssetImage extends StatelessWidget {
   final Size? size;
   final BoxFit? fit;
   final Widget? placeholderImage;
+  final Color? colorIcon;
 
   const AppAssetImage({
     super.key,
@@ -12,6 +13,7 @@ class AppAssetImage extends StatelessWidget {
     this.size,
     this.fit,
     this.placeholderImage,
+    this.colorIcon
   });
 
   @override
@@ -24,6 +26,7 @@ class AppAssetImage extends StatelessWidget {
         return _buildPlaceHolderImage();
       },
       fit: fit,
+      color: colorIcon,
     );
   }
 

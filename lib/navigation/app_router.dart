@@ -1,7 +1,7 @@
+import 'package:chatbox/features/auth/signup/sign_up_page.dart';
 import 'package:chatbox/features/intro/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../features/intro/onboarding/onboarding_page.dart';
 
 class AppRouter {
@@ -31,6 +31,8 @@ class AppRouter {
   static const String forgotPasswordRouteName = 'forgotPassword';
   static const String homeName = 'home';
 
+
+
   static final _routes = <RouteBase>[
     GoRoute(
       name: splashRouteName,
@@ -44,5 +46,7 @@ class AppRouter {
 
       builder: (context, state) => const OnboardingPage(),
     ),
+    GoRoute(path: _registerPath, name: registerRouteName, builder: (context, state)=> SignUpPage())
   ];
+
 }

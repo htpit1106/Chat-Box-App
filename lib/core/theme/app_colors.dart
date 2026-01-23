@@ -40,6 +40,6 @@ class AppColors {
 
   /// button
   static const Color buttonGreen = Color(0xFF20A090);
-  static const Color buttonGray = tertiary;
+  static const Color buttonLightGray = Color(0xFFF3F6F6);
 
 }
