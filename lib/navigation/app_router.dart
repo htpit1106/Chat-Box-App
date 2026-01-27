@@ -32,8 +32,6 @@ class AppRouter {
   static const String forgotPasswordRouteName = 'forgotPassword';
   static const String homeName = 'home';
 
-
-
   static final _routes = <RouteBase>[
     GoRoute(
       name: splashRouteName,
