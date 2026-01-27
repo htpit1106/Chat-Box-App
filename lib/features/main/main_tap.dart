@@ -1,9 +1,9 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
-import 'package:chatbox/features/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 import 'calls/calls_page.dart';
 import 'contacts/contacts_page.dart';
+import 'home/home_page.dart';
 import 'settings/settings_page.dart';
 
 enum MainTap { message, calls, contacts, settings }

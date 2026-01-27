@@ -1,9 +1,9 @@
 import 'package:chatbox/features/auth/login/log_in_page.dart';
 import 'package:chatbox/features/auth/signup/sign_up_page.dart';
-import 'package:chatbox/features/home/home_page.dart';
 import 'package:chatbox/features/intro/splash_page.dart';
 import 'package:chatbox/features/main/calls/calls_page.dart';
 import 'package:chatbox/features/main/contacts/contacts_page.dart';
+import 'package:chatbox/features/main/home/home_page.dart';
 import 'package:chatbox/features/main/main_page.dart';
 import 'package:chatbox/features/main/settings/settings_page.dart';
 import 'package:flutter/material.dart';
