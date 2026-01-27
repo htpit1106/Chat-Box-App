@@ -26,9 +26,6 @@ class AppThemes {
         errorBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.textRed, width: 1),
         ),
-        focusedErrorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.primary, width: 1),
-        ),
 
         errorStyle: const TextStyle(
           height: 0,

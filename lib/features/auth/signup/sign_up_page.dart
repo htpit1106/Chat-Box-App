@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'sign_up_cubit.dart';
 import 'sign_up_navigator.dart';
+import 'sign_up_state.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -107,17 +108,20 @@ class _SignUpPageChildState extends State<SignUpPageChild> {
             label: "Your name",
             controller: _nameController,
             validator: AppValidator.validateEmpty,
+            onChanged: (value) => _cubit.changeEnableSignUp(value.isNotEmpty),
           ),
           AppLabelTextField(
             label: "Your email",
             controller: _emailController,
             validator: AppValidator.validateEmail,
+            onChanged: (value) => _cubit.changeEnableSignUp(value.isNotEmpty),
           ),
           AppLabelTextField(
             label: "Password",
             controller: _passwordController,
             obscureText: true,
             validator: AppValidator.validateEmpty,
+            onChanged: (value) => _cubit.changeEnableSignUp(value.isNotEmpty),
           ),
           AppLabelTextField(
             label: "Confirm Password",
@@ -125,6 +129,7 @@ class _SignUpPageChildState extends State<SignUpPageChild> {
             obscureText: true,
             validator: (value) =>
                 AppValidator.validateConfirmPassword(value, _passwordController.text),
+            onChanged: (value) => _cubit.changeEnableSignUp(value.isNotEmpty),
           ),
         ],
       ),
@@ -132,15 +137,25 @@ class _SignUpPageChildState extends State<SignUpPageChild> {
   }
 
   Widget _buildFooter() {
-    return AppTextButton(
-      text: "Create an account",
-      onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          _cubit.onPressSignUp(email: _emailController.text, password: _passwordController.text, name: _nameController.text);
-        }
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.enableSignUp != current.enableSignUp,
+      builder: (context, state) {
+        return AppTextButton(
+          text: "Create an account",
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _cubit.onPressSignUp(
+                email: _emailController.text,
+                password: _passwordController.text,
+                name: _nameController.text,
+              );
+            }
+          },
+          enable: state.enableSignUp,
+          color: AppColors.buttonLightGray,
+          textStyle: AppTextStyle.gray.s14.w500,
+        );
       },
-      color: AppColors.buttonLightGray,
-      textStyle: AppTextStyle.gray.s14.w500,
     );
   }
 }

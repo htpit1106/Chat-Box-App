@@ -1,3 +1,4 @@
+import 'package:chatbox/features/auth/login/log_in_page.dart';
 import 'package:chatbox/features/auth/signup/sign_up_page.dart';
 import 'package:chatbox/features/intro/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class AppRouter {
     initialLocation: _splashPath,
     routes: _routes,
     navigatorKey: navigationKey,
-    debugLogDiagnostics: false,
+    debugLogDiagnostics: true,
   );
 
   // Route Paths
@@ -46,7 +47,9 @@ class AppRouter {
 
       builder: (context, state) => const OnboardingPage(),
     ),
-    GoRoute(path: _registerPath, name: registerRouteName, builder: (context, state)=> SignUpPage())
+    GoRoute(path: _registerPath, name: registerRouteName, builder: (context, state)=> SignUpPage()),
+    GoRoute(path: _loginPath, name: loginRouteName,  builder: (context, state)=> LogInPage()),
+
   ];
 
 }

@@ -1,6 +1,6 @@
 import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/theme/app_colors.dart';
-import 'package:chatbox/core/widgets/image/app_asets_image.dart';
+import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:flutter/material.dart';
 
 class AppSocialButton extends StatelessWidget {

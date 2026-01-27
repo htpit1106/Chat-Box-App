@@ -8,6 +8,7 @@ class AppTextButton extends StatelessWidget {
   final Color color;
   final double minWidth;
   final TextStyle? textStyle;
+  final bool enable;
 
   const AppTextButton({
     super.key,
@@ -15,13 +16,14 @@ class AppTextButton extends StatelessWidget {
     this.text = "",
     this.color = AppColors.buttonGreen,
     this.minWidth = double.infinity,
-    this.textStyle
+    this.textStyle,
+    this.enable = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: enable ? onPressed : null,
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         minimumSize: Size(minWidth, 48),

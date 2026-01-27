@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:chatbox/core/constants/asset_constants.dart';
-import 'package:chatbox/core/widgets/image/app_asets_image.dart';
+import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/features/intro/splash_cubit.dart';
 import 'package:chatbox/features/intro/splash_navigator.dart';
+import 'package:chatbox/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +13,10 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SplashCubit(navigator: SplashNavigator(context: context)),
+      create: (context) => SplashCubit(
+        navigator: SplashNavigator(context: context),
+        authRepository: context.read<AuthRepository>(),
+      ),
       child: const SplashPageChild(),
     );
   }

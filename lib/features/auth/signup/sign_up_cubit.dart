@@ -12,7 +12,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   final UserRepository userRepository;
 
   SignUpCubit({required this.navigator, required this.authRepositor, required this.userRepository})
-    : super(SignUpState());
+    : super(SignUpState(enableSignUp: false));
 
   Future<void> onPressSignUp({
     required String email,
@@ -31,5 +31,10 @@ class SignUpCubit extends Cubit<SignUpState> {
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+
+  void changeEnableSignUp(bool enable){
+    emit(state.copyWith(enableSignUp: enable));
   }
 }

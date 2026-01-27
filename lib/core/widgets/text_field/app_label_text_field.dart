@@ -7,6 +7,9 @@ class AppLabelTextField extends StatelessWidget {
   final TextEditingController? controller;
   final bool obscureText;
   final String? Function(String?)? validator;
+  // onchange
+  final ValueChanged<String>? onChanged;
+
 
   const AppLabelTextField({
     super.key,
@@ -15,6 +18,7 @@ class AppLabelTextField extends StatelessWidget {
     this.controller,
     this.obscureText = false,
     this.validator,
+    this.onChanged,
   });
 
   @override
@@ -38,13 +42,17 @@ class AppLabelTextField extends StatelessWidget {
                   : Theme.of(context).textTheme.labelLarge,
             ),
             TextFormField(
+
               controller: controller,
               obscureText: obscureText,
               decoration: InputDecoration(
                 hintText: hintText,
                 errorText: field.hasError ? '' : null,
               ),
-              onChanged: field.didChange,
+              onChanged: (value){
+                field.didChange(value);
+                onChanged?.call(value);
+              },
             ),
             if (hasError)
               Align(
