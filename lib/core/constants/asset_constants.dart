@@ -11,4 +11,10 @@ class AssetConstants {
   static const String google = '$_iconsBasePath/google.png';
   static const String facebook = '$_iconsBasePath/facebook.png';
   static const String twitter = '$_iconsBasePath/apple.png';
+
+  // nav menu
+  static const String message = '$_iconsBasePath/message.png';
+  static const String calls = '$_iconsBasePath/calls.png';
+  static const String contacts = '$_iconsBasePath/contacts.png';
+  static const String settings = '$_iconsBasePath/settings.png';
 }

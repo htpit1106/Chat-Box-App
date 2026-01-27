@@ -1,11 +1,19 @@
+import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/core/widgets/button/nav_button.dart';
+import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'main_cubit.dart';
+import 'main_state.dart';
+import 'main_tap.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MainTabChild();
+    return BlocProvider<MainCubit>(create: (context) => MainCubit(), child: const MainTabChild());
   }
 }
 
@@ -17,11 +25,64 @@ class MainTabChild extends StatefulWidget {
 }
 
 class _MainTabChildState extends State<MainTabChild> {
-  final List<Widget> _pages = [
+  late final List<Widget> _pagesList;
+  late final MainCubit _cubit;
+  late final PageController _pageController;
 
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pagesList = MainTap.values.map((e) => e.page).toList();
+    _cubit = context.read<MainCubit>();
+    _pageController = PageController(initialPage: _cubit.state.currentPage);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(body: _buildPageView(), bottomNavigationBar: _buildBottomNavigationBar());
+  }
+
+  Widget _buildPageView() {
+    return PageView(
+      controller: _pageController,
+      children: _pagesList,
+      onPageChanged: (index) {
+        _cubit.changePage(index);
+      },
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return BlocConsumer<MainCubit, MainState>(
+      buildWhen: (previous, current) => previous.currentPage != current.currentPage,
+      builder: (context, state) {
+        return SizedBox(
+          height: 90,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                for (final tap in MainTap.values)
+                  Expanded(
+                    child: NavButton(
+                      iconPath: tap.iconPath,
+                      text: tap.name,
+                      isSelected: _cubit.state.currentPage == tap.index,
+                      onTap: () {
+                        _cubit.changePage(tap.index);
+                        // print(tap.name);
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+      bloc: _cubit,
+      listener: (context, state) {
+        _pageController.jumpToPage(state.currentPage);
+      },
+    );
   }
 }

@@ -133,7 +133,7 @@ class BaseNavigator {
   }
 
   void openHome() {
-    goNamed(AppRouter.homeName);
+    goNamed(AppRouter.mainName);
   }
 
   void navigateBack() {
