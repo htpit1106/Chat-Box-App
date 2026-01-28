@@ -45,7 +45,7 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/onboarding_bg.png'),
+            image: AssetImage(AssetConstants.onboardingBg),
             fit: BoxFit.cover,
           ),
         ),

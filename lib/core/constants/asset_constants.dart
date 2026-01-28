@@ -6,6 +6,8 @@ class AssetConstants {
 
   static const String logoApp = '$_imagesBasePath/logo_app.png';
   static const String logSmall = '$_imagesBasePath/logo_small.png';
+  static const String onboardingBg = '$_imagesBasePath/onboarding_bg.png';
+
 
   // social button
   static const String google = '$_iconsBasePath/google.png';
@@ -17,4 +19,14 @@ class AssetConstants {
   static const String calls = '$_iconsBasePath/calls.png';
   static const String contacts = '$_iconsBasePath/contacts.png';
   static const String settings = '$_iconsBasePath/settings.png';
+
+  // home
+  static const String onlinePoint = '$_iconsBasePath/online_point.png';
+  static const String search = '$_iconsBasePath/search.png';
+  static const String trash = '$_iconsBasePath/trash.png';
+
+
+
+
+
 }
