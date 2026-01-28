@@ -4,6 +4,7 @@ import 'package:chatbox/features/intro/splash_page.dart';
 import 'package:chatbox/features/main/calls/calls_page.dart';
 import 'package:chatbox/features/main/contacts/contacts_page.dart';
 import 'package:chatbox/features/main/home/home_page.dart';
+import 'package:chatbox/features/main/home/message/message_page.dart';
 import 'package:chatbox/features/main/main_page.dart';
 import 'package:chatbox/features/main/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class AppRouter {
   static const String _contactPath = '/contact';
   static const String _settingPath = '/setting';
   static const String _profilePath = '/profile';
+  static const String _messagePath = '/message';
+
 
   // Name
   static const String splashRouteName = 'splash';
@@ -42,6 +45,8 @@ class AppRouter {
   static const String forgotPasswordRouteName = 'forgotPassword';
   static const String homeName = 'home';
   static const String mainName = 'main';
+
+  static const String messageName = 'message';
   static const String callName = 'call';
   static const String contactName = 'contact';
   static const String settingName = 'setting';
@@ -72,5 +77,7 @@ class AppRouter {
     GoRoute(name: callName, path: _callPath, builder: (context, state) => const CallsPage()),
     GoRoute(name: contactName, path: _contactPath, builder: (context, state) => const ContactsPage()),
     GoRoute(name: settingName, path: _settingPath, builder: (context, state) => const SettingsPage()),
+    GoRoute(name: messageName, path: _messagePath, builder: (context, state) => const MessagePage()),
+
   ];
 }

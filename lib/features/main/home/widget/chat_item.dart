@@ -5,6 +5,8 @@ import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'avater_with_status.dart';
+
 class ChatItem extends StatelessWidget {
   // id key
   final String? id;
@@ -17,11 +19,10 @@ class ChatItem extends StatelessWidget {
   final bool onNotification;
   final VoidCallback? onPressDelete;
   final VoidCallback? onPressNotification;
-
-
+  final VoidCallback? onTap;
   const ChatItem({
     super.key,
-     this.id,
+    this.id,
     this.avatar,
     this.name = "Alex LinderSon",
     this.lastMessage = "How are you today",
@@ -31,106 +32,88 @@ class ChatItem extends StatelessWidget {
     this.onNotification = false,
     this.onPressDelete,
     this.onPressNotification,
+    this.onTap
   });
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      key: Key(id?? ""),
-      // The end action pane is the one at the right or the bottom side.
-      endActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        extentRatio: 0.3,
-        openThreshold: 0.1,
-        children: [
-          Builder(
-            builder: (context) {
-              return GestureDetector(
-                onTap: () {
-                  Slidable.of(context)?.close();
-                  onPressNotification?.call();
-                },
-                child: Container(
-                  width: 44,
-                  height: 44,
-                  decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
-                  child: Icon(
-                    onNotification ? Icons.notifications_active_rounded : Icons.notifications_off,
-                    color: Colors.white,
-                    size: 22,
+    return InkWell(
+      onTap: onTap,
+      child: Slidable(
+        key: Key(id ?? ""),
+        // The end action pane is the one at the right or the bottom side.
+        endActionPane: ActionPane(
+          motion: const ScrollMotion(),
+          extentRatio: 0.3,
+          openThreshold: 0.1,
+          children: [
+            Builder(
+              builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    Slidable.of(context)?.close();
+                    onPressNotification?.call();
+                  },
+                  child: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+                    child: Icon(
+                      onNotification ? Icons.notifications_active_rounded : Icons.notifications_off,
+                      color: Colors.white,
+                      size: 22,
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-          16.width,
+                );
+              },
+            ),
+            16.width,
 
-          Builder(
-            builder: (context) {
-              return GestureDetector(
-                onTap: () {
-                  Slidable.of(context)?.close(); //
-                  onPressDelete?.call();
-                },
-                child: Container(
-                  width: 44,
-                  height: 44,
-                  decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                  child: AppAssetImage(path: AssetConstants.trash, fit: BoxFit.none),
-                ),
-              );
-            },
+            Builder(
+              builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    Slidable.of(context)?.close(); //
+                    onPressDelete?.call();
+                  },
+                  child: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                    child: AppAssetImage(path: AssetConstants.trash, fit: BoxFit.none),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        child: ListTile(
+          leading: AvatarWithStatus(avatar: avatar, isOnline: isOnline),
+          title: Text(
+            name,
+            style: AppTextStyle.black.s18.w500,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-        ],
-      ),
-      child: ListTile(
-        leading: Stack(
-          children: [
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: avatar == null
-                    ? AppAssetImage(path: AssetConstants.onboardingBg)
-                    : Image.network(avatar!),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              right: 4,
-              child: AppAssetImage(
-                path: AssetConstants.onlinePoint,
-                size: Size(10, 10),
-                colorIcon: isOnline ? Color(0xFF0FE16D) : Colors.grey,
-              ),
-            ),
-          ],
-        ),
-        title: Text(
-          name,
-          style: AppTextStyle.black.s18.w500,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        subtitle: Text(
-          lastMessage,
-          style: AppTextStyle.gray.s12,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(time, style: AppTextStyle.gray.s12),
-            if (unreadCount > 0)
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                child: Text(unreadCount.toString(), style: AppTextStyle.white.s12),
-              ),
-          ],
+          subtitle: Text(
+            lastMessage,
+            style: AppTextStyle.gray.s12,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(time, style: AppTextStyle.gray.s12),
+              if (unreadCount > 0)
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                  child: Text(unreadCount.toString(), style: AppTextStyle.white.s12),
+                ),
+            ],
+          ),
         ),
       ),
     );

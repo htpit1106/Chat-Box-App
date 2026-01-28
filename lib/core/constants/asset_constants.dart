@@ -25,6 +25,18 @@ class AssetConstants {
   static const String search = '$_iconsBasePath/search.png';
   static const String trash = '$_iconsBasePath/trash.png';
 
+  // message
+  static const String backArrow = '$_iconsBasePath/back_arrow.png';
+
+  static const String call = '$_iconsBasePath/call.png';
+  static const String video = '$_iconsBasePath/video.png';
+  static const String camera = '$_iconsBasePath/camera.png';
+  static const String mic = '$_iconsBasePath/microphone.png';
+  static const String attachment = '$_iconsBasePath/attachment.png';
+  static const String file = '$_iconsBasePath/file.png';
+  static const String send = '$_iconsBasePath/send.png';
+
+
 
 
 

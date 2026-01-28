@@ -45,10 +45,12 @@ class _MainTabChildState extends State<MainTabChild> {
   Widget _buildPageView() {
     return PageView(
       controller: _pageController,
-      children: _pagesList,
+      physics: const NeverScrollableScrollPhysics(),
+      allowImplicitScrolling: false,
       onPageChanged: (index) {
         _cubit.changePage(index);
       },
+      children: _pagesList,
     );
   }
 

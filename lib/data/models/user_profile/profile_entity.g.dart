@@ -12,7 +12,7 @@ ProfileEntity _$ProfileEntityFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       name: json['name'] as String?,
       avatarUrl: json['avatar_url'] as String?,
-      isOnline: json['is_online'] as bool?,
+      isOnline: json['is_online'] as bool? ?? true,
       lastSeen: json['last_seen'] == null
           ? null
           : DateTime.parse(json['last_seen'] as String),

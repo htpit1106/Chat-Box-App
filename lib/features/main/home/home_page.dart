@@ -1,17 +1,40 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
-import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/theme/app_colors.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
-import 'package:chatbox/core/widgets/divider/app_divider.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/features/main/home/widget/chat_item.dart';
 import 'package:chatbox/features/main/home/widget/status_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'home_cubit.dart';
+import 'home_navigator.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<HomeCubit>(
+        create: (context) => HomeCubit(navigator: HomeNavigator(context: context)),
+        child: HomePageChild());
+  }
+}
+
+class HomePageChild extends StatefulWidget {
+  const HomePageChild({super.key});
+
+  @override
+  State<HomePageChild> createState() => _HomePageChildState();
+}
+
+class _HomePageChildState extends State<HomePageChild> {
+  late final HomeCubit _cubit;
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<HomeCubit>();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,13 +95,17 @@ class HomePage extends StatelessWidget {
             child: ListView(
               children: [
                 ChatItem(
-                  onPressDelete: () {
-                  },
-                  onPressNotification: () {
+                    onPressDelete: () {},
+                    onPressNotification: () {
 
-                  }
+                    }
                 ),
-                ChatItem(),
+                ChatItem(
+                  onTap:(){
+                    _cubit.onPressItemChat();
+                  },
+
+                ),
                 ChatItem(isOnline: false, onNotification: true),
                 ChatItem(isOnline: false),
                 ChatItem(),
