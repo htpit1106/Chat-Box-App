@@ -10,4 +10,7 @@ class HomeCubit extends Cubit<HomeState>{
   void onPressItemChat(){
     navigator.openMessagePage();
   }
+  void onPressSearch(){
+    navigator.openSearchPage();
+  }
 }

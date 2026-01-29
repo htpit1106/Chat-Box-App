@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'profile_entity.dart';
+part of 'user_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProfileEntity _$ProfileEntityFromJson(Map<String, dynamic> json) =>
-    ProfileEntity(
+UserEntity _$ProfileEntityFromJson(Map<String, dynamic> json) =>
+    UserEntity(
       uid: json['uid'] as String?,
       email: json['email'] as String?,
       name: json['name'] as String?,
@@ -22,7 +22,7 @@ ProfileEntity _$ProfileEntityFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['created_at'] as String),
     );
 
-Map<String, dynamic> _$ProfileEntityToJson(ProfileEntity instance) =>
+Map<String, dynamic> _$ProfileEntityToJson(UserEntity instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'email': instance.email,
@@ -32,4 +32,6 @@ Map<String, dynamic> _$ProfileEntityToJson(ProfileEntity instance) =>
       'last_seen': instance.lastSeen?.toIso8601String(),
       'fcm_token': instance.fcmToken,
       'created_at': instance.createdAt?.toIso8601String(),
+      'name_lower': instance.name?.toLowerCase(),
+      'email_lower': instance.email?.toLowerCase(),
     };

@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'profile_entity.g.dart';
+part 'user_entity.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class ProfileEntity {
+class UserEntity {
   final String? uid;
   final String? email;
   final String? name;
@@ -14,7 +14,7 @@ class ProfileEntity {
 
 
 
-  ProfileEntity({
+  UserEntity({
     this.uid,
     this.email,
     this.name,
@@ -26,7 +26,7 @@ class ProfileEntity {
   }) : createdAt = createdAt ?? DateTime.now();
 
 
-  factory ProfileEntity.fromJson(Map<String, dynamic> json) => _$ProfileEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) => _$ProfileEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ProfileEntityToJson(this);
 
 

@@ -36,8 +36,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   bool isLoggedIn() {
-
-    print(_auth.currentUser);
     return _auth.currentUser != null;
   }
 }

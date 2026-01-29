@@ -1,4 +1,4 @@
-import 'package:chatbox/data/models/user_profile/profile_entity.dart';
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/features/auth/signup/sign_up_navigator.dart';
 import 'package:chatbox/features/auth/signup/sign_up_state.dart';
 import 'package:chatbox/repository/auth_repository.dart';
@@ -25,7 +25,7 @@ class SignUpCubit extends Cubit<SignUpState> {
       if (uid == null) {
         return;
       }
-      final profile = ProfileEntity(uid: uid, email: email, name: name);
+      final profile = UserEntity(uid: uid, email: email, name: name);
       await userRepository.createUserProfile(profile);
       navigator.openHome();
     } catch (e) {

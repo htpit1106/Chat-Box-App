@@ -1,4 +1,5 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/theme/app_colors.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
@@ -16,8 +17,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeCubit>(
-        create: (context) => HomeCubit(navigator: HomeNavigator(context: context)),
-        child: HomePageChild());
+      create: (context) => HomeCubit(navigator: HomeNavigator(context: context)),
+      child: HomePageChild(),
+    );
   }
 }
 
@@ -30,11 +32,13 @@ class HomePageChild extends StatefulWidget {
 
 class _HomePageChildState extends State<HomePageChild> {
   late final HomeCubit _cubit;
+
   @override
   void initState() {
     super.initState();
     _cubit = context.read<HomeCubit>();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,9 +62,16 @@ class _HomePageChildState extends State<HomePageChild> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              AppAssetImage(path: AssetConstants.search, size: Size(44, 44)),
+              IconButton(
+                onPressed: () {
+                  _cubit.onPressSearch();
+                },
+                icon: AppAssetImage(path: AssetConstants.search, size: Size(44, 44)),
+              ),
               Text("Home", style: AppTextStyle.white.s20.w500),
-              AppAssetImage(path: AssetConstants.facebook, size: Size(44, 44)),
+              ClipRRect(
+                  borderRadius: 100.radius,
+                  child: AppAssetImage(path: AssetConstants.onboardingBg, size: Size(44, 44))),
             ],
           ),
           SizedBox(
@@ -94,17 +105,11 @@ class _HomePageChildState extends State<HomePageChild> {
           Expanded(
             child: ListView(
               children: [
+                ChatItem(onPressDelete: () {}, onPressNotification: () {}),
                 ChatItem(
-                    onPressDelete: () {},
-                    onPressNotification: () {
-
-                    }
-                ),
-                ChatItem(
-                  onTap:(){
+                  onTap: () {
                     _cubit.onPressItemChat();
                   },
-
                 ),
                 ChatItem(isOnline: false, onNotification: true),
                 ChatItem(isOnline: false),

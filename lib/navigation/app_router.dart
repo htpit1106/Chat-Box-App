@@ -10,6 +10,7 @@ import 'package:chatbox/features/main/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/intro/onboarding/onboarding_page.dart';
+import '../features/main/home/search/search_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -35,6 +36,8 @@ class AppRouter {
   static const String _settingPath = '/setting';
   static const String _profilePath = '/profile';
   static const String _messagePath = '/message';
+  static const String _searchPath = '/search';
+
 
 
   // Name
@@ -43,10 +46,12 @@ class AppRouter {
   static const String loginRouteName = 'login';
   static const String registerRouteName = 'register';
   static const String forgotPasswordRouteName = 'forgotPassword';
-  static const String homeName = 'home';
   static const String mainName = 'main';
 
+  static const String homeName = 'home';
   static const String messageName = 'message';
+  static const String searchName = 'search';
+
   static const String callName = 'call';
   static const String contactName = 'contact';
   static const String settingName = 'setting';
@@ -78,6 +83,7 @@ class AppRouter {
     GoRoute(name: contactName, path: _contactPath, builder: (context, state) => const ContactsPage()),
     GoRoute(name: settingName, path: _settingPath, builder: (context, state) => const SettingsPage()),
     GoRoute(name: messageName, path: _messagePath, builder: (context, state) => const MessagePage()),
+    GoRoute(name: searchName, path: _searchPath, builder: (context, state) => const SearchPage()),
 
   ];
 }

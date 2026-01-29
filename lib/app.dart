@@ -3,11 +3,11 @@ import 'package:chatbox/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'core/configs/app_configs.dart';
 import 'core/theme/app_theme.dart';
 import 'generated/l10n.dart';
 import 'navigation/app_router.dart';
+import 'repository/friend_repository.dart';
 import 'repository/user_repository.dart';
 
 class ChatBoxApp extends StatelessWidget {
@@ -19,6 +19,7 @@ class ChatBoxApp extends StatelessWidget {
       providers: [
         RepositoryProvider<AuthRepository>(create: (_) => AuthRepositoryImpl()),
         RepositoryProvider<UserRepository>(create: (_) => UserRepositoryImpl()),
+        RepositoryProvider<FriendRepository>(create: (_) => FriendRepositoryImpl()),
       ],
       child: MultiBlocProvider(
         providers: [BlocProvider<AppCubit>(create: (context) => AppCubit())],

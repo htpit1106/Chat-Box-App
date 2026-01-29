@@ -7,4 +7,7 @@ class HomeNavigator extends BaseNavigator{
   void openMessagePage(){
     context.pushNamed(AppRouter.messageName);
   }
+  void openSearchPage(){
+    context.pushNamed(AppRouter.searchName);
+  }
 }

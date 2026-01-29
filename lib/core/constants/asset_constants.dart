@@ -36,6 +36,10 @@ class AssetConstants {
   static const String file = '$_iconsBasePath/file.png';
   static const String send = '$_iconsBasePath/send.png';
 
+  // search
+  static const String addFriend = '$_iconsBasePath/add_friend.png';
+
+
 
 
 

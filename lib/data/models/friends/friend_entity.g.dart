@@ -9,6 +9,7 @@ part of 'friend_entity.dart';
 FriendEntity _$FriendEntityFromJson(Map<String, dynamic> json) => FriendEntity(
   id: json['id'] as String?,
   conversationId: json['conversation_id'] as String?,
+
   createdAt: json['created_at'] == null
       ? null
       : DateTime.parse(json['created_at'] as String),
