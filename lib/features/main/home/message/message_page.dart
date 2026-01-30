@@ -26,9 +26,12 @@ class MessagePageChild extends StatefulWidget {
 }
 
 class _MessagePageChildState extends State<MessagePageChild> {
+  final _focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Row(spacing: 10, children: [AvatarWithStatus(), Text("Alex")]),
         actions: [
@@ -118,9 +121,10 @@ class _MessagePageChildState extends State<MessagePageChild> {
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Write your messagee',
+              child: TextField(
+                focusNode: _focusNode,
+                decoration: const InputDecoration(
+                  hintText: 'Write your message',
                   border: InputBorder.none,
 
                 ),
@@ -131,9 +135,14 @@ class _MessagePageChildState extends State<MessagePageChild> {
             ),
           ),
           const SizedBox(width: 8),
-          CircleAvatar(
-            backgroundColor: const Color(0xFF0BA37F),
-            child: const Icon(Icons.send, color: Colors.white),
+          GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(_focusNode);
+            },
+            child: CircleAvatar(
+              backgroundColor: const Color(0xFF0BA37F),
+              child: const Icon(Icons.send, color: Colors.white),
+            ),
           ),
         ],
       ),

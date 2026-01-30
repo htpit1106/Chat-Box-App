@@ -24,7 +24,7 @@ class MainTabChild extends StatefulWidget {
   State<MainTabChild> createState() => _MainTabChildState();
 }
 
-class _MainTabChildState extends State<MainTabChild> {
+class _MainTabChildState extends State<MainTabChild>  {
   late final List<Widget> _pagesList;
   late final MainCubit _cubit;
   late final PageController _pageController;
@@ -87,4 +87,5 @@ class _MainTabChildState extends State<MainTabChild> {
       },
     );
   }
+
 }

@@ -34,11 +34,14 @@ class SearchPageChild extends StatefulWidget {
 
 class _SearchPageChildState extends State<SearchPageChild> {
   late final SearchCubit _cubit;
+  late final TextEditingController _searchController;
+
 
   @override
   void initState() {
     super.initState();
     _cubit = context.read<SearchCubit>();
+    _searchController = TextEditingController();
   }
 
   @override
@@ -68,6 +71,7 @@ class _SearchPageChildState extends State<SearchPageChild> {
 
           isDense: true,
         ),
+        controller: _searchController,
         onChanged: (value) {
           _cubit.searchUsers(value);
         },
@@ -93,9 +97,6 @@ class _SearchPageChildState extends State<SearchPageChild> {
                 name: friend.name,
                 email: friend.email,
                 isFriend: true,
-                onTap: () {
-                  _cubit.addFriend(friend.uid!);
-                },
               );
             }
             final nonFriend = state.listNonFriend[index - state.listFriends.length];
@@ -104,7 +105,9 @@ class _SearchPageChildState extends State<SearchPageChild> {
               email: nonFriend.email,
               isFriend: false,
               onTap: () {
-                _cubit.addFriend(nonFriend.uid!);
+                // print("add friend");
+                if (nonFriend.uid == null) return;
+                _cubit.addFriend(nonFriend.uid!, _searchController.text );
               },
             );
           },

@@ -11,12 +11,12 @@ class ChatItem extends StatelessWidget {
   // id key
   final String? id;
   final String? avatar;
-  final String name;
-  final String lastMessage;
-  final String time;
+  final String? name;
+  final String? lastMessage;
+  final String? time;
   final int unreadCount;
-  final bool isOnline;
-  final bool onNotification;
+  final bool? isOnline;
+  final bool? onNotification;
   final VoidCallback? onPressDelete;
   final VoidCallback? onPressNotification;
   final VoidCallback? onTap;
@@ -59,7 +59,7 @@ class ChatItem extends StatelessWidget {
                     height: 44,
                     decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
                     child: Icon(
-                      onNotification ? Icons.notifications_active_rounded : Icons.notifications_off,
+                      onNotification == true ? Icons.notifications_active_rounded : Icons.notifications_off,
                       color: Colors.white,
                       size: 22,
                     ),
@@ -88,15 +88,15 @@ class ChatItem extends StatelessWidget {
           ],
         ),
         child: ListTile(
-          leading: AvatarWithStatus(avatar: avatar, isOnline: isOnline),
+          leading: AvatarWithStatus(avatar: avatar, isOnline: isOnline ?? false),
           title: Text(
-            name,
+            name ?? '',
             style: AppTextStyle.black.s18.w500,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            lastMessage,
+            lastMessage ?? 'no message',
             style: AppTextStyle.gray.s12,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -105,8 +105,8 @@ class ChatItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(time, style: AppTextStyle.gray.s12),
-              if (unreadCount > 0)
+              Text(time ?? 'no time', style: AppTextStyle.gray.s12),
+              if (unreadCount  > 0)
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),

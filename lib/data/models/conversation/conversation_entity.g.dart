@@ -22,7 +22,6 @@ ConversationEntity _$ConversationEntityFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ConversationEntityToJson(ConversationEntity instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'member_ids': instance.memberIds,
       'last_message': instance.lastMessage,
       'last_message_at': instance.lastMessageAt?.toIso8601String(),

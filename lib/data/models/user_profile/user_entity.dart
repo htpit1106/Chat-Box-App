@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'user_entity.g.dart';
 
@@ -26,9 +27,26 @@ class UserEntity {
   }) : createdAt = createdAt ?? DateTime.now();
 
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) => _$ProfileEntityFromJson(json);
-  Map<String, dynamic> toJson() => _$ProfileEntityToJson(this);
+  factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
-
+  // firestore mapper
+  factory UserEntity.fromFireStore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return UserEntity(
+      uid: doc.id,
+      email: data['email'],
+      name: data['name'],
+      avatarUrl: data['avatar_url'],
+      isOnline: data['is_online'],
+      lastSeen: data['last_seen'] == null
+          ? null
+          : DateTime.parse(data['last_seen'] as String),
+      fcmToken: data['fcm_token'],
+      // createdAt: (data['created_at'] as Timestamp?)?.toDate(),
+    );
+  }
 
 }
+
+

@@ -7,6 +7,7 @@ import 'core/configs/app_configs.dart';
 import 'core/theme/app_theme.dart';
 import 'generated/l10n.dart';
 import 'navigation/app_router.dart';
+import 'repository/conversation_repository.dart';
 import 'repository/friend_repository.dart';
 import 'repository/user_repository.dart';
 
@@ -20,6 +21,7 @@ class ChatBoxApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(create: (_) => AuthRepositoryImpl()),
         RepositoryProvider<UserRepository>(create: (_) => UserRepositoryImpl()),
         RepositoryProvider<FriendRepository>(create: (_) => FriendRepositoryImpl()),
+        RepositoryProvider<ConversationRepository>(create: (_) => ConversationRepositoryImpl()),
       ],
       child: MultiBlocProvider(
         providers: [BlocProvider<AppCubit>(create: (context) => AppCubit())],

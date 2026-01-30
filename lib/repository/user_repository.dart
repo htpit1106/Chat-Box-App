@@ -33,14 +33,15 @@ class UserRepositoryImpl implements UserRepository {
   Future<UserEntity?> getProfile(String uid) async {
     final doc = await _firestore.collection('users').doc(uid).get();
     if (!doc.exists) return null;
-    return UserEntity.fromJson(doc.data()!);
+    return UserEntity.fromFireStore(doc);
   }
 
   @override
   Future<Map<String, List<UserEntity>>> searchUsersByNameOrEmail(String query) async {
     // 1. get list your friend from sub-user collection - by name , email
     // 2. get user not your friend from user - by name, email
-    if (query.length < 2) {
+
+    if (query.isEmpty) {
       return {
       'friend': [],
       'non_friend': [],
@@ -53,7 +54,7 @@ class UserRepositoryImpl implements UserRepository {
     final friendsSnap = await _firestore
         .collection('users')
         .doc(currentUid)
-        .collection('friend')
+        .collection('friends')
         .get();
     final friendUids = friendsSnap.docs.map((e) => e.id).toList();
     // query users by name
@@ -82,12 +83,12 @@ class UserRepositoryImpl implements UserRepository {
     for (final doc in [...usersByNameSnap.docs, ...usersByEmailSnap.docs]){
       if (doc.id == currentUid) continue;
       if (friendUids.contains(doc.id)){
-        friendMap[doc.id] = UserEntity.fromJson(doc.data());
+        friendMap[doc.id] = UserEntity.fromFireStore(doc);
         continue;
       }
-      userMap[doc.id] = UserEntity.fromJson(doc.data());
+      userMap[doc.id] = UserEntity.fromFireStore(doc);
     }
-    final users = {
+    final users= {
       'friend': friendMap.values.toList(),
       'non_friend': userMap.values.toList(),
     };
