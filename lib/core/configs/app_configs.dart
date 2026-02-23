@@ -1,11 +1,17 @@
-import 'dart:ui';
-
 import 'package:chatbox/data/models/enum/language_type.dart';
+import 'package:flutter/material.dart';
+
+import 'app_env_config.dart';
 
 class AppConfigs {
   AppConfigs._();
 
   static const String appName = "C chat";
+  static Environment env = Environment.dev;
+  static const ThemeMode defaultThemeMode = ThemeMode.system;
+
+  ///API
+  static const Duration apiTimeout = Duration(milliseconds: 60000);
 
   // splash
   static const String splash = "/splash";
@@ -34,6 +40,13 @@ class AppConfigs {
   ///Local
   static const appLocal = 'en_US';
   static const appLanguage = 'en';
+
+  ///File
+  static const autoDeleteDays = 30;
+  static const maxAttachFile = 5;
+  static const maxUploadFile = 30;
+  static const maxTotalFileSize = 25; //25MB
+  static const maxTotalFileSizeInByte = maxTotalFileSize * 1024 * 1024; //25MB
 
   static const defaultLocal = Locale.fromSubtags(languageCode: appLanguage);
   static const defaultLanguage = Language.english;

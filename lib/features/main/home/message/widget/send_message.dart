@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SendMessage extends StatelessWidget {
-  final String message;
+  final String? message;
   final String time;
 
-  const SendMessage({super.key, this.message = "You did your job well!",  String? time})
-    : time = time ?? "12:00";
+  const SendMessage({
+    super.key,
+    this.message = "You did your job well!",
+    String? time,
+  }) : time = time ?? "12:00";
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class SendMessage extends StatelessWidget {
             bottomRight: Radius.circular(16),
           ),
         ),
-        child:  Text(message, style: TextStyle(color: Colors.white)),
+        child: Text(message ?? '', style: TextStyle(color: Colors.white)),
       ),
     );
   }

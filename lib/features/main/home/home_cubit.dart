@@ -1,6 +1,7 @@
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
-import 'package:chatbox/repository/conversation_repository.dart';
-import 'package:chatbox/repository/friend_repository.dart';
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/data/repository/conversation_repository.dart';
+import 'package:chatbox/data/repository/friend_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_navigator.dart';
@@ -24,9 +25,12 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(chats: chats));
   }
 
-  void onPressItemChat(ConversationEntity conversation) {
-    conversationRepos.createConversation(conversation: conversation, memberIds: conversation.memberIds ?? []);
-    navigator.openMessagePage();
+  void onPressItemChat(ConversationEntity conversation, UserEntity user) {
+    // conversationRepos.createConversation(
+    //   conversation: conversation,
+    //   memberIds: conversation.memberIds ?? [],
+    // );
+    navigator.openMessagePage(user);
   }
 
   void onPressSearch() {

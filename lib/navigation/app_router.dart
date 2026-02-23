@@ -1,3 +1,4 @@
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/features/auth/login/log_in_page.dart';
 import 'package:chatbox/features/auth/signup/sign_up_page.dart';
 import 'package:chatbox/features/intro/splash_page.dart';
@@ -37,8 +38,6 @@ class AppRouter {
   static const String _profilePath = '/profile';
   static const String _messagePath = '/message';
   static const String _searchPath = '/search';
-
-
 
   // Name
   static const String splashRouteName = 'splash';
@@ -80,10 +79,24 @@ class AppRouter {
     GoRoute(name: homeName, path: _homePath, builder: (context, state) => const HomePage()),
     GoRoute(name: mainName, path: _mainPath, builder: (context, state) => const MainPage()),
     GoRoute(name: callName, path: _callPath, builder: (context, state) => const CallsPage()),
-    GoRoute(name: contactName, path: _contactPath, builder: (context, state) => const ContactsPage()),
-    GoRoute(name: settingName, path: _settingPath, builder: (context, state) => const SettingsPage()),
-    GoRoute(name: messageName, path: _messagePath, builder: (context, state) => const MessagePage()),
+    GoRoute(
+      name: contactName,
+      path: _contactPath,
+      builder: (context, state) => const ContactsPage(),
+    ),
+    GoRoute(
+      name: settingName,
+      path: _settingPath,
+      builder: (context, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      name: messageName,
+      path: _messagePath,
+      builder: (context, state) {
+        final friend = state.extra as UserEntity;
+        return MessagePage(friend: friend);
+      },
+    ),
     GoRoute(name: searchName, path: _searchPath, builder: (context, state) => const SearchPage()),
-
   ];
 }

@@ -1,12 +1,13 @@
+import 'package:chatbox/data/models/friends/friend_entity.dart'
+    show FriendEntity;
 import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../data/models/friends/friend_entity.dart';
-
 abstract class FriendRepository {
   Future<List<UserEntity>> getOnlineFriends();
+
   Future<void> addFriend(String uid);
 
   // friend has chat conversation;
@@ -19,15 +20,28 @@ class FriendRepositoryImpl implements FriendRepository {
 
   @override
   Future<void> addFriend(String uid) async {
-    try{
-      print("add.friend");
+    try {
       if (currentUid == null) return;
       if (uid.isEmpty) return;
-      await _firestore.collection('users').doc(currentUid).collection('friends').doc(uid).set({
-        'created_at': DateTime.now().toString(),
-        'conversation_id': null,
-      });
-    } catch (e){
+      await _firestore
+          .collection('users')
+          .doc(currentUid)
+          .collection('friends')
+          .doc(uid)
+          .set({
+            'created_at': DateTime.now().toString(),
+            'conversation_id': null,
+          });
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('friends')
+          .doc(currentUid)
+          .set({
+            'created_at': DateTime.now().toString(),
+            'conversation_id': null,
+          });
+    } catch (e) {
       debugPrint(e.toString());
     }
   }
@@ -38,9 +52,10 @@ class FriendRepositoryImpl implements FriendRepository {
     final snapFriends = await _firestore
         .collection('users')
         .doc(currentUid)
-        .collection('friends').get();
+        .collection('friends')
+        .get();
     final List<UserEntity> friends = [];
-    for (final doc in snapFriends.docs){
+    for (final doc in snapFriends.docs) {
       final friend = await _firestore.collection('users').doc(doc.id).get();
       friends.add(UserEntity.fromFireStore(friend));
     }

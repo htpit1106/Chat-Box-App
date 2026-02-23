@@ -12,9 +12,17 @@ class MessageEntity {
   DateTime? createdAt;
   final Map<String, bool>? seenBy;
 
-  MessageEntity({this.id, this.senderId, this.type, this.content, this.createdAt, this.seenBy});
+  MessageEntity({
+    this.id,
+    this.senderId,
+    this.type,
+    this.content,
+    this.createdAt,
+    this.seenBy,
+  });
 
-  factory MessageEntity.fromJson(Map<String, dynamic> json) => _$MessageEntityFromJson(json);
+  factory MessageEntity.fromJson(Map<String, dynamic> json) =>
+      _$MessageEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$MessageEntityToJson(this);
 }

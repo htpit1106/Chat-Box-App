@@ -1,38 +1,66 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/core/widgets/app_bar/app_bar_widget.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
+import 'package:chatbox/data/models/enum/message_type.dart';
+import 'package:chatbox/data/models/message/message_entity.dart';
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/features/main/home/message/message_cubit.dart';
-import 'package:chatbox/features/main/home/widget/avater_with_status.dart';
+import 'package:chatbox/features/main/home/message/widget/chat_input.dart';
+import 'package:chatbox/features/main/home/widget/avatar_with_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widget/date_divider.dart';
+import 'message_state.dart';
 import 'widget/receive_message.dart';
 import 'widget/send_message.dart';
 
 class MessagePage extends StatelessWidget {
-  const MessagePage({super.key});
+  final UserEntity friend;
+
+  const MessagePage({super.key, required this.friend});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => MessageCubit(), child: MessagePageChild());
+    return BlocProvider(
+      create: (context) => MessageCubit(
+        conversationRepos: context.read(),
+        friend: friend,
+        appCubit: context.read(),
+      ),
+      child: MessagePageChild(friend: friend),
+    );
   }
 }
 
 class MessagePageChild extends StatefulWidget {
-  const MessagePageChild({super.key});
+  final UserEntity friend;
+
+  const MessagePageChild({super.key, required this.friend});
 
   @override
   State<MessagePageChild> createState() => _MessagePageChildState();
 }
 
 class _MessagePageChildState extends State<MessagePageChild> {
+  final _scrollController = ScrollController();
   final _focusNode = FocusNode();
+  late final MessageCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<MessageCubit>();
+    _cubit.init(widget.friend.uid.toString());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+      scrollToBottom();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
+      appBar: AppBarWidget(
         title: Row(spacing: 10, children: [AvatarWithStatus(), Text("Alex")]),
         actions: [
           IconButton(
@@ -45,107 +73,61 @@ class _MessagePageChildState extends State<MessagePageChild> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(12),
-              itemExtent: 90,
-              children: [
-                DateDivider(),
-                SendMessage(),
-                ReceiveMessage(),
-                SendMessage(),
-                ReceiveMessage(),
-                DateDivider(),
-                SendMessage(),
-                ReceiveMessage(),
-                SendMessage(),
-                ReceiveMessage(),
-              ],
-            ),
-          ),
+      body: Column(children: [_buildMessageList(), _buildChatInput()]),
+    );
+  }
 
-          // when keyboard push up or no
-          MediaQuery.of(context).viewInsets.bottom > 0 ? chatInputOpened() : chatInputClosed(),
-        ],
+  void scrollToBottom() {
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    });
+  }
+
+  Widget _buildMessageList() {
+    return Expanded(
+      child: BlocBuilder<MessageCubit, MessageState>(
+        builder: (context, state) {
+          if (state.messages.isEmpty) {
+            return const Center(child: Text("No message"));
+          }
+          return Scrollbar(
+            controller: _scrollController,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemExtent: 70,
+              itemCount: state.messages.length,
+              itemBuilder: (context, index) {
+                final message = state.messages[index];
+                if (message.senderId == widget.friend.uid) {
+                  return SendMessage(message: message.content);
+                }
+                return ReceiveMessage(message: message.content);
+              },
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget chatInputClosed() {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          const Icon(Icons.attach_file),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Write your message',
-                  border: InputBorder.none,
-                ),
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: 1,
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          const Icon(Icons.camera_alt),
-          const SizedBox(width: 8),
-          const Icon(Icons.mic),
-        ],
-      ),
+  Widget _buildChatInput() {
+    return ChatInput(
+      onFocus: scrollToBottom,
+      focusNode: _focusNode,
+      onTapSend: (text) {
+        sendMessage(text);
+      },
     );
   }
 
-  Widget chatInputOpened() {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          const Icon(Icons.attach_file),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: TextField(
-                focusNode: _focusNode,
-                decoration: const InputDecoration(
-                  hintText: 'Write your message',
-                  border: InputBorder.none,
-
-                ),
-                keyboardType: TextInputType.multiline,
-                maxLines: 5,
-                minLines: 1,
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(_focusNode);
-            },
-            child: CircleAvatar(
-              backgroundColor: const Color(0xFF0BA37F),
-              child: const Icon(Icons.send, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+  void sendMessage(String text) {
+    final MessageEntity newMessage = MessageEntity(
+      content: text,
+      createdAt: DateTime.now(),
+      type: MessageType.text,
     );
+    _cubit.sendMessage(newMessage);
   }
 }

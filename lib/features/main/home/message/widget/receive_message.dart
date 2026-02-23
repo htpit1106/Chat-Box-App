@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class ReceiveMessage extends StatelessWidget {
   final String? avatar;
-  final String message;
+  final String? message;
   final String time;
 
   const ReceiveMessage({
@@ -22,7 +22,10 @@ class ReceiveMessage extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: avatar == null
-              ? AppAssetImage(path: AssetConstants.onboardingBg, size: Size(40, 40))
+              ? AppAssetImage(
+                  path: AssetConstants.onboardingBg,
+                  size: Size(40, 40),
+                )
               : Image.network(avatar!),
         ),
         const SizedBox(width: 8),
@@ -37,7 +40,7 @@ class ReceiveMessage extends StatelessWidget {
               bottomRight: Radius.circular(16),
             ),
           ),
-          child: const Text('Have a great working week!!'),
+          child: Text(message ?? ''),
         ),
       ],
     );

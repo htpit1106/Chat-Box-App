@@ -1,7 +1,5 @@
 import 'package:chatbox/core/widgets/app_bar/app_bar_widget.dart';
 import 'package:chatbox/features/main/home/search/widget/user_item.dart';
-import 'package:chatbox/repository/friend_repository.dart';
-import 'package:chatbox/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,8 +14,8 @@ class SearchPage extends StatelessWidget {
     return BlocProvider<SearchCubit>(
       create: (context) {
         return SearchCubit(
-          userRepository: context.read<UserRepository>(),
-          friendRepository: context.read<FriendRepository>(),
+          userRepository: context.read(),
+          friendRepository: context.read(),
         );
       },
       child: SearchPageChild(),
@@ -35,7 +33,6 @@ class SearchPageChild extends StatefulWidget {
 class _SearchPageChildState extends State<SearchPageChild> {
   late final SearchCubit _cubit;
   late final TextEditingController _searchController;
-
 
   @override
   void initState() {
@@ -83,14 +80,12 @@ class _SearchPageChildState extends State<SearchPageChild> {
     return BlocBuilder<SearchCubit, SearchState>(
       // buildWhen: (previous, current) => previous.listUsers != current.listUsers,
       builder: (context, state) {
-
-        if (state.listNonFriend.isEmpty && state.listFriends.isEmpty){
+        if (state.listNonFriend.isEmpty && state.listFriends.isEmpty) {
           return Center(child: Text('No data'));
         }
         return ListView.builder(
           itemCount: state.listNonFriend.length + state.listFriends.length,
           itemBuilder: (context, index) {
-
             if (index < state.listFriends.length) {
               final friend = state.listFriends[index];
               return UserItem(
@@ -99,7 +94,8 @@ class _SearchPageChildState extends State<SearchPageChild> {
                 isFriend: true,
               );
             }
-            final nonFriend = state.listNonFriend[index - state.listFriends.length];
+            final nonFriend =
+                state.listNonFriend[index - state.listFriends.length];
             return UserItem(
               name: nonFriend.name,
               email: nonFriend.email,
@@ -107,7 +103,7 @@ class _SearchPageChildState extends State<SearchPageChild> {
               onTap: () {
                 // print("add friend");
                 if (nonFriend.uid == null) return;
-                _cubit.addFriend(nonFriend.uid!, _searchController.text );
+                _cubit.addFriend(nonFriend.uid!, _searchController.text);
               },
             );
           },

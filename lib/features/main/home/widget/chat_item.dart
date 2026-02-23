@@ -5,7 +5,7 @@ import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import 'avater_with_status.dart';
+import 'avatar_with_status.dart';
 
 class ChatItem extends StatelessWidget {
   // id key

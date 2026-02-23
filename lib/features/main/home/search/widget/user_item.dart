@@ -1,7 +1,7 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
-import 'package:chatbox/features/main/home/widget/avater_with_status.dart';
+import 'package:chatbox/features/main/home/widget/avatar_with_status.dart';
 import 'package:flutter/material.dart';
 
 class UserItem extends StatelessWidget {

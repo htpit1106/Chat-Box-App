@@ -6,8 +6,6 @@ import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
 import 'package:chatbox/features/main/home/widget/chat_item.dart';
 import 'package:chatbox/features/main/home/widget/status_item.dart';
-import 'package:chatbox/repository/conversation_repository.dart';
-import 'package:chatbox/repository/friend_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,8 +21,8 @@ class HomePage extends StatelessWidget {
     return BlocProvider<HomeCubit>(
       create: (context) => HomeCubit(
         navigator: HomeNavigator(context: context),
-        friendRepository: context.read<FriendRepository>(),
-        conversationRepos: context.read<ConversationRepository>(),
+        friendRepository: context.read(),
+        conversationRepos: context.read(),
       ),
       child: HomePageChild(),
     );
@@ -38,7 +36,8 @@ class HomePageChild extends StatefulWidget {
   State<HomePageChild> createState() => _HomePageChildState();
 }
 
-class _HomePageChildState extends State<HomePageChild> with AutomaticKeepAliveClientMixin {
+class _HomePageChildState extends State<HomePageChild>
+    with AutomaticKeepAliveClientMixin {
   late final HomeCubit _cubit;
 
   @override
@@ -76,12 +75,18 @@ class _HomePageChildState extends State<HomePageChild> with AutomaticKeepAliveCl
                 onPressed: () {
                   _cubit.onPressSearch();
                 },
-                icon: AppAssetImage(path: AssetConstants.search, size: Size(44, 44)),
+                icon: AppAssetImage(
+                  path: AssetConstants.search,
+                  size: Size(44, 44),
+                ),
               ),
               Text("Home", style: AppTextStyle.white.s20.w500),
               ClipRRect(
                 borderRadius: 100.radius,
-                child: AppAssetImage(path: AssetConstants.onboardingBg, size: Size(44, 44)),
+                child: AppAssetImage(
+                  path: AssetConstants.onboardingBg,
+                  size: Size(44, 44),
+                ),
               ),
             ],
           ),
@@ -89,7 +94,8 @@ class _HomePageChildState extends State<HomePageChild> with AutomaticKeepAliveCl
             height: 100,
             width: double.infinity,
             child: BlocBuilder<HomeCubit, HomeState>(
-              buildWhen: (previous, current) => previous.onlineFriends != current.onlineFriends,
+              buildWhen: (previous, current) =>
+                  previous.onlineFriends != current.onlineFriends,
               builder: (context, state) {
                 return ListView.builder(
                   itemCount: state.onlineFriends.length,
@@ -106,7 +112,7 @@ class _HomePageChildState extends State<HomePageChild> with AutomaticKeepAliveCl
                           lastSenderId: friend.uid,
                           isGroup: false,
                         );
-                        _cubit.onPressItemChat(conversation);
+                        _cubit.onPressItemChat(conversation, friend);
                       },
                     );
                   },
@@ -153,7 +159,7 @@ class _HomePageChildState extends State<HomePageChild> with AutomaticKeepAliveCl
                       lastMessage: conversation.lastMessage,
                       isOnline: true,
                       onTap: () {
-                        _cubit.onPressItemChat(conversation);
+                        _cubit.onPressItemChat(conversation, friend);
                       },
                     );
                   },
@@ -167,5 +173,5 @@ class _HomePageChildState extends State<HomePageChild> with AutomaticKeepAliveCl
   }
 
   @override
-  bool get wantKeepAlive =>  true;
+  bool get wantKeepAlive => true;
 }

@@ -10,6 +10,7 @@ abstract class UserRepository {
 
   // search by name and email
   Future<Map<String, List<UserEntity>>> searchUsersByNameOrEmail(String query);
+  Future<UserEntity?> getCurrentUserProfile();
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -36,16 +37,23 @@ class UserRepositoryImpl implements UserRepository {
     return UserEntity.fromFireStore(doc);
   }
 
+  Future<UserEntity?> getCurrentUserProfile() async {
+    final currentUid = FirebaseAuth.instance.currentUser?.uid;
+    if (currentUid == null) return null;
+    final doc = await _firestore.collection('users').doc(currentUid).get();
+    if (!doc.exists) return null;
+    return UserEntity.fromFireStore(doc);
+  }
+
   @override
-  Future<Map<String, List<UserEntity>>> searchUsersByNameOrEmail(String query) async {
+  Future<Map<String, List<UserEntity>>> searchUsersByNameOrEmail(
+    String query,
+  ) async {
     // 1. get list your friend from sub-user collection - by name , email
     // 2. get user not your friend from user - by name, email
 
     if (query.isEmpty) {
-      return {
-      'friend': [],
-      'non_friend': [],
-    };
+      return {'friend': [], 'non_friend': []};
     }
 
     final currentUid = FirebaseAuth.instance.currentUser?.uid;
@@ -79,21 +87,19 @@ class UserRepositoryImpl implements UserRepository {
     final Map<String, UserEntity> userMap = {};
     final Map<String, UserEntity> friendMap = {};
 
-
-    for (final doc in [...usersByNameSnap.docs, ...usersByEmailSnap.docs]){
+    for (final doc in [...usersByNameSnap.docs, ...usersByEmailSnap.docs]) {
       if (doc.id == currentUid) continue;
-      if (friendUids.contains(doc.id)){
+      if (friendUids.contains(doc.id)) {
         friendMap[doc.id] = UserEntity.fromFireStore(doc);
         continue;
       }
       userMap[doc.id] = UserEntity.fromFireStore(doc);
     }
-    final users= {
+    final users = {
       'friend': friendMap.values.toList(),
       'non_friend': userMap.values.toList(),
     };
 
     return users;
-
   }
 }
