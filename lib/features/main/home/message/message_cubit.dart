@@ -48,7 +48,17 @@ class MessageCubit extends Cubit<MessageState> {
         conversation: conversation,
         memberIds: conversation.memberIds ?? [],
       );
+      result.fold(
+        (failure) {
+          return;
+        },
+        (conversationId) {
+          _conversationId = conversationId;
+          subscribeMessage(conversationId);
+        },
+      );
     }
+
     conversationRepos.sendMessage(
       conversationId: _conversationId!,
       message: message,

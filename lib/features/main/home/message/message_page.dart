@@ -1,4 +1,5 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/widgets/app_bar/app_bar_widget.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/data/models/enum/message_type.dart';
@@ -100,7 +101,7 @@ class _MessagePageChildState extends State<MessagePageChild> {
               itemCount: state.messages.length,
               itemBuilder: (context, index) {
                 final message = state.messages[index];
-                if (message.senderId == widget.friend.uid) {
+                if (message.senderId != widget.friend.uid) {
                   return SendMessage(message: message.content);
                 }
                 return ReceiveMessage(message: message.content);
@@ -127,6 +128,7 @@ class _MessagePageChildState extends State<MessagePageChild> {
       content: text,
       createdAt: DateTime.now(),
       type: MessageType.text,
+      senderId: context.read<AppCubit>().state.currentUser?.uid,
     );
     _cubit.sendMessage(newMessage);
   }

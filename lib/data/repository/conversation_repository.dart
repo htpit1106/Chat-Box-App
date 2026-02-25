@@ -9,7 +9,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class ConversationRepository {
-  Future<void> createConversation({
+  Future<Either<Failure, String>> createConversation({
     required ConversationEntity conversation,
     required List<String> memberIds,
   });
@@ -39,35 +39,43 @@ class ConversationRepositoryImpl implements ConversationRepository {
   final currentUid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
-  Future<void> createConversation({
+  Future<Either<Failure, String>> createConversation({
     required ConversationEntity conversation,
     required List<String> memberIds,
   }) async {
-    // create conversation
-    // update conversationId for each friend member
+    try {
+      // create conversation
 
-    // 1.
-    final conversationRef = _firestore.collection('conversations').doc();
-    final newConversationId = conversationRef.id;
-    await _firestore
-        .collection('conversations')
-        .doc(newConversationId)
-        .set(conversation.toJson());
+      // 1.
+      final conversationRef = _firestore.collection('conversations').doc();
+      final newConversationId = conversationRef.id;
+      await _firestore
+          .collection('conversations')
+          .doc(newConversationId)
+          .set(conversation.toJson());
 
-    // 2.
-    for (final memberId in memberIds) {
-      await _firestore
-          .collection('users')
-          .doc(memberId)
-          .collection('friends')
-          .doc(currentUid)
-          .update({'conversation_id': newConversationId});
-      await _firestore
-          .collection('users')
-          .doc(currentUid)
-          .collection('friends')
-          .doc(memberId)
-          .update({'conversation_id': newConversationId});
+      // 2.  // update conversationId for each friend member
+      for (final memberId in memberIds) {
+        if (memberId == currentUid) continue;
+
+        await _firestore
+            .collection('users')
+            .doc(memberId)
+            .collection('friends')
+            .doc(currentUid)
+            .update({'conversation_id': newConversationId});
+
+        await _firestore
+            .collection('users')
+            .doc(currentUid)
+            .collection('friends')
+            .doc(memberId)
+            .update({'conversation_id': newConversationId});
+      }
+      print("currentUid: $currentUid");
+      return Right(newConversationId);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
