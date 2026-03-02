@@ -6,7 +6,7 @@ class AvatarWithStatus extends StatelessWidget {
   final String? avatar;
   final bool isOnline;
 
-  const AvatarWithStatus({super.key,  this.avatar,  this.isOnline = true});
+  const AvatarWithStatus({super.key, this.avatar, this.isOnline = true});
 
   @override
   Widget build(BuildContext context) {

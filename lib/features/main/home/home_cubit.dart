@@ -25,12 +25,12 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(chats: chats));
   }
 
-  void onPressItemChat(ConversationEntity conversation, UserEntity user) {
+  void onPressItemChat(ConversationEntity conversation, UserEntity friend) {
     // conversationRepos.createConversation(
     //   conversation: conversation,
     //   memberIds: conversation.memberIds ?? [],
     // );
-    navigator.openMessagePage(user);
+    navigator.openMessagePage(friend);
   }
 
   void onPressSearch() {

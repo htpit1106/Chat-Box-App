@@ -49,7 +49,7 @@ class ConversationEntity {
     final data = doc.data() as Map<String, dynamic>;
     return ConversationEntity(
       id: doc.id,
-      memberIds:  (data['member_ids'] as List<dynamic>?)
+      memberIds: (data['member_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       lastMessage: data['last_message'],

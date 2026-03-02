@@ -27,11 +27,9 @@ class AppTextButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         minimumSize: Size(minWidth, 48),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-    ),
-      child: Text(text, style: textStyle ?? AppTextStyle.white.s16.w500)
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      child: Text(text, style: textStyle ?? AppTextStyle.white.s16.w500),
     );
   }
 }

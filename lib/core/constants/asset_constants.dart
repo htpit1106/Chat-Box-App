@@ -8,7 +8,6 @@ class AssetConstants {
   static const String logSmall = '$_imagesBasePath/logo_small.png';
   static const String onboardingBg = '$_imagesBasePath/onboarding_bg.png';
 
-
   // social button
   static const String google = '$_iconsBasePath/google.png';
   static const String facebook = '$_iconsBasePath/facebook.png';
@@ -38,11 +37,4 @@ class AssetConstants {
 
   // search
   static const String addFriend = '$_iconsBasePath/add_friend.png';
-
-
-
-
-
-
-
 }

@@ -10,7 +10,8 @@ class NavButton extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isSelected;
 
-  const NavButton({super.key,
+  const NavButton({
+    super.key,
     this.iconPath = AssetConstants.message,
     this.text = 'Message',
     this.onTap,
@@ -29,7 +30,12 @@ class NavButton extends StatelessWidget {
             size: Size(24, 24),
             colorIcon: isSelected ? AppColors.primary : AppColors.tertiary,
           ),
-          Text(text, style: isSelected? AppTextStyle.primary.s16: AppTextStyle.gray.s16)
+          Text(
+            text,
+            style: isSelected
+                ? AppTextStyle.primary.s16
+                : AppTextStyle.gray.s16,
+          ),
         ],
       ),
     );

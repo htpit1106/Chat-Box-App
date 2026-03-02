@@ -1,4 +1,5 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/widgets/app_bar/app_bar_widget.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
@@ -62,7 +63,13 @@ class _MessagePageChildState extends State<MessagePageChild> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        title: Row(spacing: 10, children: [AvatarWithStatus(), Text("Alex")]),
+        title: Row(
+          spacing: 10,
+          children: [
+            AvatarWithStatus(avatar: widget.friend.avatarUrl),
+            Text(widget.friend.name ?? "unknow"),
+          ],
+        ),
         actions: [
           IconButton(
             onPressed: () {},
@@ -74,7 +81,9 @@ class _MessagePageChildState extends State<MessagePageChild> {
           ),
         ],
       ),
-      body: Column(children: [_buildMessageList(), _buildChatInput()]),
+      body: Column(
+        children: [16.height, _buildMessageList(), _buildChatInput()],
+      ),
     );
   }
 
@@ -88,27 +97,33 @@ class _MessagePageChildState extends State<MessagePageChild> {
 
   Widget _buildMessageList() {
     return Expanded(
-      child: BlocBuilder<MessageCubit, MessageState>(
-        builder: (context, state) {
-          if (state.messages.isEmpty) {
-            return const Center(child: Text("No message"));
-          }
-          return Scrollbar(
-            controller: _scrollController,
-            child: ListView.builder(
+      child: Padding(
+        padding: 8.paddingAll,
+        child: BlocConsumer<MessageCubit, MessageState>(
+          listenWhen: (previous, current) =>
+              previous.messages != current.messages,
+          listener: (context, state) => scrollToBottom(),
+          builder: (context, state) {
+            if (state.messages.isEmpty) {
+              return const Center(child: Text("No message"));
+            }
+            return Scrollbar(
               controller: _scrollController,
-              itemExtent: 70,
-              itemCount: state.messages.length,
-              itemBuilder: (context, index) {
-                final message = state.messages[index];
-                if (message.senderId != widget.friend.uid) {
-                  return SendMessage(message: message.content);
-                }
-                return ReceiveMessage(message: message.content);
-              },
-            ),
-          );
-        },
+              child: ListView.builder(
+                controller: _scrollController,
+                itemExtent: 70,
+                itemCount: state.messages.length,
+                itemBuilder: (context, index) {
+                  final message = state.messages[index];
+                  if (message.senderId != widget.friend.uid) {
+                    return SendMessage(message: message.content);
+                  }
+                  return ReceiveMessage(message: message.content);
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

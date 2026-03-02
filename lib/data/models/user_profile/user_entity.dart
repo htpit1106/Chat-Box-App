@@ -13,8 +13,6 @@ class UserEntity {
   final String? fcmToken;
   final DateTime? createdAt;
 
-
-
   UserEntity({
     this.uid,
     this.email,
@@ -26,8 +24,8 @@ class UserEntity {
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 
-
-  factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) =>
+      _$UserEntityFromJson(json);
   Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
   // firestore mapper
@@ -46,7 +44,4 @@ class UserEntity {
       // createdAt: (data['created_at'] as Timestamp?)?.toDate(),
     );
   }
-
 }
-
-

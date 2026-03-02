@@ -5,10 +5,16 @@ class SearchState extends Equatable {
   final List<UserEntity> listNonFriend;
   final List<UserEntity> listFriends;
 
-  const SearchState({this.listNonFriend = const [], this.listFriends = const []});
+  const SearchState({
+    this.listNonFriend = const [],
+    this.listFriends = const [],
+  });
 
   // copy with
-  SearchState copyWith({List<UserEntity>? listNonFriend, List<UserEntity>? listFriends}) {
+  SearchState copyWith({
+    List<UserEntity>? listNonFriend,
+    List<UserEntity>? listFriends,
+  }) {
     return SearchState(
       listNonFriend: listNonFriend ?? this.listNonFriend,
       listFriends: listFriends ?? this.listFriends,

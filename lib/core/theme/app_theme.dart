@@ -13,9 +13,7 @@ class AppThemes {
       primaryColor: AppColors.primary,
       fontFamily: _font,
       scaffoldBackgroundColor: AppColors.backgroundLight,
-      textTheme: TextTheme(
-          labelLarge: AppTextStyle.primary.s16.w500
-      ),
+      textTheme: TextTheme(labelLarge: AppTextStyle.primary.s16.w500),
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.divider, width: 1),
@@ -27,16 +25,12 @@ class AppThemes {
           borderSide: BorderSide(color: AppColors.textRed, width: 1),
         ),
 
-        errorStyle: const TextStyle(
-          height: 0,
-          fontSize: 0,
-        ),
-
+        errorStyle: const TextStyle(height: 0, fontSize: 0),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.backgroundLight,
         elevation: 0,
-      )
+      ),
     );
   }
 
@@ -44,12 +38,9 @@ class AppThemes {
     return ThemeData(
       primaryColor: AppColors.primary,
       fontFamily: _font,
-      textTheme: TextTheme(
-        labelLarge: AppTextStyle.white.s16.bold
-      ),
+      textTheme: TextTheme(labelLarge: AppTextStyle.white.s16.bold),
       scaffoldBackgroundColor: AppColors.backgroundDark,
       inputDecorationTheme: InputDecorationTheme(
-
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.textWhite, width: 1),
         ),

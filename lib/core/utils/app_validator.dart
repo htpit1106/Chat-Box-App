@@ -26,7 +26,10 @@ class AppValidator {
     return null;
   }
 
-  static String? validateConfirmPassword(String? value, String? confirmPassword) {
+  static String? validateConfirmPassword(
+    String? value,
+    String? confirmPassword,
+  ) {
     if (value == null || value.trim().isEmpty) {
       return "Please enter your password";
     } else if (value != confirmPassword) {

@@ -32,7 +32,7 @@ class ChatItem extends StatelessWidget {
     this.onNotification = false,
     this.onPressDelete,
     this.onPressNotification,
-    this.onTap
+    this.onTap,
   });
 
   @override
@@ -57,9 +57,14 @@ class ChatItem extends StatelessWidget {
                   child: Container(
                     width: 44,
                     height: 44,
-                    decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
                     child: Icon(
-                      onNotification == true ? Icons.notifications_active_rounded : Icons.notifications_off,
+                      onNotification == true
+                          ? Icons.notifications_active_rounded
+                          : Icons.notifications_off,
                       color: Colors.white,
                       size: 22,
                     ),
@@ -79,8 +84,14 @@ class ChatItem extends StatelessWidget {
                   child: Container(
                     width: 44,
                     height: 44,
-                    decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                    child: AppAssetImage(path: AssetConstants.trash, fit: BoxFit.none),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: AppAssetImage(
+                      path: AssetConstants.trash,
+                      fit: BoxFit.none,
+                    ),
                   ),
                 );
               },
@@ -88,7 +99,10 @@ class ChatItem extends StatelessWidget {
           ],
         ),
         child: ListTile(
-          leading: AvatarWithStatus(avatar: avatar, isOnline: isOnline ?? false),
+          leading: AvatarWithStatus(
+            avatar: avatar,
+            isOnline: isOnline ?? false,
+          ),
           title: Text(
             name ?? '',
             style: AppTextStyle.black.s18.w500,
@@ -106,11 +120,17 @@ class ChatItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(time ?? 'no time', style: AppTextStyle.gray.s12),
-              if (unreadCount  > 0)
+              if (unreadCount > 0)
                 Container(
                   padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                  child: Text(unreadCount.toString(), style: AppTextStyle.white.s12),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    unreadCount.toString(),
+                    style: AppTextStyle.white.s12,
+                  ),
                 ),
             ],
           ),

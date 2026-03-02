@@ -10,7 +10,6 @@ class AppLabelTextField extends StatelessWidget {
   // onchange
   final ValueChanged<String>? onChanged;
 
-
   const AppLabelTextField({
     super.key,
     required this.label,
@@ -35,21 +34,19 @@ class AppLabelTextField extends StatelessWidget {
             Text(
               label,
               style: hasError
-                  ? Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.copyWith(color: Colors.red)
+                  ? Theme.of(
+                      context,
+                    ).textTheme.labelLarge?.copyWith(color: Colors.red)
                   : Theme.of(context).textTheme.labelLarge,
             ),
             TextFormField(
-
               controller: controller,
               obscureText: obscureText,
               decoration: InputDecoration(
                 hintText: hintText,
                 errorText: field.hasError ? '' : null,
               ),
-              onChanged: (value){
+              onChanged: (value) {
                 field.didChange(value);
                 onChanged?.call(value);
               },
@@ -59,10 +56,7 @@ class AppLabelTextField extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    errorText!,
-                    style:AppTextStyle.red.s12.w500,
-                  ),
+                  child: Text(errorText!, style: AppTextStyle.red.s12.w500),
                 ),
               ),
           ],
@@ -71,4 +65,3 @@ class AppLabelTextField extends StatelessWidget {
     );
   }
 }
-

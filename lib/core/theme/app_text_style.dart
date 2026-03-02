@@ -59,8 +59,6 @@ extension AppTextStyleExt on TextStyle {
   TextStyle get s32 => copyWith(fontSize: 32);
   TextStyle get s68 => copyWith(fontSize: 68);
 
-
-
   // Material size
   TextStyle get bodyTiny => copyWith(fontSize: 10);
 

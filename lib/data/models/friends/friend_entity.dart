@@ -12,17 +12,20 @@ class FriendEntity {
   DateTime? createdAt;
 
   FriendEntity({this.id, this.conversationId, DateTime? createdAt})
-      : createdAt = createdAt ?? DateTime.now();
+    : createdAt = createdAt ?? DateTime.now();
 
-  factory FriendEntity.fromJson(Map<String, dynamic> json) => _$FriendEntityFromJson(json);
+  factory FriendEntity.fromJson(Map<String, dynamic> json) =>
+      _$FriendEntityFromJson(json);
 
   Map<String, dynamic> toJson() => _$FriendEntityToJson(this);
 
-  factory FriendEntity.fromFireStore(DocumentSnapshot doc){
+  factory FriendEntity.fromFireStore(DocumentSnapshot doc) {
     return FriendEntity(
       id: doc.id,
       conversationId: doc['conversation_id'],
-      createdAt: doc['created_at'] == null ? null : DateTime.parse(doc['created_at']),
+      createdAt: doc['created_at'] == null
+          ? null
+          : DateTime.parse(doc['created_at']),
     );
   }
 }

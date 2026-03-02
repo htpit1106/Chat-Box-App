@@ -9,7 +9,10 @@ class HomeState extends Equatable {
   const HomeState({this.onlineFriends = const [], this.chats = const []});
 
   // copy with
-  HomeState copyWith({List<UserEntity>? onlineFriends, List<ConversationEntity>? chats}) {
+  HomeState copyWith({
+    List<UserEntity>? onlineFriends,
+    List<ConversationEntity>? chats,
+  }) {
     return HomeState(
       onlineFriends: onlineFriends ?? this.onlineFriends,
       chats: chats ?? this.chats,

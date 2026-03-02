@@ -9,7 +9,13 @@ class StatusItem extends StatelessWidget {
   final String? name;
   final double value;
   final VoidCallback? onTap;
-  const StatusItem({super.key, this.iconPath, this.name = "My status", this.value = 1, this.onTap});
+  const StatusItem({
+    super.key,
+    this.iconPath,
+    this.name = "My status",
+    this.value = 1,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +47,11 @@ class StatusItem extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: iconPath == null
-                        ? AppAssetImage(path: AssetConstants.onboardingBg,)
+                        ? AppAssetImage(path: AssetConstants.onboardingBg)
                         : Image.network(iconPath!),
                   ),
                 ),
-              ]
+              ],
             ),
             Text(name ?? "", style: AppTextStyle.white.s14),
           ],

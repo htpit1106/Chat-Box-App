@@ -75,10 +75,26 @@ class AppRouter {
       name: registerRouteName,
       builder: (context, state) => SignUpPage(),
     ),
-    GoRoute(path: _loginPath, name: loginRouteName, builder: (context, state) => LogInPage()),
-    GoRoute(name: homeName, path: _homePath, builder: (context, state) => const HomePage()),
-    GoRoute(name: mainName, path: _mainPath, builder: (context, state) => const MainPage()),
-    GoRoute(name: callName, path: _callPath, builder: (context, state) => const CallsPage()),
+    GoRoute(
+      path: _loginPath,
+      name: loginRouteName,
+      builder: (context, state) => LogInPage(),
+    ),
+    GoRoute(
+      name: homeName,
+      path: _homePath,
+      builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
+      name: mainName,
+      path: _mainPath,
+      builder: (context, state) => const MainPage(),
+    ),
+    GoRoute(
+      name: callName,
+      path: _callPath,
+      builder: (context, state) => const CallsPage(),
+    ),
     GoRoute(
       name: contactName,
       path: _contactPath,
@@ -97,6 +113,10 @@ class AppRouter {
         return MessagePage(friend: friend);
       },
     ),
-    GoRoute(name: searchName, path: _searchPath, builder: (context, state) => const SearchPage()),
+    GoRoute(
+      name: searchName,
+      path: _searchPath,
+      builder: (context, state) => const SearchPage(),
+    ),
   ];
 }

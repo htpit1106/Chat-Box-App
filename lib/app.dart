@@ -1,4 +1,5 @@
 import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
+import 'package:chatbox/core/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -44,7 +45,7 @@ class ChatBoxApp extends StatelessWidget {
           builder: (context, state) {
             return GestureDetector(
               onTap: () {
-                FocusScope.of(context).unfocus();
+                hideKeyboard(context);
               },
               child: MaterialApp.router(
                 title: AppConfigs.appName,

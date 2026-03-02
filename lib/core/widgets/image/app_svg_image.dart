@@ -10,14 +10,14 @@ class AppSvgImage extends StatelessWidget {
   final String? package;
 
   const AppSvgImage(
-      this.path, {
-        super.key,
-        this.width,
-        this.height,
-        this.fit = BoxFit.contain,
-        this.colorFilter,
-        this.package,
-      });
+    this.path, {
+    super.key,
+    this.width,
+    this.height,
+    this.fit = BoxFit.contain,
+    this.colorFilter,
+    this.package,
+  });
 
   @override
   Widget build(BuildContext context) {

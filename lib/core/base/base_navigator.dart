@@ -1,4 +1,3 @@
-
 import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/widgets/dialog/app_dialog.dart';
 import 'package:chatbox/navigation/app_router.dart';
@@ -51,11 +50,11 @@ class BaseNavigator {
   /// - [queryParameters]: Parameters to be appended to the route path (e.g., `?search=query`).
   /// - [extra]: An optional object to pass along to the route, accessible via `GoRouterState.extra`.
   void goNamed(
-      String routeName, {
-        Map<String, String> pathParameters = const <String, String>{},
-        Map<String, dynamic> queryParameters = const <String, dynamic>{},
-        Object? extra,
-      }) {
+    String routeName, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
     if (_currentLocation == routeName) return;
     _currentLocation = routeName;
     _clearCurrentLocation();
@@ -83,11 +82,11 @@ class BaseNavigator {
   ///
   /// Parameters are the same as [goNamed].
   Future<T?> pushNamed<T extends Object?>(
-      String routeName, {
-        Map<String, String> pathParameters = const <String, String>{},
-        Map<String, dynamic> queryParameters = const <String, dynamic>{},
-        Object? extra,
-      }) async {
+    String routeName, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) async {
     if (_currentLocation == routeName) return null;
     _currentLocation = routeName;
     _clearCurrentLocation();

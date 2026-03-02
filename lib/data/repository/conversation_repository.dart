@@ -105,6 +105,7 @@ class ConversationRepositoryImpl implements ConversationRepository {
           .collection('conversations')
           .doc(conversationId)
           .get();
+      if (conversationDoc.data() == null) continue;
       final conversation = ConversationEntity.fromFireStore(conversationDoc);
       conversations.add(conversation);
     }

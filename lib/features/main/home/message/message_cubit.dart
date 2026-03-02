@@ -32,6 +32,12 @@ class MessageCubit extends Cubit<MessageState> {
     });
   }
 
+  @override
+  Future<void> close() {
+    _messageSubscription?.cancel();
+    return super.close();
+  }
+
   void sendMessage(MessageEntity message) async {
     if (_conversationId == null || _conversationId!.isEmpty) {
       if (friend.uid == null) return;

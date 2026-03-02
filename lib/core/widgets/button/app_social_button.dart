@@ -21,12 +21,19 @@ class AppSocialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
-      icon: AppAssetImage(path: iconPath, size: const Size(24, 24), colorIcon: colorIcon),
+      icon: AppAssetImage(
+        path: iconPath,
+        size: const Size(24, 24),
+        colorIcon: colorIcon,
+      ),
       style: IconButton.styleFrom(
         padding: 10.paddingAll,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
-          side: BorderSide(color: colorBorder ?? AppColors.borderBlack, width: 1),
+          side: BorderSide(
+            color: colorBorder ?? AppColors.borderBlack,
+            width: 1,
+          ),
         ),
         backgroundColor: Colors.transparent,
       ),

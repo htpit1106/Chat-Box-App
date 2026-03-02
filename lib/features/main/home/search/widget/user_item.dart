@@ -15,7 +15,7 @@ class UserItem extends StatelessWidget {
     super.key,
     this.name,
     this.avatar,
-    this.email ,
+    this.email,
     this.isFriend = false,
     this.onTap,
   });
@@ -40,7 +40,10 @@ class UserItem extends StatelessWidget {
           ? null
           : IconButton(
               onPressed: onTap,
-              icon: AppAssetImage(path: AssetConstants.addFriend, size: Size(18, 18)),
+              icon: AppAssetImage(
+                path: AssetConstants.addFriend,
+                size: Size(18, 18),
+              ),
             ),
     );
   }
