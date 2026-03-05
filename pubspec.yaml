@@ -73,11 +73,15 @@ dependencies:
   cloud_firestore: ^6.1.0
   firebase_messaging: ^16.0.4
 
+  #supabase
+  supabase_flutter:
+
   #network
   dio:
   retrofit:
   pretty_dio_logger:
   flutter_html:
+
 
   #performance
   flutter_debouncer: ^2.1.1
@@ -95,6 +99,9 @@ dev_dependencies:
   build_runner:
   json_serializable:
   dartz: ^0.10.1
+  file_picker:
+  mime:
+  path:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

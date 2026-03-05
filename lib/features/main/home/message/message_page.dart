@@ -1,10 +1,8 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/extensions/num_extension.dart';
-import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/widgets/app_bar/app_bar_widget.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/data/models/enum/message_type.dart';
-import 'package:chatbox/data/models/message/message_entity.dart';
 import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/features/main/home/message/message_cubit.dart';
 import 'package:chatbox/features/main/home/message/widget/chat_input.dart';
@@ -13,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'message_state.dart';
-import 'widget/receive_message.dart';
 import 'widget/send_message.dart';
 
 class MessagePage extends StatelessWidget {
@@ -115,10 +112,15 @@ class _MessagePageChildState extends State<MessagePageChild> {
                 itemCount: state.messages.length,
                 itemBuilder: (context, index) {
                   final message = state.messages[index];
-                  if (message.senderId != widget.friend.uid) {
+                  if (message.type == MessageType.text) {
+                    if (message.senderId != widget.friend.uid) {
+                      return SendMessage(
+                        message: message.content,
+                        isSend: true,
+                      );
+                    }
                     return SendMessage(message: message.content);
                   }
-                  return ReceiveMessage(message: message.content);
                 },
               ),
             );
@@ -133,18 +135,11 @@ class _MessagePageChildState extends State<MessagePageChild> {
       onFocus: scrollToBottom,
       focusNode: _focusNode,
       onTapSend: (text) {
-        sendMessage(text);
+        _cubit.sendMessage(text: text, type: MessageType.text);
+      },
+      onUploadFile: () {
+        _cubit.onUploadFilesTap();
       },
     );
-  }
-
-  void sendMessage(String text) {
-    final MessageEntity newMessage = MessageEntity(
-      content: text,
-      createdAt: DateTime.now(),
-      type: MessageType.text,
-      senderId: context.read<AppCubit>().state.currentUser?.uid,
-    );
-    _cubit.sendMessage(newMessage);
   }
 }

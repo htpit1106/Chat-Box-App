@@ -49,16 +49,6 @@ class ValidatorUtils {
     return null;
   }
 
-  static String? validateUploadFile({required List<File> files}) {
-    if (files.isEmpty) return "Please upload a file";
-    if (files.length > AppConfigs.maxUploadFile) {
-      return "You can only upload ${AppConfigs.maxUploadFile} files at a time";
-    }
-    // todo: check file size
-
-    return null;
-  }
-
   static String? validateImage({required File? file}) {
     final isWebImage = isWebUrl(file?.path);
     if (isWebImage != null && isWebImage) {
@@ -90,6 +80,25 @@ class ValidatorUtils {
   static String? validateUrl(String url) {
     if (isEmptyOrNull(url) || !urlRegex.hasMatch(url)) {
       return "Please enter a valid URL";
+    }
+    return null;
+  }
+
+  static String? validateUploadFile({required List<File> files}) {
+    if (files.isEmpty) {
+      return "Please upload a file";
+    }
+    if (files.length > AppConfigs.maxUploadFile) {
+      return "You can only upload ${AppConfigs.maxUploadFile} files at a time";
+    }
+    final maximumImageSizePerFile = convertMBtoByte(
+      AppConfigs.maxTotalFileSize,
+    );
+    for (final file in files) {
+      final size = file.lengthSync();
+      if (size > maximumImageSizePerFile) {
+        return "File size exceeds the limit of ${convertKBToMB(AppConfigs.maxTotalFileSize.toString())}";
+      }
     }
     return null;
   }

@@ -11,7 +11,11 @@ class MessageEntity {
   String? content;
   DateTime? createdAt;
   final Map<String, bool>? seenBy;
-
+  final String? fileName;
+  final String? fileSize;
+  final String? fileUrl;
+  final String? fileType;
+  final String? status;
   MessageEntity({
     this.id,
     this.senderId,
@@ -19,6 +23,11 @@ class MessageEntity {
     this.content,
     this.createdAt,
     this.seenBy,
+    this.fileName,
+    this.fileSize,
+    this.fileUrl,
+    this.fileType,
+    this.status,
   });
 
   factory MessageEntity.fromJson(Map<String, dynamic> json) =>

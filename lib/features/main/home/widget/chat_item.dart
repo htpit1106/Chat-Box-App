@@ -23,7 +23,7 @@ class ChatItem extends StatelessWidget {
   const ChatItem({
     super.key,
     this.id,
-    this.avatar,
+    this.avatar = AssetConstants.personAvtDefault,
     this.name = "Alex LinderSon",
     this.lastMessage = "How are you today",
     this.time = "2 min agoo",
@@ -37,102 +37,109 @@ class ChatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Slidable(
-        key: Key(id ?? ""),
-        // The end action pane is the one at the right or the bottom side.
-        endActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          extentRatio: 0.3,
-          openThreshold: 0.1,
-          children: [
-            Builder(
-              builder: (context) {
-                return GestureDetector(
-                  onTap: () {
-                    Slidable.of(context)?.close();
-                    onPressNotification?.call();
-                  },
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Slidable(
+          key: Key(id ?? ""),
+          // The end action pane is the one at the right or the bottom side.
+          endActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            extentRatio: 0.4,
+            openThreshold: 0.1,
+            children: [
+              16.width,
+              Builder(
+                builder: (context) {
+                  return GestureDetector(
+                    onTap: () {
+                      Slidable.of(context)?.close();
+                      onPressNotification?.call();
+                    },
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: const BoxDecoration(
+                        color: Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        onNotification == true
+                            ? Icons.notifications_active_rounded
+                            : Icons.notifications_off,
+                        color: Colors.white,
+                        size: 22,
+                      ),
                     ),
-                    child: Icon(
-                      onNotification == true
-                          ? Icons.notifications_active_rounded
-                          : Icons.notifications_off,
-                      color: Colors.white,
-                      size: 22,
-                    ),
-                  ),
-                );
-              },
-            ),
-            16.width,
+                  );
+                },
+              ),
+              16.width,
 
-            Builder(
-              builder: (context) {
-                return GestureDetector(
-                  onTap: () {
-                    Slidable.of(context)?.close(); //
-                    onPressDelete?.call();
-                  },
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: const BoxDecoration(
+              Builder(
+                builder: (context) {
+                  return GestureDetector(
+                    onTap: () {
+                      Slidable.of(context)?.close(); //
+                      onPressDelete?.call();
+                    },
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: AppAssetImage(
+                        path: AssetConstants.trash,
+                        fit: BoxFit.none,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          child: ListTile(
+            dense: true,
+            minVerticalPadding: 0,
+            contentPadding: 0.paddingAll,
+            leading: AvatarWithStatus(
+              avatar: avatar,
+              isOnline: isOnline ?? false,
+            ),
+            title: Text(
+              name ?? '',
+              style: AppTextStyle.black.s18.w500,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              lastMessage ?? 'no message',
+              style: AppTextStyle.gray.s12,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(time ?? 'no time', style: AppTextStyle.gray.s12),
+                if (unreadCount > 0)
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
                       color: Colors.red,
                       shape: BoxShape.circle,
                     ),
-                    child: AppAssetImage(
-                      path: AssetConstants.trash,
-                      fit: BoxFit.none,
+                    child: Text(
+                      unreadCount.toString(),
+                      style: AppTextStyle.white.s12,
                     ),
                   ),
-                );
-              },
+              ],
             ),
-          ],
-        ),
-        child: ListTile(
-          leading: AvatarWithStatus(
-            avatar: avatar,
-            isOnline: isOnline ?? false,
-          ),
-          title: Text(
-            name ?? '',
-            style: AppTextStyle.black.s18.w500,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Text(
-            lastMessage ?? 'no message',
-            style: AppTextStyle.gray.s12,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(time ?? 'no time', style: AppTextStyle.gray.s12),
-              if (unreadCount > 0)
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    unreadCount.toString(),
-                    style: AppTextStyle.white.s12,
-                  ),
-                ),
-            ],
           ),
         ),
       ),

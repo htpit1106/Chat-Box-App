@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ChatInput extends StatefulWidget {
   final VoidCallback? onFocus;
   final FocusNode focusNode;
+  final void Function() onUploadFile;
   // onTapSend tra get text trong controller
   final Function(String text) onTapSend;
   const ChatInput({
@@ -11,6 +12,7 @@ class ChatInput extends StatefulWidget {
     this.onFocus,
     required this.focusNode,
     required this.onTapSend,
+    required this.onUploadFile,
   });
 
   @override
@@ -50,7 +52,10 @@ class _ChatInputState extends State<ChatInput> {
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          const Icon(Icons.attach_file),
+          IconButton(
+            icon: const Icon(Icons.attach_file),
+            onPressed: widget.onUploadFile,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Container(

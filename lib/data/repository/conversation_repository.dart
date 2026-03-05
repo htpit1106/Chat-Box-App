@@ -1,8 +1,9 @@
 import 'package:chatbox/core/constants/key_constants.dart';
 import 'package:chatbox/core/error/failures.dart';
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
-import 'package:chatbox/data/models/friends/friend_entity.dart';
-import 'package:chatbox/data/models/message/message_entity.dart';
+import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
+import 'package:chatbox/data/models/entity/message/message_entity.dart';
+import 'package:chatbox/data/models/params/send_file_param.dart';
 import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -31,6 +32,7 @@ abstract class ConversationRepository {
 
   // get conversation id
   Future<Either<Failure, String>> getConversationId(String friendId);
+  Future<void> sendFile({required SendFileParam param});
 }
 
 class ConversationRepositoryImpl implements ConversationRepository {
@@ -171,5 +173,11 @@ class ConversationRepositoryImpl implements ConversationRepository {
     } catch (e) {
       return Future.value(Left(ServerFailure(message: e.toString())));
     }
+  }
+
+  @override
+  Future<void> sendFile({required SendFileParam param}) {
+    // TODO: implement sendFile
+    throw UnimplementedError();
   }
 }

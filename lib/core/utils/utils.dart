@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:html_unescape/html_unescape_small.dart';
@@ -21,6 +22,10 @@ String convertKBToMB(String sizeInKbString) {
 String generateTimestampFileName({String prefix = '', String suffix = 'zip'}) {
   final timestamp = DateTime.now().millisecondsSinceEpoch;
   return '$prefix$timestamp.$suffix';
+}
+
+int convertMBtoByte(int mb) {
+  return mb * 1024 * 1024;
 }
 //
 // Future<DateTime?> openDatePicker(
@@ -209,8 +214,25 @@ void hideKeyboard(BuildContext context) {
   }
 }
 
-int convertMBtoByte(int mb) {
-  return mb * 1024 * 1024;
+Future<List<File>> pickFiles() async {
+  final result = await FilePicker.platform.pickFiles(
+    allowMultiple: true,
+    type: FileType.custom,
+    allowedExtensions: [
+      'pdf',
+      'doc',
+      'docx',
+      'xls',
+      'xlsx',
+      'ppt',
+      'pptx',
+      'txt',
+      'zip',
+    ],
+  );
+  if (result == null) return [];
+
+  return result.paths.map((path) => File(path!)).toList();
 }
 
 String decodeContent(String? text) {

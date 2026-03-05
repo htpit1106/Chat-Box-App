@@ -2,7 +2,6 @@ class AssetConstants {
   AssetConstants._();
   static const String _imagesBasePath = 'assets/images';
   static const String _iconsBasePath = 'assets/icons';
-  static const String _fontsBasePath = 'assets/fonts';
 
   static const String logoApp = '$_imagesBasePath/logo_app.png';
   static const String logSmall = '$_imagesBasePath/logo_small.png';
@@ -37,4 +36,18 @@ class AssetConstants {
 
   // search
   static const String addFriend = '$_iconsBasePath/add_friend.png';
+
+  // person
+  static const String personAvtDefault = '$_iconsBasePath/user.png';
+
+  //setting
+  static const String account = '$_iconsBasePath/key_setting.png';
+  static const String chatSetting = '$_iconsBasePath/chat_setting.png';
+  static const String notification = '$_iconsBasePath/notify_setting.png';
+  static const String helpSetting = '$_iconsBasePath/help_setting.png';
+  static const String inviteFriend = '$_iconsBasePath/invite_setting.png';
+
+  //contact
+  static const String addFriendContact =
+      '$_iconsBasePath/add_friend_contact.png';
 }

@@ -1,3 +1,4 @@
+import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class AppScaffold extends StatelessWidget {
       body: Column(
         spacing: 20,
         children: [
-          header ?? Container(),
+          SafeArea(child: header ?? Container()),
           Expanded(
             child: Container(
               width: double.infinity,
@@ -30,10 +31,15 @@ class AppScaffold extends StatelessWidget {
                     height: 2,
                     child: VerticalDivider(
                       color: AppColors.greyCD,
-                      thickness: 50,
+                      thickness: 30,
                     ),
                   ),
-                  body ?? Container(),
+                  Expanded(
+                    child: Padding(
+                      padding: 8.paddingHorizontal,
+                      child: body ?? Container(),
+                    ),
+                  ),
                 ],
               ),
             ),

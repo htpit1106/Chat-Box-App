@@ -18,7 +18,10 @@ class AvatarWithStatus extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: avatar == null
-                ? AppAssetImage(path: AssetConstants.onboardingBg)
+                ? AppAssetImage(
+                    path: AssetConstants.personAvtDefault,
+                    colorIcon: Colors.grey,
+                  )
                 : Image.network(avatar!),
           ),
         ),

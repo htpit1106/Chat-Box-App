@@ -1,5 +1,4 @@
-import 'package:chatbox/data/models/friends/friend_entity.dart'
-    show FriendEntity;
+import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
 import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 
 abstract class FriendRepository {
   Future<List<UserEntity>> getOnlineFriends();
+  Future<List<UserEntity>> getContacts();
 
   Future<void> addFriend(String uid);
 
@@ -63,8 +63,24 @@ class FriendRepositoryImpl implements FriendRepository {
   }
 
   @override
+  Future<List<UserEntity>> getContacts() async {
+    if (currentUid == null) return [];
+
+    final snapFriends = await _firestore
+        .collection('users')
+        .doc(currentUid)
+        .collection('friends')
+        .get();
+    List<UserEntity> friends = [];
+    for (final doc in snapFriends.docs) {
+      final friend = await _firestore.collection('users').doc(doc.id).get();
+      friends.add(UserEntity.fromFireStore(friend));
+    }
+    return friends;
+  }
+
+  @override
   Future<List<FriendEntity>> getChattedFriends() {
-    // TODO: implement getFriendsChat
     throw UnimplementedError();
   }
 }
