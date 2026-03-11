@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:html_unescape/html_unescape_small.dart';
+import 'package:image_picker/image_picker.dart';
 
 String formatSize(double? size) {
   if (size == null) return "0.00KB";
@@ -233,6 +234,11 @@ Future<List<File>> pickFiles() async {
   if (result == null) return [];
 
   return result.paths.map((path) => File(path!)).toList();
+}
+
+Future<List<XFile>?> pickImages() async {
+  final result = await ImagePicker().pickMultiImage(limit: 10);
+  return result.map((file) => XFile(file.path)).toList();
 }
 
 String decodeContent(String? text) {

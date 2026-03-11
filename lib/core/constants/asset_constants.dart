@@ -25,6 +25,8 @@ class AssetConstants {
 
   // message
   static const String backArrow = '$_iconsBasePath/back_arrow.png';
+  static const String circleCheck = '$_iconsBasePath/circle_check.png';
+  static const String circleOutline = '$_iconsBasePath/circle_outline.png';
 
   static const String call = '$_iconsBasePath/call.png';
   static const String video = '$_iconsBasePath/video.png';

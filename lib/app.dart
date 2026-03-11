@@ -1,5 +1,6 @@
 import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/utils/utils.dart';
+import 'package:chatbox/data/repository/media_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,6 +29,9 @@ class ChatBoxApp extends StatelessWidget {
         ),
         RepositoryProvider<ConversationRepository>(
           create: (_) => ConversationRepositoryImpl(),
+        ),
+        RepositoryProvider<MediaRepository>(
+          create: (_) => MediaRepositoryImpl(),
         ),
       ],
       child: MultiBlocProvider(

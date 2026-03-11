@@ -18,48 +18,48 @@ class SendMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: isSend ? Alignment.centerRight : Alignment.centerLeft,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!isSend)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: avatar == null
-                  ? AppAssetImage(
-                      path: AssetConstants.onboardingBg,
-                      size: Size(40, 40),
-                    )
-                  : Image.network(avatar!),
-            ),
-          const SizedBox(width: 6),
-          Container(
-            margin: const EdgeInsets.only(bottom: 6),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: isSend ? const Color(0xFF0BA37F) : Colors.grey.shade100,
-              borderRadius: isSend
-                  ? BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    )
-                  : BorderRadius.only(
-                      topRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-            ),
-            child: Text(
-              message ?? '',
-              style: isSend
-                  ? TextStyle(color: Colors.white)
-                  : TextStyle(color: Colors.black),
-            ),
+    return Row(
+      mainAxisAlignment: isSend
+          ? MainAxisAlignment.end
+          : MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (!isSend)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: avatar == null
+                ? AppAssetImage(
+                    path: AssetConstants.onboardingBg,
+                    size: Size(40, 40),
+                  )
+                : Image.network(avatar!),
           ),
-        ],
-      ),
+        const SizedBox(width: 6),
+        Container(
+          margin: const EdgeInsets.only(bottom: 6),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: isSend ? const Color(0xFF0BA37F) : Colors.grey.shade100,
+            borderRadius: isSend
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(16),
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+          ),
+          child: Text(
+            message ?? '',
+            style: isSend
+                ? TextStyle(color: Colors.white)
+                : TextStyle(color: Colors.black),
+          ),
+        ),
+      ],
     );
   }
 }

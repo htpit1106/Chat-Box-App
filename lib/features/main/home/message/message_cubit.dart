@@ -6,11 +6,14 @@ import 'package:chatbox/core/network/supabase_service.dart';
 import 'package:chatbox/core/utils/utils.dart';
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
 import 'package:chatbox/data/models/entity/message/message_entity.dart';
+import 'package:chatbox/data/models/enum/input_mode.dart';
 import 'package:chatbox/data/models/enum/message_type.dart';
 import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/data/repository/conversation_repository.dart';
+import 'package:chatbox/data/repository/media_repository.dart';
 import 'package:chatbox/features/main/home/message/message_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class MessageCubit extends Cubit<MessageState> {
   final ConversationRepository conversationRepos;
@@ -20,11 +23,13 @@ class MessageCubit extends Cubit<MessageState> {
   final AppCubit appCubit;
   final UserEntity friend;
   final SupabaseService supabaseService = SupabaseService();
+  final MediaRepository mediaRepos;
 
   MessageCubit({
     required this.conversationRepos,
     required this.friend,
     required this.appCubit,
+    required this.mediaRepos,
   }) : super(MessageState());
 
   void init(String friendId) async {
@@ -35,6 +40,7 @@ class MessageCubit extends Cubit<MessageState> {
       _conversationId = conversationId;
       subscribeMessage(conversationId);
     });
+    await getMedias();
   }
 
   Future<void> onUploadFilesTap() async {
@@ -47,10 +53,12 @@ class MessageCubit extends Cubit<MessageState> {
         conversationId: _conversationId!,
         folder: 'documents',
       );
-      sendMessage(file: file, type: MessageType.file);
+      sendMessage(file: file, type: MessageType.file, fileUrl: publicUrl);
     }
     emit(state.copyWith(files: files));
   }
+
+  Future<void> onPressCamera() async {}
 
   @override
   Future<void> close() {
@@ -120,5 +128,38 @@ class MessageCubit extends Cubit<MessageState> {
         );
       },
     );
+  }
+
+  void showMedia() {
+    emit(state.copyWith(inputMode: InputMode.media));
+  }
+
+  void showKeyboard() {
+    emit(state.copyWith(inputMode: InputMode.keyboard));
+  }
+
+  void hideInput() {
+    emit(state.copyWith(inputMode: InputMode.none));
+  }
+
+  // medias
+  Future<void> getMedias() async {
+    final medias = await mediaRepos.getRecentMedias();
+    emit(state.copyWith(medias: medias));
+  }
+
+  void toggleSelect(AssetEntity? media) {
+    if (media == null) return;
+    final selected = List<AssetEntity>.from(state.selectedMedias);
+    if (selected.contains(media)) {
+      selected.remove(media);
+    } else {
+      selected.add(media);
+    }
+    emit(state.copyWith(selectedMedias: selected));
+  }
+
+  bool isSelected(AssetEntity media) {
+    return state.selectedMedias.any((e) => e.id == media.id);
   }
 }

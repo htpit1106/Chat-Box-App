@@ -5,14 +5,19 @@ class ChatInput extends StatefulWidget {
   final VoidCallback? onFocus;
   final FocusNode focusNode;
   final void Function() onUploadFile;
-  // onTapSend tra get text trong controller
   final Function(String text) onTapSend;
+  final void Function()? onTapCamera;
+  final void Function()? onTapMicro;
+  final VoidCallback? onTap;
   const ChatInput({
     super.key,
     this.onFocus,
     required this.focusNode,
     required this.onTapSend,
     required this.onUploadFile,
+    this.onTapCamera,
+    this.onTapMicro,
+    this.onTap,
   });
 
   @override
@@ -65,6 +70,7 @@ class _ChatInputState extends State<ChatInput> {
                 borderRadius: BorderRadius.circular(24),
               ),
               child: TextField(
+                onTap: widget.onTap,
                 controller: _controller,
                 focusNode: widget.focusNode,
                 decoration: const InputDecoration(
@@ -96,7 +102,11 @@ class _ChatInputState extends State<ChatInput> {
                 : Row(
                     spacing: 8,
                     children: [
-                      const Icon(Icons.camera_alt),
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt),
+                        onPressed: widget.onTapCamera,
+                      ),
+
                       const Icon(Icons.mic),
                     ],
                   ),
