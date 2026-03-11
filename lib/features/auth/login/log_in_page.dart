@@ -8,7 +8,6 @@ import 'package:chatbox/core/widgets/button/app_text_button.dart';
 import 'package:chatbox/core/widgets/text_field/app_label_text_field.dart';
 import 'package:chatbox/features/intro/onboarding/widget/or_divider.dart';
 import 'package:chatbox/features/intro/onboarding/widget/social_login_button.dart';
-import 'package:chatbox/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +24,7 @@ class LogInPage extends StatelessWidget {
       create: (context) {
         return LogInCubit(
           navigator: LogInNavigator(context: context),
-          authRepository: context.read<AuthRepository>(),
+          authRepository: context.read(),
         );
       },
       child: const LogInPageChild(),
@@ -105,7 +104,7 @@ class _LogInPageChildState extends State<LogInPageChild> {
             validator: AppValidator.validateEmail,
             onChanged: (value) {
               _cubit.changeEnableLogin(value.isNotEmpty);
-            }
+            },
           ),
           AppLabelTextField(
             label: "Password",
@@ -114,8 +113,7 @@ class _LogInPageChildState extends State<LogInPageChild> {
             validator: AppValidator.validateEmpty,
             onChanged: (value) {
               _cubit.changeEnableLogin(value.isNotEmpty);
-            }
-
+            },
           ),
         ],
       ),
@@ -131,7 +129,8 @@ class _LogInPageChildState extends State<LogInPageChild> {
           mainAxisSize: MainAxisSize.min,
           children: [
             BlocBuilder<LogInCubit, LogInState>(
-              buildWhen: (previous, current) => previous.enableLogin != current.enableLogin,
+              buildWhen: (previous, current) =>
+                  previous.enableLogin != current.enableLogin,
               builder: (context, state) {
                 return AppTextButton(
                   enable: state.enableLogin,
@@ -140,7 +139,8 @@ class _LogInPageChildState extends State<LogInPageChild> {
                     if (_formKey.currentState!.validate()) {
                       _cubit.onPressLogIn(
                         email: _emailController.text,
-                        password: _passwordController.text,);
+                        password: _passwordController.text,
+                      );
                     }
                   },
                   color: AppColors.buttonLightGray,

@@ -6,8 +6,6 @@ import 'package:chatbox/core/utils/app_validator.dart';
 import 'package:chatbox/core/widgets/app_bar/app_bar_widget.dart';
 import 'package:chatbox/core/widgets/button/app_text_button.dart';
 import 'package:chatbox/core/widgets/text_field/app_label_text_field.dart';
-import 'package:chatbox/repository/auth_repository.dart';
-import 'package:chatbox/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,8 +21,8 @@ class SignUpPage extends StatelessWidget {
     return BlocProvider<SignUpCubit>(
       create: (context) => SignUpCubit(
         navigator: SignUpNavigator(context: context),
-        authRepositor: context.read<AuthRepository>(),
-        userRepository: context.read<UserRepository>(),
+        authRepositor: context.read(),
+        userRepository: context.read(),
       ),
       child: const SignUpPageChild(),
     );
@@ -78,7 +76,10 @@ class _SignUpPageChildState extends State<SignUpPageChild> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(padding: 24.paddingAll, child: _buildFooter()),
+      bottomNavigationBar: Padding(
+        padding: 24.paddingAll,
+        child: _buildFooter(),
+      ),
     );
   }
 
@@ -127,8 +128,10 @@ class _SignUpPageChildState extends State<SignUpPageChild> {
             label: "Confirm Password",
             controller: _confirmPasswordController,
             obscureText: true,
-            validator: (value) =>
-                AppValidator.validateConfirmPassword(value, _passwordController.text),
+            validator: (value) => AppValidator.validateConfirmPassword(
+              value,
+              _passwordController.text,
+            ),
             onChanged: (value) => _cubit.changeEnableSignUp(value.isNotEmpty),
           ),
         ],
@@ -138,7 +141,8 @@ class _SignUpPageChildState extends State<SignUpPageChild> {
 
   Widget _buildFooter() {
     return BlocBuilder<SignUpCubit, SignUpState>(
-      buildWhen: (previous, current) => previous.enableSignUp != current.enableSignUp,
+      buildWhen: (previous, current) =>
+          previous.enableSignUp != current.enableSignUp,
       builder: (context, state) {
         return AppTextButton(
           text: "Create an account",

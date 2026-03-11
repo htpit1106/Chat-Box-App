@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-class AppBarWidget extends StatelessWidget implements PreferredSizeWidget  {
+class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
   final List<Widget>? actions;
   final Color backgroundColor;
   final Color iconColor;
+  final Widget? title;
+  final TextStyle? titleStyle;
 
   const AppBarWidget({
     super.key,
@@ -12,6 +14,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget  {
     this.actions,
     this.backgroundColor = Colors.white,
     this.iconColor = Colors.black,
+    this.titleStyle,
+    this.title,
   });
 
   @override
@@ -20,6 +24,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget  {
       backgroundColor: backgroundColor,
       elevation: 0,
       centerTitle: false,
+      title: title,
       automaticallyImplyLeading: false,
       leading: IconButton(
         icon: Icon(Icons.arrow_back, color: iconColor),

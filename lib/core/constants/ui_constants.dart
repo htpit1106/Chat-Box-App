@@ -11,12 +11,15 @@ class UiConstants {
   static const double paddingLarge = 24.0;
   static const double paddingExtraLarge = 32.0;
 
-  static const EdgeInsets horizontalPaddingSmall =
-  EdgeInsets.symmetric(horizontal: paddingSmall);
-  static const EdgeInsets horizontalPaddingMedium =
-  EdgeInsets.symmetric(horizontal: paddingMedium);
-  static const EdgeInsets horizontalPaddingLarge =
-  EdgeInsets.symmetric(horizontal: paddingLarge);
+  static const EdgeInsets horizontalPaddingSmall = EdgeInsets.symmetric(
+    horizontal: paddingSmall,
+  );
+  static const EdgeInsets horizontalPaddingMedium = EdgeInsets.symmetric(
+    horizontal: paddingMedium,
+  );
+  static const EdgeInsets horizontalPaddingLarge = EdgeInsets.symmetric(
+    horizontal: paddingLarge,
+  );
   static const EdgeInsets allPaddingMedium = EdgeInsets.all(paddingMedium);
   static const EdgeInsets allPaddingSmall = EdgeInsets.all(paddingSmall);
 
@@ -27,8 +30,9 @@ class UiConstants {
   static const double borderRadiusMedium = 10.0;
   static const double borderRadiusMediumLarge = 14.0;
   static const double borderRadiusLarge = 16.0;
-  static const Radius circularRadiusMedium =
-  Radius.circular(borderRadiusMedium);
+  static const Radius circularRadiusMedium = Radius.circular(
+    borderRadiusMedium,
+  );
 
   // Durations for Animations
   static const Duration shortAnimationDuration = Duration(milliseconds: 200);

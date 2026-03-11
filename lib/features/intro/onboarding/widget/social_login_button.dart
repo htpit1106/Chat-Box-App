@@ -30,6 +30,6 @@ class SocialLoginButton extends StatelessWidget {
           colorIcon: colorIconApple,
         ),
       ],
-    );;
+    );
   }
 }

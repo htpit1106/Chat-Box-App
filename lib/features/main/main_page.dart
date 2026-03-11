@@ -1,6 +1,4 @@
-import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/widgets/button/nav_button.dart';
-import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +11,10 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MainCubit>(create: (context) => MainCubit(), child: const MainTabChild());
+    return BlocProvider<MainCubit>(
+      create: (context) => MainCubit(),
+      child: const MainTabChild(),
+    );
   }
 }
 
@@ -39,22 +40,28 @@ class _MainTabChildState extends State<MainTabChild> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _buildPageView(), bottomNavigationBar: _buildBottomNavigationBar());
+    return Scaffold(
+      body: _buildPageView(),
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
   }
 
   Widget _buildPageView() {
     return PageView(
       controller: _pageController,
-      children: _pagesList,
+      physics: const NeverScrollableScrollPhysics(),
+      allowImplicitScrolling: false,
       onPageChanged: (index) {
         _cubit.changePage(index);
       },
+      children: _pagesList,
     );
   }
 
   Widget _buildBottomNavigationBar() {
     return BlocConsumer<MainCubit, MainState>(
-      buildWhen: (previous, current) => previous.currentPage != current.currentPage,
+      buildWhen: (previous, current) =>
+          previous.currentPage != current.currentPage,
       builder: (context, state) {
         return SizedBox(
           height: 90,

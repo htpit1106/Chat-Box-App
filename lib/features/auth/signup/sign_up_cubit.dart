@@ -1,8 +1,8 @@
-import 'package:chatbox/data/models/user_profile/profile_entity.dart';
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/data/repository/auth_repository.dart';
+import 'package:chatbox/data/repository/user_repository.dart';
 import 'package:chatbox/features/auth/signup/sign_up_navigator.dart';
 import 'package:chatbox/features/auth/signup/sign_up_state.dart';
-import 'package:chatbox/repository/auth_repository.dart';
-import 'package:chatbox/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,8 +11,11 @@ class SignUpCubit extends Cubit<SignUpState> {
   final AuthRepository authRepositor;
   final UserRepository userRepository;
 
-  SignUpCubit({required this.navigator, required this.authRepositor, required this.userRepository})
-    : super(SignUpState(enableSignUp: false));
+  SignUpCubit({
+    required this.navigator,
+    required this.authRepositor,
+    required this.userRepository,
+  }) : super(SignUpState(enableSignUp: false));
 
   Future<void> onPressSignUp({
     required String email,
@@ -20,12 +23,15 @@ class SignUpCubit extends Cubit<SignUpState> {
     required String name,
   }) async {
     try {
-      final credential = await authRepositor.signUp(email: email, password: password);
+      final credential = await authRepositor.signUp(
+        email: email,
+        password: password,
+      );
       final uid = credential.user?.uid;
       if (uid == null) {
         return;
       }
-      final profile = ProfileEntity(uid: uid, email: email, name: name);
+      final profile = UserEntity(uid: uid, email: email, name: name);
       await userRepository.createUserProfile(profile);
       navigator.openHome();
     } catch (e) {
@@ -33,8 +39,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
   }
 
-
-  void changeEnableSignUp(bool enable){
+  void changeEnableSignUp(bool enable) {
     emit(state.copyWith(enableSignUp: enable));
   }
 }

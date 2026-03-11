@@ -8,9 +8,9 @@ class OrDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       children: [
-        Expanded(child: Divider(color: colorDivider )),
+        Expanded(child: Divider(color: colorDivider)),
         Text("   OR   ", style: AppTextStyle.gray.s14.w300),
         Expanded(child: Divider(color: colorDivider)),
       ],

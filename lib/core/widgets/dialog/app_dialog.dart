@@ -1,4 +1,3 @@
-
 import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/theme/app_colors.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
@@ -28,9 +27,7 @@ class AppDialog {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: AppColors.greyCD,
-          shape: RoundedRectangleBorder(
-            borderRadius: 14.radius,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: 14.radius),
           insetPadding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
           content: Container(
@@ -49,15 +46,14 @@ class AppDialog {
                   child: Column(
                     children: [
                       ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minHeight: 48,
-                        ),
+                        constraints: const BoxConstraints(minHeight: 48),
                         child: Padding(
                           padding: 16.paddingAll,
                           child: Center(
                             child: Text(
                               message,
-                              style: textMessageStyle ??
+                              style:
+                                  textMessageStyle ??
                                   AppTextStyle.black.s14.w300,
                               textAlign: TextAlign.center,
                             ),
@@ -92,17 +88,15 @@ class AppDialog {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         },
                         Offstage(
-                          offstage: textConfirm == null ||
+                          offstage:
+                              textConfirm == null ||
                               textConfirm.isEmpty ||
                               textCancel == null ||
                               textCancel.isEmpty,
-                          child: Container(
-                            width: 1,
-                            color: AppColors.divider,
-                          ),
+                          child: Container(width: 1, color: AppColors.divider),
                         ),
                         if (textConfirm != null ||
                             (textConfirm?.isNotEmpty ?? false)) ...{
@@ -124,7 +118,7 @@ class AppDialog {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         },
                       ],
                     ),

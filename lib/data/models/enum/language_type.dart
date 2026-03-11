@@ -26,7 +26,10 @@ extension LanguageExt on Language {
   }
 
   static Language languageFromName(String name) {
-    return Language.values.firstWhere((lang) => lang.name == name, orElse: () => Language.vietnam);
+    return Language.values.firstWhere(
+      (lang) => lang.name == name,
+      orElse: () => Language.vietnam,
+    );
   }
 
   int get id {

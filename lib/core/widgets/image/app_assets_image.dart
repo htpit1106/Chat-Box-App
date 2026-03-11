@@ -13,7 +13,7 @@ class AppAssetImage extends StatelessWidget {
     this.size,
     this.fit,
     this.placeholderImage,
-    this.colorIcon
+    this.colorIcon,
   });
 
   @override
@@ -25,7 +25,7 @@ class AppAssetImage extends StatelessWidget {
       errorBuilder: (context, url, error) {
         return _buildPlaceHolderImage();
       },
-      fit: fit,
+      fit: fit ?? BoxFit.cover,
       color: colorIcon,
     );
   }

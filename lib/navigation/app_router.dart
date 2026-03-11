@@ -1,14 +1,17 @@
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/features/auth/login/log_in_page.dart';
 import 'package:chatbox/features/auth/signup/sign_up_page.dart';
 import 'package:chatbox/features/intro/splash_page.dart';
 import 'package:chatbox/features/main/calls/calls_page.dart';
 import 'package:chatbox/features/main/contacts/contacts_page.dart';
 import 'package:chatbox/features/main/home/home_page.dart';
+import 'package:chatbox/features/main/home/message/message_page.dart';
 import 'package:chatbox/features/main/main_page.dart';
 import 'package:chatbox/features/main/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/intro/onboarding/onboarding_page.dart';
+import '../features/main/home/search/search_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -33,6 +36,8 @@ class AppRouter {
   static const String _contactPath = '/contact';
   static const String _settingPath = '/setting';
   static const String _profilePath = '/profile';
+  static const String _messagePath = '/message';
+  static const String _searchPath = '/search';
 
   // Name
   static const String splashRouteName = 'splash';
@@ -40,8 +45,12 @@ class AppRouter {
   static const String loginRouteName = 'login';
   static const String registerRouteName = 'register';
   static const String forgotPasswordRouteName = 'forgotPassword';
-  static const String homeName = 'home';
   static const String mainName = 'main';
+
+  static const String homeName = 'home';
+  static const String messageName = 'message';
+  static const String searchName = 'search';
+
   static const String callName = 'call';
   static const String contactName = 'contact';
   static const String settingName = 'setting';
@@ -66,11 +75,48 @@ class AppRouter {
       name: registerRouteName,
       builder: (context, state) => SignUpPage(),
     ),
-    GoRoute(path: _loginPath, name: loginRouteName, builder: (context, state) => LogInPage()),
-    GoRoute(name: homeName, path: _homePath, builder: (context, state) => const HomePage()),
-    GoRoute(name: mainName, path: _mainPath, builder: (context, state) => const MainPage()),
-    GoRoute(name: callName, path: _callPath, builder: (context, state) => const CallsPage()),
-    GoRoute(name: contactName, path: _contactPath, builder: (context, state) => const ContactsPage()),
-    GoRoute(name: settingName, path: _settingPath, builder: (context, state) => const SettingsPage()),
+    GoRoute(
+      path: _loginPath,
+      name: loginRouteName,
+      builder: (context, state) => LogInPage(),
+    ),
+    GoRoute(
+      name: homeName,
+      path: _homePath,
+      builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
+      name: mainName,
+      path: _mainPath,
+      builder: (context, state) => const MainPage(),
+    ),
+    GoRoute(
+      name: callName,
+      path: _callPath,
+      builder: (context, state) => const CallsPage(),
+    ),
+    GoRoute(
+      name: contactName,
+      path: _contactPath,
+      builder: (context, state) => const ContactsPage(),
+    ),
+    GoRoute(
+      name: settingName,
+      path: _settingPath,
+      builder: (context, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      name: messageName,
+      path: _messagePath,
+      builder: (context, state) {
+        final friend = state.extra as UserEntity;
+        return MessagePage(friend: friend);
+      },
+    ),
+    GoRoute(
+      name: searchName,
+      path: _searchPath,
+      builder: (context, state) => const SearchPage(),
+    ),
   ];
 }

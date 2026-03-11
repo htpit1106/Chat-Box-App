@@ -15,7 +15,8 @@ class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OnboardingCubit>(
-      create: (context) => OnboardingCubit(navigator: OnboardingNavigator(context: context)),
+      create: (context) =>
+          OnboardingCubit(navigator: OnboardingNavigator(context: context)),
       child: const OnboardingPageChild(),
     );
   }
@@ -45,7 +46,7 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/onboarding_bg.png'),
+            image: AssetImage(AssetConstants.onboardingBg),
             fit: BoxFit.cover,
           ),
         ),
@@ -61,7 +62,10 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
                     text: 'Connect friends ',
                     style: AppTextStyle.white.s68.w300,
                     children: [
-                      TextSpan(text: 'easily & quickly', style: AppTextStyle.white.s68.w500),
+                      TextSpan(
+                        text: 'easily & quickly',
+                        style: AppTextStyle.white.s68.w500,
+                      ),
                     ],
                   ),
                 ),
@@ -69,8 +73,6 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
                   "Our chat app is the perfect way to stay connected with friends and family.",
                   style: AppTextStyle.gray.s16,
                 ),
-
-
 
                 SocialLoginButton(),
                 OrDivider(),
@@ -91,7 +93,9 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
                       text: "Existing account? ",
                       style: AppTextStyle.gray.s16,
 
-                      children: [TextSpan(text: "Log in", style: AppTextStyle.white.s16)],
+                      children: [
+                        TextSpan(text: "Log in", style: AppTextStyle.white.s16),
+                      ],
                     ),
                   ),
                 ),
@@ -102,6 +106,4 @@ class _OnboardingPageChildState extends State<OnboardingPageChild> {
       ),
     );
   }
-
-
 }
