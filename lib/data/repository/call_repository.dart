@@ -29,15 +29,16 @@ class CallRepositoryImpl extends CallRepository {
 
   @override
   Future<void> updateCall(String channelId, String status) {
-    throw UnimplementedError();
+    final callRef = _firestore.collection('calls').doc(channelId);
+    return callRef.update({'status': status});
   }
 
   @override
   Stream<QuerySnapshot<Object?>> listenIncomingCalls(String userId) {
     return _firestore
-        .collection("call")
+        .collection("calls")
         .where("receiverId", isEqualTo: userId)
-        .where("status", isEqualTo: "calling")
+        .where("status", isEqualTo: "ringing")
         .snapshots();
   }
 }

@@ -77,6 +77,11 @@ class _MessagePageChildState extends State<MessagePageChild> {
         actions: [
           IconButton(
             onPressed: () {
+              if (widget.friend.uid == null) return;
+              callCubit.startCall(
+                receiverId: widget.friend.uid!,
+                isVideo: false,
+              );
               callCubit.navigateToCallingScreen(context);
             },
             icon: AppAssetImage(path: AssetConstants.call),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/features/intro/splash_cubit.dart';
@@ -17,6 +15,7 @@ class SplashPage extends StatelessWidget {
         navigator: SplashNavigator(context: context),
         authRepository: context.read(),
         appCubit: context.read(),
+        callsCubit: context.read(),
       ),
       child: const SplashPageChild(),
     );

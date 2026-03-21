@@ -1,8 +1,13 @@
 import 'package:chatbox/data/models/entity/call_entity.dart';
+import 'package:chatbox/features/main/calls/calls_cubit.dart';
+import 'package:chatbox/features/main/calls/calls_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CallingScreen extends StatelessWidget {
   final CallEntity? call;
+
   const CallingScreen({super.key, this.call});
 
   @override
@@ -13,6 +18,7 @@ class CallingScreen extends StatelessWidget {
 
 class CallingScreenChild extends StatefulWidget {
   final CallEntity? call;
+
   const CallingScreenChild({super.key, this.call});
 
   @override
@@ -22,47 +28,56 @@ class CallingScreenChild extends StatefulWidget {
 class _CallingScreenChildState extends State<CallingScreenChild> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          const SizedBox(height: 100),
+    return BlocListener<CallsCubit, CallsState>(
+      listener: (_, state) {
+        if (state.status == CallStatus.ended) {
+          if (context.canPop()) {
+            context.pop();
+          }
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Column(
+          children: [
+            const SizedBox(height: 100),
 
-          // Avatar
-          CircleAvatar(
-            radius: 70,
-            backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
-          ),
-
-          const SizedBox(height: 20),
-
-          const Text(
-            "Nguyễn Văn A",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
+            // Avatar
+            CircleAvatar(
+              radius: 70,
+              backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
             ),
-          ),
 
-          const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
-          const Text("Calling...", style: TextStyle(color: Colors.grey)),
+            const Text(
+              "Nguyễn Văn A",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
 
-          const Spacer(),
+            const SizedBox(height: 10),
 
-          // Control buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildIcon(Icons.mic, "Mute"),
-              _buildIcon(Icons.volume_up, "Speaker"),
-              _buildEndCall(),
-            ],
-          ),
+            const Text("Calling...", style: TextStyle(color: Colors.grey)),
 
-          const SizedBox(height: 80),
-        ],
+            const Spacer(),
+
+            // Control buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildIcon(Icons.mic, "Mute"),
+                _buildIcon(Icons.volume_up, "Speaker"),
+                _buildEndCall(),
+              ],
+            ),
+
+            const SizedBox(height: 80),
+          ],
+        ),
       ),
     );
   }

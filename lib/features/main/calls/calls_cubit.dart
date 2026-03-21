@@ -14,6 +14,7 @@ class CallsCubit extends Cubit<CallsState> {
   final CallRepository callRepos;
   final AgoraService agora;
   StreamSubscription? _incomingSub;
+  StreamSubscription? _callSub;
   final CallsNavigator navigator;
 
   CallsCubit({
@@ -54,29 +55,33 @@ class CallsCubit extends Cubit<CallsState> {
       callerId: callerId,
       receiverId: receiverId,
       channelId: channelId,
-      status: "calling",
+      status: "ringing",
       isVideo: isVideo,
     );
 
     await callRepos.createCall(call);
-    emit(state.copyWith(status: CallStatus.calling, currentCall: call));
-
+    emit(state.copyWith(status: CallStatus.ringing, currentCall: call));
     _listenCall(channelId);
   }
 
   void _listenCall(String channelId) {
-    callRepos.listenCall(channelId).listen((snapshot) async {
+    _callSub?.cancel();
+
+    _callSub = callRepos.listenCall(channelId).listen((snapshot) async {
+      if (!snapshot.exists || snapshot.data() == null) return;
+
       final call = CallEntity.fromMap(snapshot.data() as Map<String, dynamic>);
 
-      if (call.status == "accepted") {
+      if (call.status == "calling") {
         await agora.join(call.channelId);
-
-        emit(state.copyWith(status: CallStatus.connected, currentCall: call));
+        emit(state.copyWith(status: CallStatus.calling, currentCall: call));
       }
 
       if (call.status == "ended") {
         await agora.leave();
-
+        emit(state.copyWith(status: CallStatus.ended));
+      }
+      if (call.status == "rejected") {
         emit(state.copyWith(status: CallStatus.ended));
       }
     });
@@ -86,43 +91,47 @@ class CallsCubit extends Cubit<CallsState> {
     navigator.goToCallingScreen(context);
   }
 
-  /// 📲 Incoming call listener
-  // void listenIncoming(String userId) {
-  //   _incomingSub = callRepos.listenIncomingCalls(userId).listen((snapshot) {
-  //     final call = CallEntity.fromMap(snapshot);
-  //
-  //     emit(state.copyWith(
-  //       status: CallStatus.ringing,
-  //       currentCall: call,
-  //     ));
-  //   });
-  // }
+  // 📲 Incoming call listener
+  void listenIncoming(String userId) {
+    _incomingSub = callRepos.listenIncomingCalls(userId).listen((snapshot) {
+      if (snapshot.docs.isEmpty) return;
+
+      final doc = snapshot.docs.first;
+      final call = CallEntity.fromMap(doc.data() as Map<String, dynamic>);
+      emit(state.copyWith(status: CallStatus.ringing, currentCall: call));
+      navigator.showIncomingCall(call);
+      _listenCall(call.channelId);
+    });
+  }
 
   /// ✅ Accept call
   Future<void> acceptCall() async {
     final call = state.currentCall!;
-    await callRepos.updateCall(call.channelId, "accepted");
+    await callRepos.updateCall(call.channelId, "calling");
 
     await agora.join(call.channelId);
 
     emit(state.copyWith(status: CallStatus.connected));
   }
 
-  // /// ❌ Reject / End
-  // Future<void> endCall() async {
-  //   final call = state.currentCall;
-  //
-  //   if (call != null) {
-  //     await callRepos.endCall(call.channelId);
-  //     await agora.leave();
-  //   }
-  //
-  //   emit(state.copyWith(status: CallStatus.ended));
-  // }
+  /// ❌ Reject / End
+  Future<void> endCall() async {
+    final call = state.currentCall;
+
+    if (call != null && call.status == "calling") {
+      await callRepos.updateCall(call.channelId, "ended");
+      await agora.leave();
+      emit(state.copyWith(status: CallStatus.ended));
+    } else {
+      await callRepos.updateCall(call!.channelId, "rejected");
+      emit(state.copyWith(status: CallStatus.ended));
+    }
+  }
 
   @override
   Future<void> close() {
     _incomingSub?.cancel();
+    _callSub?.cancel();
     return super.close();
   }
 }
