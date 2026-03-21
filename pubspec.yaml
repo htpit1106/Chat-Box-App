@@ -93,6 +93,9 @@ dependencies:
   camerawesome: ^2.0.0
   permission_handler: ^11.3.0
   photo_manager_image_provider: ^2.2.0
+
+  #call:
+  agora_rtc_engine:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
 class CallItem extends StatelessWidget {
   final String name;
   final String time;
   final String avatarUrl;
+  final VoidCallback? onTapCall;
+  final VoidCallback? onTapVideoCall;
 
   const CallItem({
     super.key,
     required this.name,
     required this.time,
     required this.avatarUrl,
+    this.onTapCall,
+    this.onTapVideoCall,
   });
 
   @override
@@ -22,10 +24,7 @@ class CallItem extends StatelessWidget {
         children: [
           // Avatar
           if (avatarUrl.isNotEmpty)
-          CircleAvatar(
-            radius: 24,
-            backgroundImage: NetworkImage(avatarUrl),
-          ),
+            CircleAvatar(radius: 24, backgroundImage: NetworkImage(avatarUrl)),
 
           const SizedBox(width: 12),
 
@@ -44,8 +43,7 @@ class CallItem extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(Icons.call_made,
-                        size: 16, color: Colors.purple),
+                    const Icon(Icons.call_made, size: 16, color: Colors.purple),
                     const SizedBox(width: 4),
                     Text(
                       time,
@@ -66,15 +64,15 @@ class CallItem extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.call_outlined),
                 color: Colors.grey,
-                onPressed: () {},
+                onPressed: onTapCall,
               ),
               IconButton(
                 icon: const Icon(Icons.videocam_outlined),
                 color: Colors.grey,
-                onPressed: () {},
+                onPressed: onTapCall,
               ),
             ],
-          )
+          ),
         ],
       ),
     );

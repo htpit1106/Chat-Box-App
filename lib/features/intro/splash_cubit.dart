@@ -15,6 +15,13 @@ class SplashCubit extends Cubit<void> {
     required this.appCubit,
   }) : super(null);
 
+  void init() {
+    Future.delayed(Duration(seconds: 3), () {
+      checkOnboard();
+    });
+    appCubit.listenComingCall();
+  }
+
   void checkOnboard() async {
     final isFirstRun = await SecureStorageHelper.isFirstRun;
     if (isFirstRun) {

@@ -37,6 +37,7 @@ class ContactsPageChild extends StatefulWidget {
 class _ContactsPageChildState extends State<ContactsPageChild>
     with AutomaticKeepAliveClientMixin {
   late final ContactsCubit _cubit;
+
   @override
   void initState() {
     super.initState();
@@ -47,6 +48,7 @@ class _ContactsPageChildState extends State<ContactsPageChild>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return AppScaffold(header: _buildHeader(), body: _buildBody());
   }
 

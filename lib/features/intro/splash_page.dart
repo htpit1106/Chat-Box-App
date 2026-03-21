@@ -37,10 +37,7 @@ class _SplashPageChildState extends State<SplashPageChild> {
   void initState() {
     super.initState();
     _cubit = BlocProvider.of<SplashCubit>(context);
-    Future.delayed(Duration(seconds: 3), () {
-      if (!mounted) return;
-      _cubit.checkOnboard();
-    });
+    _cubit.init();
   }
 
   @override

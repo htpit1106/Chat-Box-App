@@ -28,9 +28,7 @@ class IncomingCallScreen extends StatelessWidget {
               // Avatar
               CircleAvatar(
                 radius: 70,
-                backgroundImage: NetworkImage(
-                  "https://i.pravatar.cc/300",
-                ),
+                backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
               ),
 
               const SizedBox(height: 20),

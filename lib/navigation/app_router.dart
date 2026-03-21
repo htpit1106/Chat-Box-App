@@ -1,7 +1,9 @@
+import 'package:chatbox/data/models/entity/call_entity.dart';
 import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/features/auth/login/log_in_page.dart';
 import 'package:chatbox/features/auth/signup/sign_up_page.dart';
 import 'package:chatbox/features/intro/splash_page.dart';
+import 'package:chatbox/features/main/calls/calling/calling_screen.dart';
 import 'package:chatbox/features/main/calls/calls_page.dart';
 import 'package:chatbox/features/main/contacts/contacts_page.dart';
 import 'package:chatbox/features/main/home/home_page.dart';
@@ -38,6 +40,7 @@ class AppRouter {
   static const String _profilePath = '/profile';
   static const String _messagePath = '/message';
   static const String _searchPath = '/search';
+  static const callingPage = "/calling";
 
   // Name
   static const String splashRouteName = 'splash';
@@ -55,6 +58,7 @@ class AppRouter {
   static const String contactName = 'contact';
   static const String settingName = 'setting';
   static const String profileName = 'profile';
+  static const String callingRouteName = 'calling';
 
   // Routes
 
@@ -117,6 +121,22 @@ class AppRouter {
       name: searchName,
       path: _searchPath,
       builder: (context, state) => const SearchPage(),
+    ),
+    GoRoute(
+      name: profileName,
+      path: _profilePath,
+      builder: (context, state) => const CallingScreen(),
+    ),
+    GoRoute(
+      name: callingRouteName,
+      path: callingPage,
+      builder: (context, state) {
+        final extra = state.extra as CallEntity?;
+        if (extra == null) {
+          return const CallingScreen();
+        }
+        return CallingScreen(call: extra);
+      },
     ),
   ];
 }

@@ -1,8 +1,25 @@
+import 'package:chatbox/data/models/entity/call_entity.dart';
 import 'package:flutter/material.dart';
 
 class CallingScreen extends StatelessWidget {
-  const CallingScreen({super.key});
+  final CallEntity? call;
+  const CallingScreen({super.key, this.call});
 
+  @override
+  Widget build(BuildContext context) {
+    return CallingScreenChild(call: call);
+  }
+}
+
+class CallingScreenChild extends StatefulWidget {
+  final CallEntity? call;
+  const CallingScreenChild({super.key, this.call});
+
+  @override
+  State<CallingScreenChild> createState() => _CallingScreenChildState();
+}
+
+class _CallingScreenChildState extends State<CallingScreenChild> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,9 +31,7 @@ class CallingScreen extends StatelessWidget {
           // Avatar
           CircleAvatar(
             radius: 70,
-            backgroundImage: NetworkImage(
-              "https://i.pravatar.cc/300",
-            ),
+            backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
           ),
 
           const SizedBox(height: 20),
@@ -32,10 +47,7 @@ class CallingScreen extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          const Text(
-            "Calling...",
-            style: TextStyle(color: Colors.grey),
-          ),
+          const Text("Calling...", style: TextStyle(color: Colors.grey)),
 
           const Spacer(),
 
