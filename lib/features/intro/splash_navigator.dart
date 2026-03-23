@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 class SplashNavigator extends BaseNavigator {
   SplashNavigator({required super.context});
-
   void goOnboarding() {
     context.goNamed(AppRouter.onboardingRouteName);
   }

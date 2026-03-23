@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/features/intro/splash_cubit.dart';
@@ -15,7 +17,6 @@ class SplashPage extends StatelessWidget {
         navigator: SplashNavigator(context: context),
         authRepository: context.read(),
         appCubit: context.read(),
-        callsCubit: context.read(),
       ),
       child: const SplashPageChild(),
     );
@@ -36,7 +37,10 @@ class _SplashPageChildState extends State<SplashPageChild> {
   void initState() {
     super.initState();
     _cubit = BlocProvider.of<SplashCubit>(context);
-    _cubit.init();
+    Future.delayed(Duration(seconds: 3), () {
+      if (!mounted) return;
+      _cubit.checkOnboard();
+    });
   }
 
   @override

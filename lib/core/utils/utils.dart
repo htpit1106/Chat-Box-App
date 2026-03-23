@@ -241,12 +241,6 @@ Future<List<XFile>?> pickImages() async {
   return result.map((file) => XFile(file.path)).toList();
 }
 
-Future<File?> pickImage() async {
-  final result = await ImagePicker().pickImage(source: ImageSource.gallery);
-  if (result == null) return null;
-  return File(result.path);
-}
-
 String decodeContent(String? text) {
   if (text == null || text.isEmpty) return '';
   final unescape = HtmlUnescape();

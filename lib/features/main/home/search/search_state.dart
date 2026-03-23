@@ -1,4 +1,4 @@
-import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class SearchState extends Equatable {

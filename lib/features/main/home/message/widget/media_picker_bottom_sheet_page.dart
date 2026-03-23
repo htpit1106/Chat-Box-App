@@ -21,31 +21,28 @@ class MediaPickerBottomSheet extends StatelessWidget {
   }
 
   Widget _buildMediaGrid() {
-    return InkWell(
-      onTap: onTap,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: AssetEntityImage(
-              media,
-              isOriginal: false,
-              thumbnailSize: const ThumbnailSize(200, 200),
-              fit: BoxFit.cover,
-            ),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: AssetEntityImage(
+            media,
+            isOriginal: false,
+            thumbnailSize: const ThumbnailSize(200, 200),
+            fit: BoxFit.cover,
           ),
+        ),
 
-          Positioned(
-            top: 6,
-            right: 6,
-            child: AppAssetImage(
-              path: isSelected
-                  ? AssetConstants.circleCheck
-                  : AssetConstants.circleOutline,
-              size: const Size(22, 22),
-            ),
+        Positioned(
+          top: 6,
+          right: 6,
+          child: AppAssetImage(
+            path: isSelected
+                ? AssetConstants.circleCheck
+                : AssetConstants.circleOutline,
+            size: const Size(22, 22),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

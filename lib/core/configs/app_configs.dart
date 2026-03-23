@@ -9,7 +9,6 @@ class AppConfigs {
   static const String appName = "C chat";
   static Environment env = Environment.dev;
   static const ThemeMode defaultThemeMode = ThemeMode.system;
-  static const String appIdAgora = "6dd5f920bc2f45b1923633e19c66ab02";
 
   ///API
   static const Duration apiTimeout = Duration(milliseconds: 60000);
