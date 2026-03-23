@@ -7,6 +7,7 @@ import 'package:chatbox/features/main/calls/calling/calling_screen.dart';
 import 'package:chatbox/features/main/calls/calls_page.dart';
 import 'package:chatbox/features/main/calls/incomming_call/incoming_call.dart';
 import 'package:chatbox/features/main/contacts/contacts_page.dart';
+import 'package:chatbox/features/main/contacts/friend_profile/friend_profile_page.dart';
 import 'package:chatbox/features/main/home/home_page.dart';
 import 'package:chatbox/features/main/home/message/message_page.dart';
 import 'package:chatbox/features/main/main_page.dart';
@@ -33,7 +34,6 @@ class AppRouter {
   static const _onboardingPath = '/onboarding';
   static const String _loginPath = '/login';
   static const String _registerPath = '/register';
-  static const String _forgotPasswordPath = '/forgot-password';
   static const String _homePath = '/home';
   static const String _mainPath = '/main';
   static const String _callPath = '/call';
@@ -42,8 +42,9 @@ class AppRouter {
   static const String _profilePath = '/profile';
   static const String _messagePath = '/message';
   static const String _searchPath = '/search';
-  static const callingPage = "/calling";
-  static const incomingCall = "/incoming_call";
+  static const _callingPage = "/calling";
+  static const _incomingCall = "/incoming_call";
+  static const _friendProfile = "/friend_profile";
 
   // Name
   static const String splashRouteName = 'splash';
@@ -63,6 +64,7 @@ class AppRouter {
   static const String profileName = 'profile';
   static const String callingRouteName = 'calling';
   static const String incomingCallRouteName = 'incoming_call';
+  static const String friendProfileRouteName = 'friend_profile';
 
   // Routes
 
@@ -133,7 +135,7 @@ class AppRouter {
     ),
     GoRoute(
       name: callingRouteName,
-      path: callingPage,
+      path: _callingPage,
       builder: (context, state) {
         final extra = state.extra as CallEntity?;
         if (extra == null) {
@@ -144,7 +146,7 @@ class AppRouter {
     ),
     GoRoute(
       name: incomingCallRouteName,
-      path: incomingCall,
+      path: _incomingCall,
       builder: (context, state) {
         final extra = state.extra as CallEntity?;
 
@@ -152,6 +154,15 @@ class AppRouter {
           return const IncomingCallScreen();
         }
         return IncomingCallScreen();
+      },
+    ),
+    GoRoute(
+      name: friendProfileRouteName,
+      path: _friendProfile,
+      builder: (context, state) {
+        final extra = state.extra as UserEntity?;
+       
+        return FriendProfilePage(friendProfile: extra);
       },
     ),
   ];
