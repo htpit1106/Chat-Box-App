@@ -58,7 +58,7 @@ class _CallsPageChildState extends State<CallsPageChild> {
             // );
 
             /// 👉 navigate sang call screen
-            _cubit.navigateToCallingScreen(context);
+            _cubit.navigateToCallingScreen();
           },
         ),
       ],

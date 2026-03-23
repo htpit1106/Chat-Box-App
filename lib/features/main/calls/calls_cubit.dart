@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/network/agora_rtc_service.dart';
 import 'package:chatbox/data/models/entity/call_entity.dart';
 import 'package:chatbox/data/repository/call_repository.dart';
 import 'package:chatbox/features/main/calls/calls_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'calls_navigator.dart';
 
@@ -24,7 +22,6 @@ class CallsCubit extends Cubit<CallsState> {
     required this.navigator,
   }) : super(CallsState());
 
-  /// 📥 Load lịch sử cuộc gọi
   Future<void> loadCalls() async {
     emit(state.copyWith(status: CallStatus.loading));
 
@@ -73,7 +70,9 @@ class CallsCubit extends Cubit<CallsState> {
       final call = CallEntity.fromMap(snapshot.data() as Map<String, dynamic>);
 
       if (call.status == "calling") {
-        await agora.join(call.channelId);
+        final result = await agora.join(call.channelId);
+   
+        navigateToCallingScreen();
         emit(state.copyWith(status: CallStatus.calling, currentCall: call));
       }
 
@@ -87,8 +86,8 @@ class CallsCubit extends Cubit<CallsState> {
     });
   }
 
-  void navigateToCallingScreen(BuildContext context) {
-    navigator.goToCallingScreen(context);
+  void navigateToCallingScreen() {
+    navigator.goToCallingScreen();
   }
 
   // 📲 Incoming call listener
@@ -108,16 +107,11 @@ class CallsCubit extends Cubit<CallsState> {
   Future<void> acceptCall() async {
     final call = state.currentCall!;
     await callRepos.updateCall(call.channelId, "calling");
-
-    await agora.join(call.channelId);
-
-    emit(state.copyWith(status: CallStatus.connected));
+    emit(state.copyWith(status: CallStatus.calling));
   }
 
-  /// ❌ Reject / End
   Future<void> endCall() async {
     final call = state.currentCall;
-
     if (call != null && call.status == "calling") {
       await callRepos.updateCall(call.channelId, "ended");
       await agora.leave();

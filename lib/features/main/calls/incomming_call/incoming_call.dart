@@ -110,7 +110,7 @@ class _IncomingCallScreenChildState extends State<IncomingCallScreenChild> {
                         icon: Icons.call,
                         color: Colors.green,
                         label: "Accept",
-                        onPressed: () {},
+                        onPressed: () => _cubit.acceptCall(),
                       ),
                     ],
                   ),

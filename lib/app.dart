@@ -52,7 +52,7 @@ class ChatBoxApp extends StatelessWidget {
             create: (context) => CallsCubit(
               callRepos: context.read(),
               appCubit: context.read(),
-              agora: AgoraService(),
+              agora: AgoraService()..init(),
               navigator: CallsNavigator(context: context),
             ),
           ),

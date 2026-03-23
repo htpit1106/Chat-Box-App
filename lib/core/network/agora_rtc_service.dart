@@ -6,25 +6,27 @@ class AgoraService {
   bool _initialized = false;
 
   Future<void> init() async {
-    if (_initialized) return; // ✅ CHỐNG LẶP
-
+    if (_initialized) return;
     engine = createAgoraRtcEngine();
-
     await engine.initialize(RtcEngineContext(appId: AppConfigs.appIdAgora));
-
     await engine.enableVideo();
-
     _initialized = true;
   }
 
   Future<void> join(String channelId) async {
-    await init(); // ✅ đảm bảo luôn init trước
-
+    await init();
+    await engine.startPreview();
     await engine.joinChannel(
       token: "",
       channelId: channelId,
-      uid: 0,
-      options: const ChannelMediaOptions(),
+      uid: DateTime.now().millisecondsSinceEpoch % 100000,
+      options: const ChannelMediaOptions(
+        clientRoleType: ClientRoleType.clientRoleBroadcaster,
+        publishCameraTrack: true,
+        publishMicrophoneTrack: true,
+        autoSubscribeAudio: true,
+        autoSubscribeVideo: true,
+      ),
     );
   }
 

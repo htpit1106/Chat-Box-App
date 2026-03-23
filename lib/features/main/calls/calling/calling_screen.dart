@@ -1,4 +1,6 @@
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:chatbox/data/models/entity/call_entity.dart';
+import 'package:chatbox/features/main/calls/calling/calling_screen_cubit.dart';
 import 'package:chatbox/features/main/calls/calls_cubit.dart';
 import 'package:chatbox/features/main/calls/calls_state.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,10 @@ class CallingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CallingScreenChild(call: call);
+    return BlocProvider<CallingScreenCubit>(
+      create: (context) => CallingScreenCubit(callsCubit: context.read()),
+      child: CallingScreenChild(call: call),
+    );
   }
 }
 
@@ -26,6 +31,14 @@ class CallingScreenChild extends StatefulWidget {
 }
 
 class _CallingScreenChildState extends State<CallingScreenChild> {
+  late final CallingScreenCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CallsCubit, CallsState>(
@@ -36,49 +49,64 @@ class _CallingScreenChildState extends State<CallingScreenChild> {
           }
         }
       },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Column(
+      child: Scaffold(backgroundColor: Colors.black, body: _buildBody()),
+    );
+  }
+
+  Widget _buildBody() {
+    return Stack(
+      children: [
+        AgoraVideoView(
+          controller: VideoViewController(
+            rtcEngine: context.read<CallsCubit>().agora.engine,
+            canvas: const VideoCanvas(uid: 0),
+          ),
+        ),
+        _buildOverlayPage(),
+      ],
+    );
+  }
+
+  Widget _buildOverlayPage() {
+    return Column(
+      children: [
+        const SizedBox(height: 100),
+
+        // Avatar
+        CircleAvatar(
+          radius: 70,
+          backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
+        ),
+
+        const SizedBox(height: 20),
+
+        const Text(
+          "Nguyễn Văn A",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 10),
+
+        const Text("Calling...", style: TextStyle(color: Colors.grey)),
+
+        const Spacer(),
+
+        // Control buttons
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const SizedBox(height: 100),
-
-            // Avatar
-            CircleAvatar(
-              radius: 70,
-              backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              "Nguyễn Văn A",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Text("Calling...", style: TextStyle(color: Colors.grey)),
-
-            const Spacer(),
-
-            // Control buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildIcon(Icons.mic, "Mute"),
-                _buildIcon(Icons.volume_up, "Speaker"),
-                _buildEndCall(),
-              ],
-            ),
-
-            const SizedBox(height: 80),
+            _buildIcon(Icons.mic, "Mute"),
+            _buildIcon(Icons.volume_up, "Speaker"),
+            _buildEndCall(),
           ],
         ),
-      ),
+
+        const SizedBox(height: 80),
+      ],
     );
   }
 
@@ -97,16 +125,21 @@ class _CallingScreenChildState extends State<CallingScreenChild> {
   }
 
   Widget _buildEndCall() {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: Colors.red,
-          child: const Icon(Icons.call_end, color: Colors.white),
-        ),
-        const SizedBox(height: 10),
-        const Text("End", style: TextStyle(color: Colors.white)),
-      ],
+    return GestureDetector(
+      onTap: () {
+        _cubit.rejectCall();
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.red,
+            child: const Icon(Icons.call_end, color: Colors.white),
+          ),
+          const SizedBox(height: 10),
+          const Text("End", style: TextStyle(color: Colors.white)),
+        ],
+      ),
     );
   }
 }

@@ -82,7 +82,7 @@ class _MessagePageChildState extends State<MessagePageChild> {
                 receiverId: widget.friend.uid!,
                 isVideo: false,
               );
-              callCubit.navigateToCallingScreen(context);
+              callCubit.navigateToCallingScreen();
             },
             icon: AppAssetImage(path: AssetConstants.call),
           ),
