@@ -3,8 +3,8 @@ import 'package:chatbox/core/error/failures.dart';
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
 import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
 import 'package:chatbox/data/models/entity/message/message_entity.dart';
-import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/data/models/params/send_file_param.dart';
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +32,6 @@ abstract class ConversationRepository {
 
   // get conversation id
   Future<Either<Failure, String>> getConversationId(String friendId);
-
   Future<void> sendFile({required SendFileParam param});
 }
 

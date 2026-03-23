@@ -1,21 +1,17 @@
 import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/utils/utils.dart';
-import 'package:chatbox/data/repository/call_repository.dart';
 import 'package:chatbox/data/repository/media_repository.dart';
-import 'package:chatbox/features/main/calls/calls_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/configs/app_configs.dart';
 import 'core/global/app_cubit/app_navigator.dart';
-import 'core/network/agora_rtc_service.dart';
 import 'core/theme/app_theme.dart';
 import 'data/repository/auth_repository.dart';
 import 'data/repository/conversation_repository.dart';
 import 'data/repository/friend_repository.dart';
 import 'data/repository/user_repository.dart';
-import 'features/main/calls/calls_navigator.dart';
 import 'generated/l10n.dart';
 import 'navigation/app_router.dart';
 
@@ -37,7 +33,6 @@ class ChatBoxApp extends StatelessWidget {
         RepositoryProvider<MediaRepository>(
           create: (_) => MediaRepositoryImpl(),
         ),
-        RepositoryProvider<CallRepository>(create: (_) => CallRepositoryImpl()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -45,15 +40,6 @@ class ChatBoxApp extends StatelessWidget {
             create: (context) => AppCubit(
               navigator: AppNavigator(context: context),
               userRepos: context.read(),
-              callRepos: context.read(),
-            ),
-          ),
-          BlocProvider<CallsCubit>(
-            create: (context) => CallsCubit(
-              callRepos: context.read(),
-              appCubit: context.read(),
-              agora: AgoraService()..init(),
-              navigator: CallsNavigator(context: context),
             ),
           ),
         ],

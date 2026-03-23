@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/network/supabase_service.dart';
 import 'package:chatbox/core/utils/utils.dart';
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
 import 'package:chatbox/data/models/entity/message/message_entity.dart';
-import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/data/models/enum/input_mode.dart';
 import 'package:chatbox/data/models/enum/message_type.dart';
+import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:chatbox/data/repository/conversation_repository.dart';
 import 'package:chatbox/data/repository/media_repository.dart';
 import 'package:chatbox/features/main/home/message/message_state.dart';
