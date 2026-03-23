@@ -1,4 +1,4 @@
-import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,10 @@ abstract class UserRepository {
 
   // search by name and email
   Future<Map<String, List<UserEntity>>> searchUsersByNameOrEmail(String query);
+
   Future<UserEntity?> getCurrentUserProfile();
+
+  Future<void> updateProfile(UserEntity? profile);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -101,5 +104,14 @@ class UserRepositoryImpl implements UserRepository {
     };
 
     return users;
+  }
+
+  @override
+  Future<void> updateProfile(UserEntity? profile) async {
+    if (profile == null) return;
+    await _firestore
+        .collection('users')
+        .doc(profile.uid)
+        .update(profile.toJson());
   }
 }

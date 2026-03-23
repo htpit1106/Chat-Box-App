@@ -7,6 +7,8 @@ class AppLabelTextField extends StatelessWidget {
   final TextEditingController? controller;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final String? initialValue;
+
   // onchange
   final ValueChanged<String>? onChanged;
 
@@ -18,6 +20,7 @@ class AppLabelTextField extends StatelessWidget {
     this.obscureText = false,
     this.validator,
     this.onChanged,
+    this.initialValue,
   });
 
   @override

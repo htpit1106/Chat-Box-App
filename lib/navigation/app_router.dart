@@ -1,5 +1,5 @@
 import 'package:chatbox/data/models/entity/call_entity.dart';
-import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/features/auth/login/log_in_page.dart';
 import 'package:chatbox/features/auth/signup/sign_up_page.dart';
 import 'package:chatbox/features/intro/splash_page.dart';
@@ -10,6 +10,7 @@ import 'package:chatbox/features/main/contacts/contacts_page.dart';
 import 'package:chatbox/features/main/home/home_page.dart';
 import 'package:chatbox/features/main/home/message/message_page.dart';
 import 'package:chatbox/features/main/main_page.dart';
+import 'package:chatbox/features/main/settings/profile/profile_page.dart';
 import 'package:chatbox/features/main/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -128,7 +129,7 @@ class AppRouter {
     GoRoute(
       name: profileName,
       path: _profilePath,
-      builder: (context, state) => const CallingScreen(),
+      builder: (context, state) => const ProfilePage(),
     ),
     GoRoute(
       name: callingRouteName,

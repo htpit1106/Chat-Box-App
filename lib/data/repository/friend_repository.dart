@@ -1,11 +1,12 @@
 import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
-import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 abstract class FriendRepository {
   Future<List<UserEntity>> getOnlineFriends();
+
   Future<List<UserEntity>> getContacts();
 
   Future<void> addFriend(String uid);

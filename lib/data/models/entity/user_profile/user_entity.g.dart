@@ -16,6 +16,7 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) => UserEntity(
       ? null
       : DateTime.parse(json['last_seen'] as String),
   fcmToken: json['fcm_token'] as String?,
+  birthday: json['birthday'] as String?,
   createdAt: json['created_at'] == null
       ? null
       : DateTime.parse(json['created_at'] as String),
@@ -31,4 +32,5 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'last_seen': instance.lastSeen?.toIso8601String(),
       'fcm_token': instance.fcmToken,
       'created_at': instance.createdAt?.toIso8601String(),
+      'birthday': instance.birthday,
     };
