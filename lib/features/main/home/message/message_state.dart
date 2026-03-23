@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chatbox/data/models/entity/message/message_entity.dart';
+import 'package:chatbox/data/models/entity/message_entity.dart';
 import 'package:chatbox/data/models/enum/input_mode.dart';
 import 'package:equatable/equatable.dart';
 import 'package:photo_manager/photo_manager.dart';

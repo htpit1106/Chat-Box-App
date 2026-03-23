@@ -182,6 +182,7 @@ class _MessagePageChildState extends State<MessagePageChild> {
                       fileSize: message.fileSize ?? '',
                     );
                   }
+                  return const SizedBox();
                 },
               ),
             );

@@ -1,8 +1,8 @@
 import 'package:chatbox/core/constants/key_constants.dart';
 import 'package:chatbox/core/error/failures.dart';
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
-import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
-import 'package:chatbox/data/models/entity/message/message_entity.dart';
+import 'package:chatbox/data/models/entity/friend_entity.dart';
+import 'package:chatbox/data/models/entity/message_entity.dart';
 import 'package:chatbox/data/models/params/send_file_param.dart';
 import 'package:chatbox/data/models/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,7 +37,6 @@ abstract class ConversationRepository {
 
 class ConversationRepositoryImpl implements ConversationRepository {
   final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
   final currentUid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
