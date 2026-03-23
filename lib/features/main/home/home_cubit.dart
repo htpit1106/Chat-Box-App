@@ -1,5 +1,5 @@
 import 'package:chatbox/data/models/conversation/conversation_entity.dart';
-import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/data/repository/conversation_repository.dart';
 import 'package:chatbox/data/repository/friend_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
