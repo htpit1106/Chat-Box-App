@@ -3,11 +3,13 @@ import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
 import 'package:chatbox/core/widgets/app_bar/custom_appbar.dart';
 import 'package:chatbox/core/widgets/app_scaffold.dart';
-import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/features/main/contacts/contacts_state.dart';
 import 'package:chatbox/features/main/settings/widget/setting_list_item.dart';
+import 'package:chatbox/navigation/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'contacts_cubit.dart';
 import 'contacts_navigator.dart';
@@ -37,6 +39,7 @@ class ContactsPageChild extends StatefulWidget {
 class _ContactsPageChildState extends State<ContactsPageChild>
     with AutomaticKeepAliveClientMixin {
   late final ContactsCubit _cubit;
+
   @override
   void initState() {
     super.initState();
@@ -47,6 +50,7 @@ class _ContactsPageChildState extends State<ContactsPageChild>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return AppScaffold(header: _buildHeader(), body: _buildBody());
   }
 
@@ -117,6 +121,9 @@ class _ContactsPageChildState extends State<ContactsPageChild>
           title: contact.name,
           subtitle: contact.email,
           icon: contact.avatarUrl,
+          onTap: () {
+            _cubit.navigateToFriendProfile(contact);
+          },
         );
       }, childCount: contacts.length),
     );

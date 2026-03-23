@@ -9,6 +9,7 @@ class ChatInput extends StatefulWidget {
   final void Function()? onTapCamera;
   final void Function()? onTapMicro;
   final VoidCallback? onTap;
+  final bool canSend;
   const ChatInput({
     super.key,
     this.onFocus,
@@ -18,6 +19,7 @@ class ChatInput extends StatefulWidget {
     this.onTapCamera,
     this.onTapMicro,
     this.onTap,
+    this.canSend = false,
   });
 
   @override
@@ -86,7 +88,7 @@ class _ChatInputState extends State<ChatInput> {
           8.width,
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 100),
-            child: _hasText
+            child: (_hasText || widget.canSend)
                 ? GestureDetector(
                     onTap: () {
                       final text = _controller.text.trim();

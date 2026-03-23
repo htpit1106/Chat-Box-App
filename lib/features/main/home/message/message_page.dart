@@ -2,9 +2,10 @@ import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/extensions/num_extension.dart';
 import 'package:chatbox/core/widgets/app_bar/app_bar_widget.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
+import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/data/models/enum/input_mode.dart';
 import 'package:chatbox/data/models/enum/message_type.dart';
-import 'package:chatbox/data/models/user_profile/user_entity.dart';
+import 'package:chatbox/features/main/calls/calls_cubit.dart';
 import 'package:chatbox/features/main/home/message/message_cubit.dart';
 import 'package:chatbox/features/main/home/message/widget/chat_input.dart';
 import 'package:chatbox/features/main/home/message/widget/file_message.dart';
@@ -48,12 +49,14 @@ class _MessagePageChildState extends State<MessagePageChild> {
   final _scrollController = ScrollController();
   final _focusNode = FocusNode();
   late final MessageCubit _cubit;
+  late final CallsCubit callCubit;
 
   @override
   void initState() {
     super.initState();
     _cubit = context.read<MessageCubit>();
     _cubit.init(widget.friend.uid.toString());
+    callCubit = context.read<CallsCubit>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
       scrollToBottom();
@@ -73,7 +76,14 @@ class _MessagePageChildState extends State<MessagePageChild> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              if (widget.friend.uid == null) return;
+              callCubit.startCall(
+                receiverId: widget.friend.uid!,
+                isVideo: false,
+              );
+              callCubit.navigateToCallingScreen();
+            },
             icon: AppAssetImage(path: AssetConstants.call),
           ),
           IconButton(
@@ -209,6 +219,7 @@ class _MessagePageChildState extends State<MessagePageChild> {
         _focusNode.unfocus();
         _cubit.showMedia();
       },
+      canSend: true,
     );
   }
 }
