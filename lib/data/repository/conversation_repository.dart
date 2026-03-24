@@ -4,7 +4,6 @@ import 'package:chatbox/data/models/conversation/conversation_entity.dart';
 import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
 import 'package:chatbox/data/models/entity/message/message_entity.dart';
 import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
-import 'package:chatbox/data/models/params/send_file_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,25 +14,24 @@ abstract class ConversationRepository {
     required List<String> memberIds,
   });
 
-  Future<List<ConversationEntity>> getChattedConversations(
+  Future<Either<Failure, void>> updateConversation(
+    ConversationEntity conversation,
+  );
+
+  Stream<Either<Failure, List<ConversationEntity>>> getChattedConversations(
     List<UserEntity> friends,
   );
 
-  // get all message
   Stream<Either<Failure, List<MessageEntity>>> getMessages(
     String conversationId,
   );
 
-  // send message
   Future<Either<Failure, void>> sendMessage({
     required MessageEntity message,
     required String conversationId,
   });
 
-  // get conversation id
   Future<Either<Failure, String>> getConversationId(String friendId);
-
-  Future<void> sendFile({required SendFileParam param});
 }
 
 class ConversationRepositoryImpl implements ConversationRepository {
@@ -52,6 +50,7 @@ class ConversationRepositoryImpl implements ConversationRepository {
       // 1.
       final conversationRef = _firestore.collection('conversations').doc();
       final newConversationId = conversationRef.id;
+      conversation = conversation.copyWith(id: newConversationId);
       await _firestore
           .collection('conversations')
           .doc(newConversationId)
@@ -75,7 +74,6 @@ class ConversationRepositoryImpl implements ConversationRepository {
             .doc(memberId)
             .update({'conversation_id': newConversationId});
       }
-      print("currentUid: $currentUid");
       return Right(newConversationId);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -83,36 +81,43 @@ class ConversationRepositoryImpl implements ConversationRepository {
   }
 
   @override
-  Future<List<ConversationEntity>> getChattedConversations(
+  Stream<Either<Failure, List<ConversationEntity>>> getChattedConversations(
     List<UserEntity> friends,
-  ) async {
-    // 1.
-    if (currentUid == null) return [];
-    final List<ConversationEntity> conversations = [];
-    for (final friend in friends) {
-      if (friend.uid == null) continue;
-
-      // get conversaId from friends - sub-collection of users
-      final friendDoc = await _firestore
-          .collection('users')
-          .doc(currentUid)
-          .collection('friends')
-          .doc(friend.uid)
-          .get();
-      final data = FriendEntity.fromFireStore(friendDoc);
-      final conversationId = data.conversationId;
-      if (conversationId == null || conversationId.isEmpty) continue;
-
-      // get conversation from conversationId
-      final conversationDoc = await _firestore
-          .collection('conversations')
-          .doc(conversationId)
-          .get();
-      if (conversationDoc.data() == null) continue;
-      final conversation = ConversationEntity.fromFireStore(conversationDoc);
-      conversations.add(conversation);
+  ) {
+    if (currentUid == null) {
+      return Stream.value(Left(ServerFailure(message: 'User not found')));
     }
-    return conversations;
+
+    return _firestore
+        .collection('users')
+        .doc(currentUid)
+        .collection('friends')
+        .snapshots()
+        .asyncMap((snapshot) async {
+          try {
+            final futures = snapshot.docs.map((doc) async {
+              final data = FriendEntity.fromFireStore(doc);
+              final conversationId = data.conversationId;
+
+              if (conversationId == null || conversationId.isEmpty) return null;
+
+              final conversationDoc = await _firestore
+                  .collection('conversations')
+                  .doc(conversationId)
+                  .get();
+
+              if (!conversationDoc.exists) return null;
+
+              return ConversationEntity.fromFireStore(conversationDoc);
+            });
+
+            final results = await Future.wait(futures);
+
+            return Right(results.whereType<ConversationEntity>().toList());
+          } catch (e) {
+            return Left(ServerFailure(message: e.toString()));
+          }
+        });
   }
 
   @override
@@ -160,8 +165,9 @@ class ConversationRepositoryImpl implements ConversationRepository {
   @override
   Future<Either<Failure, String>> getConversationId(String friendId) async {
     try {
-      if (currentUid == null)
+      if (currentUid == null) {
         return Future.value(Left(ServerFailure(message: 'User not found')));
+      }
       final res = _firestore
           .collection('users')
           .doc(currentUid)
@@ -177,8 +183,17 @@ class ConversationRepositoryImpl implements ConversationRepository {
   }
 
   @override
-  Future<void> sendFile({required SendFileParam param}) {
-    // TODO: implement sendFile
-    throw UnimplementedError();
+  Future<Either<Failure, void>> updateConversation(
+    ConversationEntity conversation,
+  ) async {
+    try {
+      final conversationRef = _firestore
+          .collection('conversations')
+          .doc(conversation.id);
+      await conversationRef.update(conversation.toJonUpdate());
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
   }
 }

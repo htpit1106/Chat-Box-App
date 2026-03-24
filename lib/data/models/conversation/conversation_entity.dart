@@ -45,6 +45,13 @@ class ConversationEntity {
 
   Map<String, dynamic> toJson() => _$ConversationEntityToJson(this);
 
+  Map<String, dynamic> toJonUpdate() {
+    final data = toJson();
+    // remove null field
+    data.removeWhere((key, value) => value == null);
+    return data;
+  }
+
   factory ConversationEntity.fromFireStore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return ConversationEntity(

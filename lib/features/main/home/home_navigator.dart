@@ -13,4 +13,8 @@ class HomeNavigator extends BaseNavigator {
   void openSearchPage() {
     context.pushNamed(AppRouter.searchName);
   }
+
+  void openProfilePage(UserEntity user) {
+    context.pushNamed(AppRouter.profileName, extra: user);
+  }
 }

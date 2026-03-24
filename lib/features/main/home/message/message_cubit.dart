@@ -42,6 +42,48 @@ class MessageCubit extends Cubit<MessageState> {
     await getMedias();
   }
 
+  Future<File?> _getFile(AssetEntity entity) async {
+    return await entity.file;
+  }
+
+  Future<void> _createConversation() async {
+    if (friend.uid == null) return;
+    final currentUser = appCubit.state.currentUser;
+    if (currentUser == null) return;
+
+    final conversation = ConversationEntity(
+      memberIds: [friend.uid!, currentUser.uid!],
+      lastMessageAt: DateTime.now(),
+      lastSenderId: friend.uid,
+      isGroup: false,
+    );
+    final result = await conversationRepos.createConversation(
+      conversation: conversation,
+      memberIds: conversation.memberIds ?? [],
+    );
+    result.fold(
+      (failure) {
+        return;
+      },
+      (conversationId) {
+        _conversationId = conversationId;
+        subscribeMessage(conversationId);
+      },
+    );
+  }
+
+  void subscribeMessage(String conversationId) {
+    _messageSubscription?.cancel();
+    _messageSubscription = conversationRepos.getMessages(conversationId).listen(
+      (result) {
+        result.fold(
+          (failure) {},
+          (messages) => emit(state.copyWith(messages: messages)),
+        );
+      },
+    );
+  }
+
   Future<void> onUploadFilesTap() async {
     final List<File> files = await pickFiles();
     if (files.isEmpty) return;
@@ -89,44 +131,30 @@ class MessageCubit extends Cubit<MessageState> {
       conversationId: _conversationId!,
       message: message,
     );
-  }
-
-  Future<void> _createConversation() async {
-    if (friend.uid == null) return;
-    final currentUser = appCubit.state.currentUser;
-    if (currentUser == null) return;
 
     final conversation = ConversationEntity(
-      memberIds: [friend.uid!, currentUser.uid!],
+      id: _conversationId,
+      lastMessage: type.lastMessage(text),
       lastMessageAt: DateTime.now(),
-      lastSenderId: friend.uid,
-      isGroup: false,
+      lastSenderId: appCubit.state.currentUser?.uid,
     );
-    final result = await conversationRepos.createConversation(
-      conversation: conversation,
-      memberIds: conversation.memberIds ?? [],
-    );
-    result.fold(
-      (failure) {
-        return;
-      },
-      (conversationId) {
-        _conversationId = conversationId;
-        subscribeMessage(conversationId);
-      },
-    );
+    conversationRepos.updateConversation(conversation);
   }
 
-  void subscribeMessage(String conversationId) {
-    _messageSubscription?.cancel();
-    _messageSubscription = conversationRepos.getMessages(conversationId).listen(
-      (result) {
-        result.fold(
-          (failure) {},
-          (messages) => emit(state.copyWith(messages: messages)),
-        );
-      },
-    );
+  Future<void> uploadSelectedMedias() async {
+    for (final media in state.selectedMedias) {
+      final file = await _getFile(media);
+      if (file == null) continue;
+
+      final publicUrl = await supabaseService.uploadFileToSupabase(
+        file: file,
+        conversationId: _conversationId!,
+        folder: 'images',
+      );
+      sendMessage(type: MessageType.image, file: file, fileUrl: publicUrl);
+    }
+
+    emit(state.copyWith(selectedMedias: []));
   }
 
   void showMedia() {
@@ -156,9 +184,16 @@ class MessageCubit extends Cubit<MessageState> {
       selected.add(media);
     }
     emit(state.copyWith(selectedMedias: selected));
+    if (selected.isEmpty) {
+      emit(state.copyWith(inputMode: InputMode.keyboard));
+    }
   }
 
   bool isSelected(AssetEntity media) {
     return state.selectedMedias.any((e) => e.id == media.id);
+  }
+
+  bool hasSelected() {
+    return state.selectedMedias.isNotEmpty;
   }
 }

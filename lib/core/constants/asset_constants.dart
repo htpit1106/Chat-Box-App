@@ -1,5 +1,6 @@
 class AssetConstants {
   AssetConstants._();
+
   static const String _imagesBasePath = 'assets/images';
   static const String _iconsBasePath = 'assets/icons';
 
@@ -52,4 +53,10 @@ class AssetConstants {
   //contact
   static const String addFriendContact =
       '$_iconsBasePath/add_friend_contact.png';
+  static const String errorLoadImage = '$_imagesBasePath/error_load_img.png';
+
+  // call
+  static const String missedCall = '$_iconsBasePath/missed_call.png';
+  static const String incomingCall = '$_iconsBasePath/incoming_call.png';
+  static const String outgoingCall = '$_iconsBasePath/outgoing_call.png';
 }
