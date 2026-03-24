@@ -1,13 +1,13 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
-import 'package:chatbox/core/widgets/image/app_assets_image.dart';
+import 'package:chatbox/core/widgets/image/app_cache_image.dart';
 import 'package:flutter/material.dart';
 
 class SettingListItem extends StatelessWidget {
   final String? icon;
   final String? title;
   final TextStyle? titleStyle;
-  final String? subtitle;
+  final Widget? subtitle;
   final Size? iconSize;
   final Widget? trailing;
   final VoidCallback? onTap;
@@ -30,7 +30,7 @@ class SettingListItem extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: ListTile(
-          leading: AppAssetImage(
+          leading: AppCacheImage(
             path: icon ?? AssetConstants.personAvtDefault,
             size: iconSize,
           ),
@@ -38,14 +38,7 @@ class SettingListItem extends StatelessWidget {
             title ?? "",
             style: titleStyle ?? AppTextStyle.black.s16.w500,
           ),
-          subtitle: subtitle != null
-              ? Text(
-                  subtitle!,
-                  style: AppTextStyle.gray.s12,
-                  softWrap: false,
-                  overflow: TextOverflow.fade,
-                )
-              : null,
+          subtitle: subtitle,
           trailing: trailing,
         ),
       ),

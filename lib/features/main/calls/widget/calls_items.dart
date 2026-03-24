@@ -59,20 +59,6 @@ class CallItem extends StatelessWidget {
           ),
 
           // Action icons
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.call_outlined),
-                color: Colors.grey,
-                onPressed: onTapCall,
-              ),
-              IconButton(
-                icon: const Icon(Icons.videocam_outlined),
-                color: Colors.grey,
-                onPressed: onTapCall,
-              ),
-            ],
-          ),
         ],
       ),
     );

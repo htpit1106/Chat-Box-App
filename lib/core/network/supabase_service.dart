@@ -17,7 +17,7 @@ class SupabaseService {
 
     await supabase.storage.from('chat-files').upload(filePath, file);
     final publicUrl = supabase.storage
-        .from('chat_files')
+        .from('chat-files')
         .getPublicUrl(filePath);
     return publicUrl;
   }

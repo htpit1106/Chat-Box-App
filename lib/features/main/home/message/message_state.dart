@@ -11,6 +11,7 @@ class MessageState extends Equatable {
   final List<File> files;
   final List<AssetEntity> selectedMedias;
   final List<AssetEntity> medias;
+
   const MessageState({
     this.messages = const [],
     this.files = const [],

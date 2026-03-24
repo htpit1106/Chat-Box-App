@@ -1,8 +1,12 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/core/extensions/num_extension.dart';
+import 'package:chatbox/core/theme/app_text_style.dart';
 import 'package:chatbox/core/widgets/app_bar/custom_appbar.dart';
 import 'package:chatbox/core/widgets/app_scaffold.dart';
+import 'package:chatbox/core/widgets/image/app_assets_image.dart';
+import 'package:chatbox/data/models/enum/call_type.dart';
 import 'package:chatbox/features/main/calls/calls_cubit.dart';
-import 'package:chatbox/features/main/calls/widget/calls_items.dart';
+import 'package:chatbox/features/main/settings/widget/setting_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,21 +49,32 @@ class _CallsPageChildState extends State<CallsPageChild> {
   }
 
   Widget _buildBody() {
+    print(CallType.outgoing.icon);
     return ListView(
       children: [
-        CallItem(
-          name: 'alec',
-          time: 'today',
-          avatarUrl: '',
-          onTapCall: () {
-            // context.read<CallsCubit>().startCall(
-            //   receiverId: call.receiverId,
-            //   isVideo: true,
-            // );
-
-            /// 👉 navigate sang call screen
-            _cubit.navigateToCallingScreen();
-          },
+        SettingListItem(
+          title: "hoang thi phuong",
+          subtitle: Wrap(
+            children: [
+              AppAssetImage(path: CallType.outgoing.icon),
+              4.width,
+              Text("today", style: AppTextStyle.gray.s12),
+            ],
+          ),
+          trailing: Wrap(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.call_outlined),
+                color: Colors.grey,
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(Icons.videocam_outlined),
+                color: Colors.grey,
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
       ],
     );

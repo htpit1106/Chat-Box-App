@@ -8,14 +8,11 @@ import 'package:chatbox/data/models/enum/message_type.dart';
 import 'package:chatbox/features/main/calls/calls_cubit.dart';
 import 'package:chatbox/features/main/home/message/message_cubit.dart';
 import 'package:chatbox/features/main/home/message/widget/chat_input.dart';
-import 'package:chatbox/features/main/home/message/widget/file_message.dart';
 import 'package:chatbox/features/main/home/message/widget/media_picker_bottom_sheet_page.dart';
 import 'package:chatbox/features/main/home/widget/avatar_with_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'message_state.dart';
-import 'widget/send_message.dart';
 
 class MessagePage extends StatelessWidget {
   final UserEntity friend;
@@ -71,7 +68,7 @@ class _MessagePageChildState extends State<MessagePageChild> {
           spacing: 10,
           children: [
             AvatarWithStatus(avatar: widget.friend.avatarUrl),
-            Text(widget.friend.name ?? "unknow"),
+            Expanded(child: Text(widget.friend.name ?? "unknow")),
           ],
         ),
         actions: [
@@ -167,31 +164,17 @@ class _MessagePageChildState extends State<MessagePageChild> {
               controller: _scrollController,
               child: ListView.builder(
                 controller: _scrollController,
-                itemExtent: 70,
                 itemCount: state.messages.length,
                 itemBuilder: (context, index) {
                   final message = state.messages[index];
-                  if (message.type == MessageType.text) {
-                    if (message.senderId != widget.friend.uid) {
-                      return SendMessage(
-                        message: message.content,
-                        isSend: true,
-                      );
-                    }
-                    return SendMessage(message: message.content);
-                  } else if (message.type == MessageType.file) {
-                    if (message.senderId != widget.friend.uid) {
-                      return FileMessage(
-                        fileName: message.fileName ?? '',
-                        fileSize: message.fileSize ?? '',
-                        isSend: true,
-                      );
-                    }
-                    return FileMessage(
-                      fileName: message.fileName ?? '',
-                      fileSize: message.fileSize ?? '',
-                    );
-                  }
+                  final isSend =
+                      message.senderId ==
+                      _cubit.appCubit.state.currentUser?.uid;
+                  return message.type?.buildMessage(
+                    message: message,
+                    isSend: isSend,
+                    avatar: widget.friend.avatarUrl,
+                  );
                 },
               ),
             );
@@ -202,24 +185,32 @@ class _MessagePageChildState extends State<MessagePageChild> {
   }
 
   Widget _buildChatInput() {
-    return ChatInput(
-      onFocus: scrollToBottom,
-      focusNode: _focusNode,
-      onTap: () {
-        _cubit.hideInput();
-        _cubit.showKeyboard();
+    return BlocBuilder<MessageCubit, MessageState>(
+      builder: (context, state) {
+        return ChatInput(
+          onFocus: scrollToBottom,
+          focusNode: _focusNode,
+          onTap: () {
+            _cubit.hideInput();
+            _cubit.showKeyboard();
+          },
+          onTapSend: (text) {
+            if (text.isNotEmpty) {
+              _cubit.sendMessage(text: text, type: MessageType.text);
+            } else if (_cubit.hasSelected()) {
+              _cubit.uploadSelectedMedias();
+            }
+          },
+          onUploadFile: () {
+            _cubit.onUploadFilesTap();
+          },
+          onTapCamera: () async {
+            _focusNode.unfocus();
+            _cubit.showMedia();
+          },
+          canSend: _cubit.hasSelected(),
+        );
       },
-      onTapSend: (text) {
-        _cubit.sendMessage(text: text, type: MessageType.text);
-      },
-      onUploadFile: () {
-        _cubit.onUploadFilesTap();
-      },
-      onTapCamera: () async {
-        _focusNode.unfocus();
-        _cubit.showMedia();
-      },
-      canSend: true,
     );
   }
 }

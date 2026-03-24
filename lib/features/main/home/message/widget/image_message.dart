@@ -1,19 +1,20 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
+import 'package:chatbox/core/widgets/image/app_cache_image.dart';
 import 'package:flutter/material.dart';
 
-class SendMessage extends StatelessWidget {
-  final String? message;
+class ImageMessage extends StatelessWidget {
   final String time;
   final bool isSend;
   final String? avatar;
+  final String filePath;
 
-  const SendMessage({
+  const ImageMessage({
     super.key,
-    this.message = "You did your job well!",
     String? time,
     this.isSend = false,
     this.avatar,
+    this.filePath = AssetConstants.errorLoadImage,
   }) : time = time ?? "12:00";
 
   @override
@@ -30,7 +31,7 @@ class SendMessage extends StatelessWidget {
             child: avatar == null
                 ? AppAssetImage(
                     path: AssetConstants.onboardingBg,
-                    size: Size(40, 40),
+                    size: const Size(40, 40),
                   )
                 : Image.network(
                     avatar!,
@@ -39,29 +40,29 @@ class SendMessage extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
           ),
-        const SizedBox(width: 6),
+
+        if (!isSend) const SizedBox(width: 6),
+
         Container(
           margin: const EdgeInsets.only(bottom: 6),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: isSend ? const Color(0xFF0BA37F) : Colors.grey.shade100,
             borderRadius: isSend
-                ? BorderRadius.only(
+                ? const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     bottomLeft: Radius.circular(16),
                     bottomRight: Radius.circular(16),
                   )
-                : BorderRadius.only(
+                : const BorderRadius.only(
                     topRight: Radius.circular(16),
                     bottomLeft: Radius.circular(16),
                     bottomRight: Radius.circular(16),
                   ),
           ),
-          child: Text(
-            message ?? '',
-            style: isSend
-                ? TextStyle(color: Colors.white)
-                : TextStyle(color: Colors.black),
+          child: AppCacheImage(
+            path: filePath,
+            size: const Size(150, 150),
+            shape: BoxShape.rectangle,
           ),
         ),
       ],

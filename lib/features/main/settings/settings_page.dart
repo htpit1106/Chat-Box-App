@@ -69,7 +69,14 @@ class _SettingsPageChildState extends State<SettingsPageChild> {
             child: SettingListItem(
               icon: user?.avatarUrl,
               title: user?.name,
-              subtitle: user?.email,
+              subtitle: user?.email != null
+                  ? Text(
+                      user!.email!,
+                      style: AppTextStyle.gray.s12,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    )
+                  : null,
               iconSize: Size(60, 60),
               titleStyle: AppTextStyle.black.s20.w500,
               trailing: Icon(Icons.qr_code_scanner, color: AppColors.primary),
@@ -85,22 +92,42 @@ class _SettingsPageChildState extends State<SettingsPageChild> {
       children: [
         SettingListItem(
           title: "Account",
-          subtitle: "Privacy, security, change number",
+          subtitle: Text(
+            "Privacy, security, change number",
+            style: AppTextStyle.gray.s12,
+            softWrap: false,
+            overflow: TextOverflow.fade,
+          ),
           icon: AssetConstants.account,
         ),
         SettingListItem(
           title: "Chat",
-          subtitle: "Chat history, theme, wallpapers",
+          subtitle: Text(
+            "Chat history, theme, wallpapers",
+            style: AppTextStyle.gray.s12,
+            softWrap: false,
+            overflow: TextOverflow.fade,
+          ),
           icon: AssetConstants.chatSetting,
         ),
         SettingListItem(
           title: "Notifications",
-          subtitle: "Messages, group and others",
+          subtitle: Text(
+            "Messages, group and others",
+            style: AppTextStyle.gray.s12,
+            softWrap: false,
+            overflow: TextOverflow.fade,
+          ),
           icon: AssetConstants.notification,
         ),
         SettingListItem(
           title: "Help",
-          subtitle: "Help center, contact us, privacy policy",
+          subtitle: Text(
+            "Help center, contact us, privacy policy",
+            style: AppTextStyle.gray.s12,
+            softWrap: false,
+            overflow: TextOverflow.fade,
+          ),
           icon: AssetConstants.helpSetting,
         ),
         SettingListItem(

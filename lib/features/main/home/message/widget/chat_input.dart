@@ -10,6 +10,7 @@ class ChatInput extends StatefulWidget {
   final void Function()? onTapMicro;
   final VoidCallback? onTap;
   final bool canSend;
+
   const ChatInput({
     super.key,
     this.onFocus,
@@ -92,9 +93,10 @@ class _ChatInputState extends State<ChatInput> {
                 ? GestureDetector(
                     onTap: () {
                       final text = _controller.text.trim();
-                      if (text.isEmpty) return;
                       widget.onTapSend(text);
-                      _controller.clear();
+                      if (text.isNotEmpty) {
+                        _controller.clear();
+                      }
                     },
                     child: CircleAvatar(
                       backgroundColor: const Color(0xFF0BA37F),

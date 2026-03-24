@@ -20,29 +20,41 @@ class AppCacheImage extends StatelessWidget {
     this.size,
     this.fit = BoxFit.cover,
     this.placeholderImage,
-    this.shape = BoxShape.rectangle,
+    this.shape = BoxShape.circle,
   });
 
   @override
   Widget build(BuildContext context) {
     bool isNetworkUrl =
         path.startsWith('http://') || path.startsWith('https://');
-    bool isFilePath = path.isNotEmpty && !isNetworkUrl;
+    bool isAssetFile = path.startsWith('assets/');
+    bool isFilePath = path.isNotEmpty && !isNetworkUrl && !isAssetFile;
     return Container(
       width: size?.width,
       height: size?.height,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(shape: shape),
-      child: _buildContent(isNetworkUrl: isNetworkUrl, isFilePath: isFilePath),
+      child: _buildContent(
+        isNetworkUrl: isNetworkUrl,
+        isFilePath: isFilePath,
+        isAssetFile: isAssetFile,
+      ),
     );
   }
 
-  Widget _buildContent({required bool isNetworkUrl, required bool isFilePath}) {
+  Widget _buildContent({
+    required bool isNetworkUrl,
+    required bool isFilePath,
+    required bool isAssetFile,
+  }) {
     if (isNetworkUrl) {
       return _buildNetworkImage();
     }
     if (isFilePath) {
       return _buildLocalImage();
+    }
+    if (isAssetFile) {
+      return AppAssetImage(path: path, size: size ?? const Size(50, 50));
     }
     return _buildPlaceHolderImage();
   }

@@ -1,4 +1,3 @@
-import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
 import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +11,6 @@ abstract class FriendRepository {
   Future<void> addFriend(String uid);
 
   // friend has chat conversation;
-  Future<List<FriendEntity>> getChattedFriends();
 }
 
 class FriendRepositoryImpl implements FriendRepository {
@@ -78,10 +76,5 @@ class FriendRepositoryImpl implements FriendRepository {
       friends.add(UserEntity.fromFireStore(friend));
     }
     return friends;
-  }
-
-  @override
-  Future<List<FriendEntity>> getChattedFriends() {
-    throw UnimplementedError();
   }
 }
