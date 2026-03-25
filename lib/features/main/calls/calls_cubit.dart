@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/network/agora_rtc_service.dart';
 import 'package:chatbox/data/models/entity/call_entity.dart';
+import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/data/repository/call_repository.dart';
 import 'package:chatbox/features/main/calls/calls_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,16 +31,16 @@ class CallsCubit extends Cubit<CallsState> {
       _callHistory = callRepos
           .getCallHistory(appCubit.state.currentUser?.uid)
           .listen((result) {
-            result.fold((left) {}, (snapshots) {
-              final calls = snapshots.docs
-                  .map(
-                    (doc) =>
-                        CallEntity.fromMap(doc.data() as Map<String, dynamic>),
-                  )
-                  .toList();
-              emit(state.copyWith(calls: calls));
-            });
-          });
+        result.fold((left) {}, (snapshots) {
+          final calls = snapshots.docs
+              .map(
+                (doc) =>
+                CallEntity.fromMap(doc.data() as Map<String, dynamic>),
+          )
+              .toList();
+          emit(state.copyWith(calls: calls));
+        });
+      });
     } catch (e) {
       emit(state.copyWith(status: CallStatus.error, error: e.toString()));
     }
@@ -47,20 +48,26 @@ class CallsCubit extends Cubit<CallsState> {
 
   // start call
   Future<void> startCall({
-    required String receiverId,
+    required UserEntity receiver,
     required bool isVideo,
   }) async {
-    final channelId = DateTime.now().millisecondsSinceEpoch.toString();
-    final callerId = appCubit.state.currentUser?.uid;
-
-    if (callerId == null) return;
-
+    final channelId = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
+    final currentUser = appCubit.state.currentUser;
+    if (currentUser == null) return;
     final call = CallEntity(
-      callerId: callerId,
-      receiverId: receiverId,
+      callerId: currentUser.uid,
+      receiverId: receiver.uid,
+      callerName: currentUser.name,
+      callerAvatar: currentUser.avatarUrl,
+      receiverName: receiver.name,
+      receiverAvatar: receiver.avatarUrl,
       channelId: channelId,
       status: "ringing",
       isVideo: isVideo,
+      participants: [currentUser.uid, receiver.uid],
     );
 
     await callRepos.createCall(call);

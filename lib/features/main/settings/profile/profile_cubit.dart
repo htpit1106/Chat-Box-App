@@ -67,7 +67,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
 
     await userRepos.updateProfile(userInfo);
-    appCubit.updateProfile(userInfo);
+    await appCubit.updateProfile(userInfo);
+
     navigator.pop();
   }
 }

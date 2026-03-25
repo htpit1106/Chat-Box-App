@@ -88,53 +88,55 @@ class _SettingsPageChildState extends State<SettingsPageChild> {
   }
 
   Widget _buildListSettingItem() {
-    return Column(
-      children: [
-        SettingListItem(
-          title: "Account",
-          subtitle: Text(
-            "Privacy, security, change number",
-            style: AppTextStyle.gray.s12,
-            softWrap: false,
-            overflow: TextOverflow.fade,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SettingListItem(
+            title: "Account",
+            subtitle: Text(
+              "Privacy, security, change number",
+              style: AppTextStyle.gray.s12,
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+            icon: AssetConstants.account,
           ),
-          icon: AssetConstants.account,
-        ),
-        SettingListItem(
-          title: "Chat",
-          subtitle: Text(
-            "Chat history, theme, wallpapers",
-            style: AppTextStyle.gray.s12,
-            softWrap: false,
-            overflow: TextOverflow.fade,
+          SettingListItem(
+            title: "Chat",
+            subtitle: Text(
+              "Chat history, theme, wallpapers",
+              style: AppTextStyle.gray.s12,
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+            icon: AssetConstants.chatSetting,
           ),
-          icon: AssetConstants.chatSetting,
-        ),
-        SettingListItem(
-          title: "Notifications",
-          subtitle: Text(
-            "Messages, group and others",
-            style: AppTextStyle.gray.s12,
-            softWrap: false,
-            overflow: TextOverflow.fade,
+          SettingListItem(
+            title: "Notifications",
+            subtitle: Text(
+              "Messages, group and others",
+              style: AppTextStyle.gray.s12,
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+            icon: AssetConstants.notification,
           ),
-          icon: AssetConstants.notification,
-        ),
-        SettingListItem(
-          title: "Help",
-          subtitle: Text(
-            "Help center, contact us, privacy policy",
-            style: AppTextStyle.gray.s12,
-            softWrap: false,
-            overflow: TextOverflow.fade,
+          SettingListItem(
+            title: "Help",
+            subtitle: Text(
+              "Help center, contact us, privacy policy",
+              style: AppTextStyle.gray.s12,
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+            icon: AssetConstants.helpSetting,
           ),
-          icon: AssetConstants.helpSetting,
-        ),
-        SettingListItem(
-          title: "Invite a friend",
-          icon: AssetConstants.inviteFriend,
-        ),
-      ],
+          SettingListItem(
+            title: "Invite a friend",
+            icon: AssetConstants.inviteFriend,
+          ),
+        ],
+      ),
     );
   }
 }

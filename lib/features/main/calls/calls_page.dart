@@ -64,7 +64,6 @@ class _CallsPageChildState extends State<CallsPageChild> {
           itemBuilder: (context, index) {
             final call = calls[index];
             return SettingListItem(
-              iconSize: Size(50, 50),
               title: "phuong hoang thi",
               subtitle: Wrap(
                 children: [

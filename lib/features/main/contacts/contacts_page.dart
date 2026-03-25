@@ -116,7 +116,6 @@ class _ContactsPageChildState extends State<ContactsPageChild>
         final contact = contacts[index];
         return SettingListItem(
           title: contact.name,
-          iconSize: Size(50, 50),
           subtitle: contact.email != null
               ? Text(
                   contact.email!,

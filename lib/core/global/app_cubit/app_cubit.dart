@@ -27,7 +27,7 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(currentUser: result));
   }
 
-  void updateProfile(UserEntity? profile) {
+  Future<void> updateProfile(UserEntity? profile) async {
     emit(state.copyWith(currentUser: profile));
   }
 }

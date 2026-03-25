@@ -56,7 +56,7 @@ class CallRepositoryImpl extends CallRepository {
       }
       final callRef = _firestore
           .collection("calls")
-          .where("receiverId", isEqualTo: userId)
+          .where("participants", arrayContains: userId)
           .snapshots();
       return callRef.map((snapshot) => Right(snapshot));
     } catch (e) {

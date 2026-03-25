@@ -30,8 +30,8 @@ class AppCacheImage extends StatelessWidget {
     bool isAssetFile = path.startsWith('assets/');
     bool isFilePath = path.isNotEmpty && !isNetworkUrl && !isAssetFile;
     return Container(
-      width: size?.width,
-      height: size?.height,
+      width: size?.width ?? 50,
+      height: size?.height ?? 50,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(shape: shape),
       child: _buildContent(
