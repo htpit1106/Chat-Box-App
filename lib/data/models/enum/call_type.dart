@@ -1,4 +1,5 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/data/models/entity/call_entity.dart';
 
 enum CallType { incoming, missed, outgoing }
 
@@ -24,6 +25,19 @@ extension CallTypeExt on CallType {
         return CallType.outgoing;
       default:
         return CallType.outgoing;
+    }
+  }
+
+  static String avatarTypeString(String? type, CallEntity call) {
+    switch (type) {
+      case "incoming":
+        return call.callerAvatar ?? "";
+      case "rejected":
+        return call.receiverAvatar ?? "";
+      case "outgoing":
+        return call.receiverAvatar ?? "";
+      default:
+        return "";
     }
   }
 }
