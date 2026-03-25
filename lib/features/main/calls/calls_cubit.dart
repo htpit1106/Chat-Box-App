@@ -13,6 +13,7 @@ class CallsCubit extends Cubit<CallsState> {
   final AgoraService agora;
   StreamSubscription? _incomingSub;
   StreamSubscription? _callSub;
+  StreamSubscription? _callHistory;
   final CallsNavigator navigator;
 
   CallsCubit({
@@ -23,16 +24,22 @@ class CallsCubit extends Cubit<CallsState> {
   }) : super(CallsState());
 
   Future<void> loadCalls() async {
+    _callHistory?.cancel();
     emit(state.copyWith(status: CallStatus.loading));
-
     try {
-      // final calls = await firestore.getCallHistory(); // bạn tự implement
-      emit(
-        state.copyWith(
-          status: CallStatus.success,
-          // calls: calls,
-        ),
-      );
+      _callHistory = callRepos
+          .getCallHistory(appCubit.state.currentUser?.uid)
+          .listen((result) {
+            result.fold((left) {}, (snapshots) {
+              final calls = snapshots.docs
+                  .map(
+                    (doc) =>
+                        CallEntity.fromMap(doc.data() as Map<String, dynamic>),
+                  )
+                  .toList();
+              emit(state.copyWith(calls: calls));
+            });
+          });
     } catch (e) {
       emit(state.copyWith(status: CallStatus.error, error: e.toString()));
     }
@@ -70,8 +77,8 @@ class CallsCubit extends Cubit<CallsState> {
       final call = CallEntity.fromMap(snapshot.data() as Map<String, dynamic>);
 
       if (call.status == "calling") {
-        final result = await agora.join(call.channelId);
-   
+        if (call.channelId == null) return;
+        await agora.join(call.channelId!);
         navigateToCallingScreen();
         emit(state.copyWith(status: CallStatus.calling, currentCall: call));
       }
@@ -98,26 +105,29 @@ class CallsCubit extends Cubit<CallsState> {
       final doc = snapshot.docs.first;
       final call = CallEntity.fromMap(doc.data() as Map<String, dynamic>);
       emit(state.copyWith(status: CallStatus.ringing, currentCall: call));
+      if (call.channelId == null) return;
       navigator.showIncomingCall(call);
-      _listenCall(call.channelId);
+      _listenCall(call.channelId!);
     });
   }
 
   /// ✅ Accept call
   Future<void> acceptCall() async {
     final call = state.currentCall!;
-    await callRepos.updateCall(call.channelId, "calling");
+    if (call.channelId == null) return;
+    await callRepos.updateCall(call.channelId!, "calling");
     emit(state.copyWith(status: CallStatus.calling));
   }
 
   Future<void> endCall() async {
     final call = state.currentCall;
-    if (call != null && call.status == "calling") {
-      await callRepos.updateCall(call.channelId, "ended");
+    if (call == null || call.channelId == null) return;
+    if (call.status == "calling") {
+      await callRepos.updateCall(call.channelId!, "ended");
       await agora.leave();
       emit(state.copyWith(status: CallStatus.ended));
     } else {
-      await callRepos.updateCall(call!.channelId, "rejected");
+      await callRepos.updateCall(call.channelId!, "rejected");
       emit(state.copyWith(status: CallStatus.ended));
     }
   }

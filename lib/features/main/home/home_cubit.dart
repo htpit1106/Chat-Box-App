@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:chatbox/data/models/conversation/conversation_entity.dart';
+import 'package:chatbox/data/models/entity/conversation_entity.dart';
 import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/data/repository/conversation_repository.dart';
 import 'package:chatbox/data/repository/friend_repository.dart';

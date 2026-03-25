@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CallEntity {
-  final String callerId;
-  final String receiverId;
-  final String channelId;
-  final String status;
-  final bool isVideo;
+  final String? callerId;
+  final String? receiverId;
+  final String? channelId;
+  final String? status;
+  final bool? isVideo;
+  final List<String>? participants;
 
   CallEntity({
-    required this.callerId,
-    required this.receiverId,
-    required this.channelId,
-    required this.status,
-    required this.isVideo,
+    this.callerId,
+    this.receiverId,
+    this.channelId,
+    this.status,
+    this.isVideo = false,
+    this.participants,
   });
 
   Map<String, dynamic> toMap() => {
@@ -22,6 +24,7 @@ class CallEntity {
     "status": status,
     "isVideo": isVideo,
     "createdAt": FieldValue.serverTimestamp(),
+    "participants": participants,
   };
 
   factory CallEntity.fromMap(Map<String, dynamic> map) {
@@ -31,6 +34,7 @@ class CallEntity {
       channelId: map['channelId'],
       status: map['status'],
       isVideo: map['isVideo'],
+      participants: List<String>.from(map['participants']),
     );
   }
 }

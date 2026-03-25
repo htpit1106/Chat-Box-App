@@ -13,4 +13,17 @@ extension CallTypeExt on CallType {
         return AssetConstants.outgoingCall;
     }
   }
+
+  static CallType callTypeString(String? type) {
+    switch (type) {
+      case "incoming":
+        return CallType.incoming;
+      case "rejected":
+        return CallType.missed;
+      case "outgoing":
+        return CallType.outgoing;
+      default:
+        return CallType.outgoing;
+    }
+  }
 }

@@ -63,7 +63,6 @@ class AppCacheImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: path,
       fit: fit,
-
       progressIndicatorBuilder: (context, ure, downloadProgress) {
         return Container(
           width: (size?.width ?? 25) * 0.5,
@@ -106,6 +105,7 @@ class AppCacheImage extends StatelessWidget {
         AppAssetImage(
           path: AssetConstants.personAvtDefault,
           size: size ?? const Size(50, 50),
+          fit: fit,
         );
   }
 }
