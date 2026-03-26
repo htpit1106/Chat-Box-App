@@ -31,16 +31,16 @@ class CallsCubit extends Cubit<CallsState> {
       _callHistory = callRepos
           .getCallHistory(appCubit.state.currentUser?.uid)
           .listen((result) {
-        result.fold((left) {}, (snapshots) {
-          final calls = snapshots.docs
-              .map(
-                (doc) =>
-                CallEntity.fromMap(doc.data() as Map<String, dynamic>),
-          )
-              .toList();
-          emit(state.copyWith(calls: calls));
-        });
-      });
+            result.fold((left) {}, (snapshots) {
+              final calls = snapshots.docs
+                  .map(
+                    (doc) =>
+                        CallEntity.fromMap(doc.data() as Map<String, dynamic>),
+                  )
+                  .toList();
+              emit(state.copyWith(calls: calls));
+            });
+          });
     } catch (e) {
       emit(state.copyWith(status: CallStatus.error, error: e.toString()));
     }
@@ -51,10 +51,7 @@ class CallsCubit extends Cubit<CallsState> {
     required UserEntity receiver,
     required bool isVideo,
   }) async {
-    final channelId = DateTime
-        .now()
-        .millisecondsSinceEpoch
-        .toString();
+    final channelId = DateTime.now().millisecondsSinceEpoch.toString();
     final currentUser = appCubit.state.currentUser;
     if (currentUser == null) return;
     final call = CallEntity(
@@ -69,10 +66,10 @@ class CallsCubit extends Cubit<CallsState> {
       isVideo: isVideo,
       participants: [currentUser.uid, receiver.uid],
     );
-
     await callRepos.createCall(call);
     emit(state.copyWith(status: CallStatus.ringing, currentCall: call));
     _listenCall(channelId);
+    navigateToCallingScreen(call);
   }
 
   void _listenCall(String channelId) {
@@ -86,7 +83,7 @@ class CallsCubit extends Cubit<CallsState> {
       if (call.status == "calling") {
         if (call.channelId == null) return;
         await agora.join(call.channelId!);
-        navigateToCallingScreen();
+        navigateToCallingScreen(call);
         emit(state.copyWith(status: CallStatus.calling, currentCall: call));
       }
 
@@ -100,8 +97,8 @@ class CallsCubit extends Cubit<CallsState> {
     });
   }
 
-  void navigateToCallingScreen() {
-    navigator.goToCallingScreen();
+  void navigateToCallingScreen(CallEntity call) {
+    navigator.goToCallingScreen(call);
   }
 
   // 📲 Incoming call listener

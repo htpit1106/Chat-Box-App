@@ -1,4 +1,5 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:chatbox/core/network/agora_rtc_service.dart';
 import 'package:chatbox/data/models/entity/call_entity.dart';
 import 'package:chatbox/features/main/calls/calling/calling_screen_cubit.dart';
 import 'package:chatbox/features/main/calls/calls_cubit.dart';
@@ -15,7 +16,10 @@ class CallingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CallingScreenCubit>(
-      create: (context) => CallingScreenCubit(callsCubit: context.read()),
+      create: (context) => CallingScreenCubit(
+        callsCubit: context.read(),
+        agoraService: context.read<CallsCubit>().agora,
+      ),
       child: CallingScreenChild(call: call),
     );
   }
@@ -56,12 +60,14 @@ class _CallingScreenChildState extends State<CallingScreenChild> {
   Widget _buildBody() {
     return Stack(
       children: [
-        AgoraVideoView(
-          controller: VideoViewController(
-            rtcEngine: context.read<CallsCubit>().agora.engine,
-            canvas: const VideoCanvas(uid: 0),
+        if (_cubit.remoteUid != null)
+          AgoraVideoView(
+            controller: VideoViewController.remote(
+              rtcEngine: context.read<CallsCubit>().agora.engine,
+              canvas: VideoCanvas(uid: _cubit.remoteUid),
+              connection: RtcConnection(channelId: widget.call!.channelId),
+            ),
           ),
-        ),
         _buildOverlayPage(),
       ],
     );

@@ -5,8 +5,8 @@ import 'package:chatbox/navigation/app_router.dart';
 class CallsNavigator extends BaseNavigator {
   CallsNavigator({required super.context});
 
-  void goToCallingScreen() {
-    AppRouter.router.pushNamed(AppRouter.callingRouteName);
+  void goToCallingScreen(CallEntity call) {
+    AppRouter.router.pushNamed(AppRouter.callingRouteName, extra: call);
   }
 
   void showIncomingCall(CallEntity call) {

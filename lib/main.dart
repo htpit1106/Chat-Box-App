@@ -14,5 +14,9 @@ void main() async {
     url: AppConfigs.env.baseUrl,
     anonKey: AppConfigs.env.anonKey,
   );
+
+  endss();
   runApp(const ChatBoxApp());
 }
+
+void endss({String? channelId}) async {}

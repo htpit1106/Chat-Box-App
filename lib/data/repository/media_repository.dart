@@ -7,6 +7,7 @@ abstract class MediaRepository {
 class MediaRepositoryImpl extends MediaRepository {
   @override
   Future<List<AssetEntity>> getRecentMedias() async {
+    // request permission
     final permission = await PhotoManager.requestPermissionExtend();
     if (!permission.isAuth) return [];
     final albums = await PhotoManager.getAssetPathList(
