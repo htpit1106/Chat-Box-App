@@ -3,7 +3,7 @@ import 'package:chatbox/core/utils/string.utils.dart';
 import 'package:chatbox/core/widgets/app_bar/custom_appbar.dart';
 import 'package:chatbox/core/widgets/app_scaffold.dart';
 import 'package:chatbox/core/widgets/loading/app_refresher.dart';
-import 'package:chatbox/data/models/conversation/conversation_entity.dart';
+import 'package:chatbox/data/models/entity/conversation_entity.dart';
 import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
 import 'package:chatbox/features/main/home/widget/chat_item.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +21,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeCubit>(
-      create: (context) => HomeCubit(
-        navigator: HomeNavigator(context: context),
-        friendRepository: context.read(),
-        conversationRepos: context.read(),
-      ),
+      create: (context) =>
+          HomeCubit(
+            navigator: HomeNavigator(context: context),
+            friendRepository: context.read(),
+            conversationRepos: context.read(),
+          ),
       child: HomePageChild(),
     );
   }
@@ -94,7 +95,7 @@ class _HomePageChildState extends State<HomePageChild>
               width: double.infinity,
               child: BlocBuilder<HomeCubit, HomeState>(
                 buildWhen: (previous, current) =>
-                    previous.onlineFriends != current.onlineFriends,
+                previous.onlineFriends != current.onlineFriends,
                 builder: (context, state) {
                   return ListView.builder(
                     itemCount: state.onlineFriends.length,
@@ -129,7 +130,7 @@ class _HomePageChildState extends State<HomePageChild>
   Widget _buildListChats(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       buildWhen: (previous, current) =>
-          previous.chats != current.chats ||
+      previous.chats != current.chats ||
           previous.onlineFriends != current.onlineFriends,
       builder: (context, state) {
         return ListView.builder(

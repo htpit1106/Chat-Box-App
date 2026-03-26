@@ -33,13 +33,15 @@ class CallItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                // Text(
+                //   name,
+                //   maxLines: 1,
+                //   overflow: TextOverflow.ellipsis,
+                //   style: const TextStyle(
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
                 const SizedBox(height: 4),
                 Row(
                   children: [

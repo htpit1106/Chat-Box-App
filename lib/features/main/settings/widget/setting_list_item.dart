@@ -30,12 +30,17 @@ class SettingListItem extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: ListTile(
+          contentPadding: EdgeInsets.zero,
+
           leading: AppCacheImage(
             path: icon ?? AssetConstants.personAvtDefault,
             size: iconSize,
+            fit: BoxFit.cover,
           ),
           title: Text(
             title ?? "",
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: titleStyle ?? AppTextStyle.black.s16.w500,
           ),
           subtitle: subtitle,

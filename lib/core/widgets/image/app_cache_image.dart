@@ -30,8 +30,8 @@ class AppCacheImage extends StatelessWidget {
     bool isAssetFile = path.startsWith('assets/');
     bool isFilePath = path.isNotEmpty && !isNetworkUrl && !isAssetFile;
     return Container(
-      width: size?.width,
-      height: size?.height,
+      width: size?.width ?? 50,
+      height: size?.height ?? 50,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(shape: shape),
       child: _buildContent(
@@ -63,7 +63,6 @@ class AppCacheImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: path,
       fit: fit,
-
       progressIndicatorBuilder: (context, ure, downloadProgress) {
         return Container(
           width: (size?.width ?? 25) * 0.5,
@@ -106,6 +105,7 @@ class AppCacheImage extends StatelessWidget {
         AppAssetImage(
           path: AssetConstants.personAvtDefault,
           size: size ?? const Size(50, 50),
+          fit: fit,
         );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:chatbox/core/constants/key_constants.dart';
 import 'package:chatbox/core/error/failures.dart';
-import 'package:chatbox/data/models/conversation/conversation_entity.dart';
+import 'package:chatbox/data/models/entity/conversation_entity.dart';
 import 'package:chatbox/data/models/entity/friends/friend_entity.dart';
 import 'package:chatbox/data/models/entity/message/message_entity.dart';
 import 'package:chatbox/data/models/entity/user_profile/user_entity.dart';
