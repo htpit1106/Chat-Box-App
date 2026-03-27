@@ -38,6 +38,7 @@ class CallEntity {
     "caller_name": callerName,
     "caller_avatar": callerAvatar,
     "receiver_avatar": receiverAvatar,
+    "receiver_name": receiverName,
   };
 
   factory CallEntity.fromMap(Map<String, dynamic> map) {

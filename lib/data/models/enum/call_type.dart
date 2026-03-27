@@ -40,4 +40,17 @@ extension CallTypeExt on CallType {
         return "";
     }
   }
+
+  static String displayNameTypeString(String? type, CallEntity call) {
+    switch (type) {
+      case "incoming":
+        return call.callerName ?? "";
+      case "rejected":
+        return call.receiverName ?? "";
+      case "outgoing":
+        return call.receiverName ?? "";
+      default:
+        return "";
+    }
+  }
 }

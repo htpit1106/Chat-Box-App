@@ -75,9 +75,10 @@ class _CallsPageChildState extends State<CallsPageChild> {
   Widget _buildCallItem(CallEntity call) {
     final callType = _getCallStatus(call);
     final avatar = CallTypeExt.avatarTypeString(callType, call);
+    final displayName = CallTypeExt.displayNameTypeString(callType, call);
     return SettingListItem(
       icon: avatar,
-      title: "phuong hoang thi",
+      title: displayName,
       subtitle: Wrap(
         children: [
           AppAssetImage(path: CallTypeExt.callTypeString(callType).icon),

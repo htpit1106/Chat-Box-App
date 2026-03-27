@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,9 @@ String convertKBToMB(String sizeInKbString) {
 }
 
 String generateTimestampFileName({String prefix = '', String suffix = 'zip'}) {
-  final timestamp = DateTime.now().millisecondsSinceEpoch;
+  final timestamp = DateTime
+      .now()
+      .millisecondsSinceEpoch;
   return '$prefix$timestamp.$suffix';
 }
 
@@ -47,8 +48,7 @@ int convertMBtoByte(int mb) {
 //   );
 // }
 
-Future<TimeOfDay?> openTimePicker(
-  BuildContext context, {
+Future<TimeOfDay?> openTimePicker(BuildContext context, {
   TimeOfDay? initialTime,
 }) async {
   final now = DateTime.now();
@@ -68,36 +68,42 @@ Future<TimeOfDay?> openTimePicker(
 
   return await showCupertinoModalPopup<TimeOfDay>(
     context: context,
-    builder: (_) => Container(
-      color: Theme.of(context).colorScheme.surface,
-      height: MediaQuery.sizeOf(context).height * 0.3,
-      child: SafeArea(
-        top: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                use24hFormat: true,
-                initialDateTime: initialDateTime,
-                onDateTimeChanged: (DateTime newDateTime) {
-                  selectedTime = TimeOfDay(
-                    hour: newDateTime.hour,
-                    minute: newDateTime.minute,
-                  );
-                },
-              ),
+    builder: (_) =>
+        Container(
+          color: Theme
+              .of(context)
+              .colorScheme
+              .surface,
+          height: MediaQuery
+              .sizeOf(context)
+              .height * 0.3,
+          child: SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                Expanded(
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    use24hFormat: true,
+                    initialDateTime: initialDateTime,
+                    onDateTimeChanged: (DateTime newDateTime) {
+                      selectedTime = TimeOfDay(
+                        hour: newDateTime.hour,
+                        minute: newDateTime.minute,
+                      );
+                    },
+                  ),
+                ),
+                // AppFilledButton(
+                //   onPressed: () {
+                //     Navigator.pop(context, selectedTime);
+                //   },
+                //   text: S.of(context).common_btn_ok,
+                // ),
+              ],
             ),
-            // AppFilledButton(
-            //   onPressed: () {
-            //     Navigator.pop(context, selectedTime);
-            //   },
-            //   text: S.of(context).common_btn_ok,
-            // ),
-          ],
+          ),
         ),
-      ),
-    ),
   );
 }
 
@@ -205,7 +211,10 @@ String addMentionClassIfCodeExists(String html) {
 }
 
 bool isKeyboardOpen(BuildContext context) {
-  return MediaQuery.of(context).viewInsets.bottom > 0;
+  return MediaQuery
+      .of(context)
+      .viewInsets
+      .bottom > 0;
 }
 
 void hideKeyboard(BuildContext context) {
@@ -246,6 +255,7 @@ Future<File?> pickImage() async {
   if (result == null) return null;
   return File(result.path);
 }
+
 
 String decodeContent(String? text) {
   if (text == null || text.isEmpty) return '';
