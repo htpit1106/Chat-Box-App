@@ -1,5 +1,7 @@
+import 'package:chatbox/core/error/failures.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:dartz/dartz.dart';
 
 enum SignUpError { emailAlreadyInUse, invalidEmail, weakPassword, unknown }
 
@@ -10,6 +12,8 @@ abstract class AuthRepository {
   });
 
   Future<void> logIn({required String email, required String password});
+
+  Future<Either<Failure, void>> logout();
 
   bool isLoggedIn();
 }
@@ -46,5 +50,15 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   bool isLoggedIn() {
     return _auth.currentUser != null;
+  }
+
+  @override
+  Future<Either<Failure, void>> logout() async {
+    try {
+      await _auth.signOut();
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
   }
 }

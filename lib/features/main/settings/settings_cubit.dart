@@ -16,4 +16,8 @@ class SettingsCubit extends Cubit<SettingsState> {
   void navigateToProfile() {
     navigator.goToProfile();
   }
+
+  void onPressLogout() {
+    appCubit.logout();
+  }
 }

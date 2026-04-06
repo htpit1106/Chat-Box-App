@@ -1,3 +1,5 @@
+import 'package:chatbox/core/widgets/image/app_cache_image.dart';
+import 'package:chatbox/data/models/entity/call_entity.dart';
 import 'package:chatbox/features/main/calls/calls_cubit.dart';
 import 'package:chatbox/features/main/calls/calls_state.dart';
 import 'package:flutter/material.dart';
@@ -6,19 +8,23 @@ import 'package:go_router/go_router.dart';
 import 'incoming_call_cubit.dart';
 
 class IncomingCallScreen extends StatelessWidget {
-  const IncomingCallScreen({super.key});
+  final CallEntity? call;
+
+  const IncomingCallScreen({super.key, this.call});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<IncomingCallCubit>(
       create: (context) => IncomingCallCubit(callsCubit: context.read()),
-      child: const IncomingCallScreenChild(),
+      child: IncomingCallScreenChild(call: call),
     );
   }
 }
 
 class IncomingCallScreenChild extends StatefulWidget {
-  const IncomingCallScreenChild({super.key});
+  final CallEntity? call;
+
+  const IncomingCallScreenChild({super.key, this.call});
 
   @override
   State<IncomingCallScreenChild> createState() =>
@@ -45,83 +51,85 @@ class _IncomingCallScreenChildState extends State<IncomingCallScreenChild> {
           }
         }
       },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
+      child: Scaffold(backgroundColor: Colors.black, body: _buildBody()),
+    );
+  }
+
+  Widget _buildBody() {
+    final CallEntity? caller = widget.call;
+    return Stack(
+      children: [
+        // Background blur / image
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.black87, Colors.black],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
+
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Background blur / image
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.black87, Colors.black],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
+            const SizedBox(height: 80),
+
+            // Avatar
+            AppCacheImage(
+              path: caller?.callerAvatar ?? "",
+              size: Size(100, 100),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Name
+            Text(
+              caller?.callerName ?? "unknow user",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
               ),
             ),
 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 80),
+            const SizedBox(height: 8),
 
-                // Avatar
-                CircleAvatar(
-                  radius: 70,
-                  backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Name
-                const Text(
-                  "Nguyễn Văn A",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 8),
-
-                const Text(
-                  "Incoming call...",
-                  style: TextStyle(color: Colors.grey),
-                ),
-
-                const Spacer(),
-
-                // Buttons
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildCallButton(
-                        icon: Icons.call_end,
-                        color: Colors.red,
-                        label: "Decline",
-                        onPressed: () {
-                          _cubit.rejectCall();
-                        },
-                      ),
-                      _buildCallButton(
-                        icon: Icons.call,
-                        color: Colors.green,
-                        label: "Accept",
-                        onPressed: () => _cubit.acceptCall(),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 60),
-              ],
+            const Text(
+              "Incoming call...",
+              style: TextStyle(color: Colors.grey),
             ),
+
+            const Spacer(),
+
+            // Buttons
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildCallButton(
+                    icon: Icons.call_end,
+                    color: Colors.red,
+                    label: "Decline",
+                    onPressed: () {
+                      _cubit.rejectCall();
+                    },
+                  ),
+                  _buildCallButton(
+                    icon: Icons.call,
+                    color: Colors.green,
+                    label: "Accept",
+                    onPressed: () => _cubit.acceptCall(),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 60),
           ],
         ),
-      ),
+      ],
     );
   }
 

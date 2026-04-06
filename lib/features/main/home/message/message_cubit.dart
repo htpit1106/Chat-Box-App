@@ -10,6 +10,7 @@ import 'package:chatbox/data/models/enum/input_mode.dart';
 import 'package:chatbox/data/models/enum/message_type.dart';
 import 'package:chatbox/data/repository/conversation_repository.dart';
 import 'package:chatbox/data/repository/media_repository.dart';
+import 'package:chatbox/features/main/calls/calls_cubit.dart';
 import 'package:chatbox/features/main/home/message/message_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -23,12 +24,14 @@ class MessageCubit extends Cubit<MessageState> {
   final UserEntity friend;
   final SupabaseService supabaseService = SupabaseService();
   final MediaRepository mediaRepos;
+  final CallsCubit callCubit;
 
   MessageCubit({
     required this.conversationRepos,
     required this.friend,
     required this.appCubit,
     required this.mediaRepos,
+    required this.callCubit,
   }) : super(MessageState());
 
   void init(String friendId) async {
@@ -195,5 +198,9 @@ class MessageCubit extends Cubit<MessageState> {
 
   bool hasSelected() {
     return state.selectedMedias.isNotEmpty;
+  }
+
+  void onPressCall(UserEntity receiver, {bool isVideo = false}) {
+    callCubit.startCall(receiver: receiver, isVideo: isVideo);
   }
 }

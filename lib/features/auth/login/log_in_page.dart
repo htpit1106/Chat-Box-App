@@ -25,6 +25,7 @@ class LogInPage extends StatelessWidget {
         return LogInCubit(
           navigator: LogInNavigator(context: context),
           authRepository: context.read(),
+          appCubit: context.read(),
         );
       },
       child: const LogInPageChild(),

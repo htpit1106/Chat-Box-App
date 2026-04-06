@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:chatbox/core/configs/app_configs.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -5,6 +7,9 @@ import 'package:permission_handler/permission_handler.dart';
 class AgoraService {
   late RtcEngine engine;
   bool _initialized = false;
+  final _remoteUidController = StreamController<int?>.broadcast();
+
+  Stream<int?> get remoteUidStream => _remoteUidController.stream;
 
   Future<void> init() async {
     if (_initialized) return;
@@ -12,6 +17,7 @@ class AgoraService {
     // [appId]
     engine = createAgoraRtcEngine();
     await engine.initialize(RtcEngineContext(appId: AppConfigs.appIdAgora));
+    await engine.enableAudio();
     await engine.enableVideo();
     _initialized = true;
     setListeners();
@@ -40,10 +46,10 @@ class AgoraService {
     engine.registerEventHandler(
       RtcEngineEventHandler(
         onUserJoined: (connection, uid, elapsed) {
-          remoteUid = uid;
+          _remoteUidController.add(uid);
         },
         onUserOffline: (connection, uid, reason) {
-          remoteUid = null;
+          _remoteUidController.add(null);
         },
       ),
     );

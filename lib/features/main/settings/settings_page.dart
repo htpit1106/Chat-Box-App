@@ -16,10 +16,11 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SettingsCubit>(
-      create: (context) => SettingsCubit(
-        appCubit: context.read(),
-        navigator: SettingsNavigator(context: context),
-      ),
+      create: (context) =>
+          SettingsCubit(
+            appCubit: context.read(),
+            navigator: SettingsNavigator(context: context),
+          ),
       child: SettingsPageChild(),
     );
   }
@@ -71,11 +72,11 @@ class _SettingsPageChildState extends State<SettingsPageChild> {
               title: user?.name,
               subtitle: user?.email != null
                   ? Text(
-                      user!.email!,
-                      style: AppTextStyle.gray.s12,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                    )
+                user!.email!,
+                style: AppTextStyle.gray.s12,
+                softWrap: false,
+                overflow: TextOverflow.fade,
+              )
                   : null,
               iconSize: Size(60, 60),
               titleStyle: AppTextStyle.black.s20.w500,
@@ -132,8 +133,11 @@ class _SettingsPageChildState extends State<SettingsPageChild> {
             icon: AssetConstants.helpSetting,
           ),
           SettingListItem(
-            title: "Invite a friend",
+            title: "Logout",
             icon: AssetConstants.inviteFriend,
+            onTap: () {
+              _cubit.onPressLogout();
+            },
           ),
         ],
       ),

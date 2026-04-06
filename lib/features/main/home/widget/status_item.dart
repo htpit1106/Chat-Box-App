@@ -2,6 +2,7 @@ import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/theme/app_colors.dart';
 import 'package:chatbox/core/theme/app_text_style.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
+import 'package:chatbox/core/widgets/image/app_cache_image.dart';
 import 'package:flutter/material.dart';
 
 class StatusItem extends StatelessWidget {
@@ -9,6 +10,7 @@ class StatusItem extends StatelessWidget {
   final String? name;
   final double value;
   final VoidCallback? onTap;
+
   const StatusItem({
     super.key,
     this.iconPath,
@@ -46,12 +48,7 @@ class StatusItem extends StatelessWidget {
                   width: 48,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: iconPath == null
-                        ? AppAssetImage(
-                            path: AssetConstants.personAvtDefault,
-                            colorIcon: Colors.grey,
-                          )
-                        : Image.network(iconPath!),
+                    child: AppCacheImage(path: iconPath ?? ""),
                   ),
                 ),
               ],

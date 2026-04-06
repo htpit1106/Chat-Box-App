@@ -26,6 +26,7 @@ class MessagePage extends StatelessWidget {
         conversationRepos: context.read(),
         friend: friend,
         appCubit: context.read(),
+        callCubit: context.read(),
         mediaRepos: context.read(),
       ),
       child: MessagePageChild(friend: friend),
@@ -74,12 +75,14 @@ class _MessagePageChildState extends State<MessagePageChild> {
         actions: [
           IconButton(
             onPressed: () {
-              callCubit.startCall(receiver: widget.friend, isVideo: false);
+              _cubit.onPressCall(widget.friend);
             },
             icon: AppAssetImage(path: AssetConstants.call),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _cubit.onPressCall(widget.friend, isVideo: true);
+            },
             icon: AppAssetImage(path: AssetConstants.video),
           ),
         ],

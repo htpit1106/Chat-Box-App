@@ -43,9 +43,9 @@ class ChatBoxApp extends StatelessWidget {
         providers: [
           BlocProvider<AppCubit>(
             create: (context) => AppCubit(
-              navigator: AppNavigator(context: context),
               userRepos: context.read(),
               callRepos: context.read(),
+              authRepos: context.read(),
             ),
           ),
           BlocProvider<CallsCubit>(

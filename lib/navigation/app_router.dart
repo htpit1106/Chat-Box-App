@@ -153,7 +153,7 @@ class AppRouter {
         if (extra == null) {
           return const IncomingCallScreen();
         }
-        return IncomingCallScreen();
+        return IncomingCallScreen(call: extra);
       },
     ),
     GoRoute(
@@ -161,7 +161,7 @@ class AppRouter {
       path: _friendProfile,
       builder: (context, state) {
         final extra = state.extra as UserEntity?;
-       
+
         return FriendProfilePage(friendProfile: extra);
       },
     ),

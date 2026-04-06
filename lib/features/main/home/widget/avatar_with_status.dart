@@ -1,5 +1,6 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
+import 'package:chatbox/core/widgets/image/app_cache_image.dart';
 import 'package:flutter/material.dart';
 
 class AvatarWithStatus extends StatelessWidget {
@@ -16,13 +17,8 @@ class AvatarWithStatus extends StatelessWidget {
           width: 48,
           height: 48,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: avatar == null
-                ? AppAssetImage(
-                    path: AssetConstants.personAvtDefault,
-                    colorIcon: Colors.grey,
-                  )
-                : Image.network(avatar!),
+            borderRadius: BorderRadius.circular(102),
+            child: AppCacheImage(path: avatar ?? ""),
           ),
         ),
         Positioned(

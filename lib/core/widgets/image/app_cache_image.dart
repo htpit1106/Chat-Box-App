@@ -105,7 +105,7 @@ class AppCacheImage extends StatelessWidget {
         AppAssetImage(
           path: AssetConstants.personAvtDefault,
           size: size ?? const Size(50, 50),
-          fit: fit,
+          fit: BoxFit.contain,
         );
   }
 }

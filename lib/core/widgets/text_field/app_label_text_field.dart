@@ -8,6 +8,7 @@ class AppLabelTextField extends StatelessWidget {
   final bool obscureText;
   final String? Function(String?)? validator;
   final String? initialValue;
+  final bool readOnly;
 
   // onchange
   final ValueChanged<String>? onChanged;
@@ -21,6 +22,7 @@ class AppLabelTextField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.initialValue,
+    this.readOnly = false,
   });
 
   @override
@@ -45,6 +47,7 @@ class AppLabelTextField extends StatelessWidget {
             TextFormField(
               controller: controller,
               obscureText: obscureText,
+              readOnly: readOnly,
               decoration: InputDecoration(
                 hintText: hintText,
                 errorText: field.hasError ? '' : null,

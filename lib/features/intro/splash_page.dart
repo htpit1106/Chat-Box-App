@@ -1,7 +1,9 @@
 import 'package:chatbox/core/constants/asset_constants.dart';
+import 'package:chatbox/core/global/app_cubit/app_cubit.dart';
 import 'package:chatbox/core/widgets/image/app_assets_image.dart';
 import 'package:chatbox/features/intro/splash_cubit.dart';
 import 'package:chatbox/features/intro/splash_navigator.dart';
+import 'package:chatbox/navigation/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,6 +39,9 @@ class _SplashPageChildState extends State<SplashPageChild> {
     super.initState();
     _cubit = BlocProvider.of<SplashCubit>(context);
     _cubit.init();
+    context.read<AppCubit>().setupNavigator(
+      AppRouter.navigationKey.currentContext!,
+    );
   }
 
   @override

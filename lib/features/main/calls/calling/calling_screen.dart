@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'calling_screen_state.dart';
+
 class CallingScreen extends StatelessWidget {
   final CallEntity? call;
 
@@ -57,18 +59,41 @@ class _CallingScreenChildState extends State<CallingScreenChild> {
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: [
-        if (_cubit.remoteUid != null)
-          AgoraVideoView(
-            controller: VideoViewController.remote(
-              rtcEngine: context.read<CallsCubit>().agora.engine,
-              canvas: VideoCanvas(uid: _cubit.remoteUid),
-              connection: RtcConnection(channelId: widget.call!.channelId),
-            ),
-          ),
-        _buildOverlayPage(),
-      ],
+    return BlocBuilder<CallingScreenCubit, CallingScreenState>(
+      builder: (context, state) {
+        final agora = context.read<CallsCubit>().agora;
+
+        return Stack(
+          children: [
+            /// REMOTE VIDEO
+            if (state.remoteUid != null)
+              AgoraVideoView(
+                controller: VideoViewController.remote(
+                  rtcEngine: agora.engine,
+                  canvas: VideoCanvas(uid: state.remoteUid),
+                  connection: RtcConnection(channelId: widget.call!.channelId),
+                ),
+              ),
+
+            /// LOCAL VIDEO
+            if (widget.call?.isVideo == true)
+              Positioned(
+                top: 100,
+                right: 20,
+                width: 120,
+                height: 160,
+                child: AgoraVideoView(
+                  controller: VideoViewController(
+                    rtcEngine: agora.engine,
+                    canvas: const VideoCanvas(uid: 0),
+                  ),
+                ),
+              ),
+
+            _buildOverlayPage(),
+          ],
+        );
+      },
     );
   }
 

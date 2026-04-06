@@ -122,6 +122,7 @@ class _ProfilePageChildState extends State<ProfilePageChild> {
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: AppLabelTextField(
+                readOnly: true,
                 controller: _cubit.emailController,
                 label: "Email",
               ),

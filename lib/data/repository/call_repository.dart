@@ -41,7 +41,7 @@ class CallRepositoryImpl extends CallRepository {
   Stream<QuerySnapshot<Object?>> listenIncomingCalls(String userId) {
     return _firestore
         .collection("calls")
-        .where("receiverId", isEqualTo: userId)
+        .where("receiver_id", isEqualTo: userId)
         .where("status", isEqualTo: "ringing")
         .snapshots();
   }
